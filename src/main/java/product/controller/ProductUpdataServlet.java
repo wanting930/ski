@@ -15,14 +15,18 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import product.dao.ProductDao;
+import product.dao.ProductDaoImpl;
+import product.vo.Product;
 
-@WebServlet("/ProductUpdata")
+@WebServlet("/productUpdate")
 @MultipartConfig
 public class ProductUpdataServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
+    private ProductDao productDao = new ProductDaoImpl();
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=utf-8");
         request.setCharacterEncoding("UTF-8");
 
@@ -35,6 +39,7 @@ public class ProductUpdataServlet extends HttpServlet {
         Integer productBuyPerson = parseIntegerParameter(request.getParameter("productBuyPerson"));
         String productDateString = request.getParameter("productDate");
         String productStatus = request.getParameter("productStatus");
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         java.sql.Date productDateSql = null;
         try {
@@ -42,11 +47,11 @@ public class ProductUpdataServlet extends HttpServlet {
             productDateSql = new java.sql.Date(productDateUtil.getTime());
         } catch (ParseException e) {
             e.printStackTrace();
-            response.getWriter().write("failed due to date parsing error");
+            response.getWriter().write("失敗，日期解析錯誤");
             return;
         }
 
-        // Handling image upload
+        // 處理圖片上傳
         Part imagePart = request.getPart("productImage");
         byte[] productImage = null;
         if (imagePart != null) {
@@ -54,13 +59,24 @@ public class ProductUpdataServlet extends HttpServlet {
             productImage = convertInputStreamToByteArray(imageInputStream);
         }
 
-        if (updateProduct(productId, productClass, productName, productPrice, productQuantity, productImage, productDetail,
-                productBuyPerson, productDateSql, productStatus) > 0) {
-            // Product updated successfully
-            response.getWriter().write("suc");
+        Product product = new Product();
+        product.setProductId(productId);
+        product.setProductClass(productClass);
+        product.setProductName(productName);
+        product.setProductPrice(productPrice);
+        product.setProductQuantity(productQuantity);
+        product.setProductImage(productImage);
+        product.setProductDetail(productDetail);
+        product.setProductBuyPerson(productBuyPerson);
+        product.setProductDate(productDateString);
+        product.setProductStatus(productStatus);
+
+        if (productDao.updateByProductID(product) > 0) {
+            // 商品成功更新
+            response.getWriter().write("更新成功");
         } else {
-            // Failed to update product
-            response.getWriter().write("failed");
+            // 更新商品失敗
+            response.getWriter().write("更新失敗");
         }
     }
 
@@ -85,38 +101,8 @@ public class ProductUpdataServlet extends HttpServlet {
         }
         return null;
     }
-
-    private int updateProduct(Integer productId, String productClass, String productName, Integer productPrice, Integer productQuantity,
-            byte[] productImage, String productDetail, Integer productBuyPerson, java.sql.Date productDate,
-            String productStatus) {
-        String sql = "UPDATE Product SET ProductClass=?, ProductName=?, ProductPrice=?, ProductQuantity=?, ProductImage=?, ProductDetail=?, ProductBuyPerson=?, ProductDate=?, ProductStatus=? WHERE ProductId=?";
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql:///team6?useUnicode=true&characterEncoding=utf8", "root","password");
-        		PreparedStatement pstmt = conn.prepareStatement(sql);) {
-        	pstmt.setString(1, productClass);
-        	pstmt.setString(2, productName);
-        	pstmt.setInt(3, productPrice);
-        	pstmt.setInt(4, productQuantity);
-        	pstmt.setBytes(5, productImage);
-        	pstmt.setString(6, productDetail);
-        	pstmt.setInt(7, productBuyPerson);
-        	pstmt.setDate(8, productDate);
-        	pstmt.setString(9, productStatus);
-        	pstmt.setInt(10, productId);
-        	pstmt.executeUpdate();
-        	return 1;
-        	} catch (Exception e) {
-        	e.printStackTrace();
-        	}
-        	return -1;
-        	}
-
-
-	
-	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-
-		doPost(request, response);
-	}
-
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        doPost(request, response);
+    }
 }

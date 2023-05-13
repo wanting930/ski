@@ -2,6 +2,9 @@ package product.dao;
 
 import product.vo.Product;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -14,40 +17,51 @@ public class ProductDaoImpl implements ProductDao {
 	@Override
 	public int insert(Product product) {
 		String sql = "INSERT INTO Product (ProductClass, ProductName, ProductPrice, ProductQuantity, ProductImage, ProductDetail, ProductBuyPerson, ProductDate, ProductStatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-		try (Connection conn = DriverManager.getConnection("jdbc:mysql:///team6", "root", "password");
-				PreparedStatement pstmt = conn.prepareStatement(sql);) {
+		try {
+			Context initContext = new InitialContext();
+			DataSource dataSource = (DataSource) initContext.lookup("java:comp/env/jdbc/ski");
+
+			try (Connection conn = dataSource.getConnection();
+				 PreparedStatement pstmt = conn.prepareStatement(sql)) {
 //				pstmt.setInt(1, product.getProductId());
-			pstmt.setString(1, product.getProductClass());
-			pstmt.setString(2, product.getProductName());
-			pstmt.setInt(3, product.getProductPrice());
-			pstmt.setInt(4, product.getProductQuantity());
-			pstmt.setBytes(5, product.getProductImage());
-			pstmt.setString(6, product.getProductDetail());
-			pstmt.setInt(7, product.getProductBuyPerson());
-			 String productDateString = product.getProductDate();
-		        if (productDateString != null) {
-		            java.sql.Date productDate = java.sql.Date.valueOf(productDateString);
-		            pstmt.setDate(8, productDate);
-		        } else {
-		            pstmt.setNull(8, Types.DATE);
-		        }
-			pstmt.setString(9, product.getProductStatus());
-			return pstmt.executeUpdate();
-		} catch (Exception e) {
+				pstmt.setString(1, product.getProductClass());
+				pstmt.setString(2, product.getProductName());
+				pstmt.setInt(3, product.getProductPrice());
+				pstmt.setInt(4, product.getProductQuantity());
+				pstmt.setBytes(5, product.getProductImage());
+				pstmt.setString(6, product.getProductDetail());
+				pstmt.setInt(7, product.getProductBuyPerson());
+				String productDateString = product.getProductDate();
+				if (productDateString != null) {
+					java.sql.Date productDate = java.sql.Date.valueOf(productDateString);
+					pstmt.setDate(8, productDate);
+				} else {
+					pstmt.setNull(8, Types.DATE);
+				}
+				pstmt.setString(9, product.getProductStatus());
+				return pstmt.executeUpdate();
+			}    } catch (Exception e) {
 			e.printStackTrace();
+
 		}
 		return -1;
 	}
 
 	public int deleteByProductID(Integer productID) {
 		String sql = "delete from Product where productID = ?";
-		try (Connection conn = DriverManager.getConnection("jdbc:mysql:///team6", "root", "password");
-				PreparedStatement pstmt = conn.prepareStatement(sql);) {
-			pstmt.setInt(1, productID);
-			return pstmt.executeUpdate();
+		try {
+			Context initContext = new InitialContext();
+			DataSource dataSource = (DataSource) initContext.lookup("java:comp/env/jdbc/ski");
+
+			try (Connection conn = dataSource.getConnection();
+				 PreparedStatement pstmt = conn.prepareStatement(sql)) {
+				pstmt.setInt(1, productID);
+				return pstmt.executeUpdate();
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
 		return -1;
 	}
 
@@ -56,25 +70,30 @@ public class ProductDaoImpl implements ProductDao {
 		String sql = "update Product " + " set" + " productClass = ?," + "productName=?," + "productPrice=?,"
 				+ "productQuantity=?," + "productImage=?," + "productDetail=?, " + "productBuyPerson=?,"
 				+ "productDate = ?," + "productStatus = ?" + " where productId =?";
-		try (Connection conn = DriverManager.getConnection("jdbc:mysql:///team6", "root", "password");
-				PreparedStatement pstmt = conn.prepareStatement(sql);) {
-			pstmt.setInt(10, product.getProductId());
-			pstmt.setString(1, product.getProductClass());
-			pstmt.setString(2, product.getProductName());
-			pstmt.setInt(3, product.getProductPrice() );
-			pstmt.setInt(4, product.getProductQuantity());
-			pstmt.setBytes(5, product.getProductImage());
-			pstmt.setString(6, product.getProductDetail());
-			pstmt.setInt(7, product.getProductBuyPerson());
-			 String productDateString = product.getProductDate();
-		        if (productDateString != null) {
-		            java.sql.Date productDate = java.sql.Date.valueOf(productDateString);
-		            pstmt.setDate(8, productDate);
-		        } else {
-		            pstmt.setNull(8, Types.DATE);
-		        }
-			pstmt.setString(9, product.getProductStatus());
-			return pstmt.executeUpdate();
+		try {
+			Context initContext = new InitialContext();
+			DataSource dataSource = (DataSource) initContext.lookup("java:comp/env/jdbc/ski");
+
+			try (Connection conn = dataSource.getConnection();
+				 PreparedStatement pstmt = conn.prepareStatement(sql)) {
+				pstmt.setInt(10, product.getProductId());
+				pstmt.setString(1, product.getProductClass());
+				pstmt.setString(2, product.getProductName());
+				pstmt.setInt(3, product.getProductPrice() );
+				pstmt.setInt(4, product.getProductQuantity());
+				pstmt.setBytes(5, product.getProductImage());
+				pstmt.setString(6, product.getProductDetail());
+				pstmt.setInt(7, product.getProductBuyPerson());
+				String productDateString = product.getProductDate();
+				if (productDateString != null) {
+					java.sql.Date productDate = java.sql.Date.valueOf(productDateString);
+					pstmt.setDate(8, productDate);
+				} else {
+					pstmt.setNull(8, Types.DATE);
+				}
+				pstmt.setString(9, product.getProductStatus());
+				return pstmt.executeUpdate();
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
