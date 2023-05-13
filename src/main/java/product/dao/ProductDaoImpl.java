@@ -198,33 +198,38 @@ public class ProductDaoImpl implements ProductDao {
 
 	@Override
 	public List<Product> selectAll() throws ClassNotFoundException {
-	    Class.forName("com.mysql.cj.jdbc.Driver");
-	    String sql = "select * from Product ";
-	    List<Product> list = new ArrayList<Product>();
-	    try (Connection conn = DriverManager.getConnection("jdbc:mysql:///team6", "root", "password");
-	            PreparedStatement pstmt = conn.prepareStatement(sql);
-	            ResultSet rs = pstmt.executeQuery();) {
-	        while (rs.next()) {
-	            Product product = new Product();
-	            product.setProductId(rs.getInt("productId"));
-	            product.setProductClass(rs.getString("productClass"));
-	            product.setProductName(rs.getString("productName"));
-	            product.setProductPrice(rs.getInt("productPrice"));
-	            product.setProductQuantity(rs.getInt("productQuantity"));
-	            product.setProductImage(rs.getBytes("productImage"));
-	            product.setProductDetail(rs.getString("productDetail"));
-	            product.setProductBuyPerson(rs.getInt("productBuyPerson"));
-	            java.sql.Date productDate = rs.getDate("productDate");
-	            if (productDate != null) {
-	                product.setProductDate(productDate.toString());
-	            }
-	            product.setProductStatus(rs.getString("productStatus"));
-	            list.add(product);
-	        }
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
-	    return list;
+		String sql = "select * from Product ";
+		List<Product> list = new ArrayList<Product>();
+		try {
+			Context initContext = new InitialContext();
+			DataSource dataSource = (DataSource) initContext.lookup("java:comp/env/jdbc/ski");
+
+			try (Connection conn = dataSource.getConnection();
+				 PreparedStatement pstmt = conn.prepareStatement(sql);
+				 ResultSet rs = pstmt.executeQuery()) {
+
+				while (rs.next()) {
+					Product product = new Product();
+					product.setProductId(rs.getInt("productId"));
+					product.setProductClass(rs.getString("productClass"));
+					product.setProductName(rs.getString("productName"));
+					product.setProductPrice(rs.getInt("productPrice"));
+					product.setProductQuantity(rs.getInt("productQuantity"));
+					product.setProductImage(rs.getBytes("productImage"));
+					product.setProductDetail(rs.getString("productDetail"));
+					product.setProductBuyPerson(rs.getInt("productBuyPerson"));
+					java.sql.Date productDate = rs.getDate("productDate");
+					if (productDate != null) {
+						product.setProductDate(productDate.toString());
+					}
+					product.setProductStatus(rs.getString("productStatus"));
+					list.add(product);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
 	}
 //=================main方法測試=================
 	public static void main(String[] args) {
