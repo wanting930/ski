@@ -17,13 +17,12 @@ public class Product implements Serializable {
 	private Integer productBuyPerson;
 	private String productDate;
 	private String productStatus;
-
 	
 	public Product() {
 		super();
 	}
 
-
+	
 	public Product(Integer productId, String productClass, String productName, Integer productPrice,
 			Integer productQuantity, byte[] productImage, String productDetail, Integer productBuyPerson,
 			String productDate, String productStatus) {
