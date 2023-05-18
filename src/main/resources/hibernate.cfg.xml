@@ -27,6 +27,13 @@
         <mapping class="article.vo.Comment" />
         <mapping class="article.vo.CommentLike" />
         <mapping class="article.vo.Report" />
+
+     	<mapping class="chat.model.Friends" />
+        <mapping class="chat.model.OneChat" />
+        <mapping class="chat.model.AllChat" />
+		
+		<mapping class="loc.model.SkiLocation" />
+        <mapping class="loc.model.SkiLocationHistory" />
 		
 		<mapping class="member.vo.Member" />
 		<mapping class="member.vo.Coach" />
