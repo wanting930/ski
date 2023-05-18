@@ -53,7 +53,7 @@ public class ProductService {
 	}
 	
 	//用商品ID搜尋
-	public List<Product> selectByProductID(Integer productID){
+	public Product selectByProductID(Integer productID){
 		return dao.selectByProductID(productID);
 	}
 	

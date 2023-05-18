@@ -1,270 +1,171 @@
 package product.dao;
 
-import product.vo.Product;
-
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.sql.DataSource;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.naming.Context;
+import javax.sql.DataSource;
+
+import org.hibernate.Session;
+import org.hibernate.query.Query;
+
+import member.vo.Member;
+import product.vo.Product;
 
 public class ProductDaoImpl implements ProductDao {
 
 	@Override
 	public int insert(Product product) {
-		String sql = "INSERT INTO Product (ProductClass, ProductName, ProductPrice, ProductQuantity, ProductImage, ProductDetail, ProductBuyPerson, ProductDate, ProductStatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+//		String sql = "INSERT INTO Product (ProductClass, ProductName, ProductPrice, ProductQuantity, ProductImage, ProductDetail, ProductBuyPerson, ProductDate, ProductStatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		try {
-			Context initContext = new InitialContext();
-			DataSource dataSource = (DataSource) initContext.lookup("java:comp/env/jdbc/ski");
-
-			try (Connection conn = dataSource.getConnection();
-				 PreparedStatement pstmt = conn.prepareStatement(sql)) {
-//				pstmt.setInt(1, product.getProductId());
-				pstmt.setString(1, product.getProductClass());
-				pstmt.setString(2, product.getProductName());
-				pstmt.setInt(3, product.getProductPrice());
-				pstmt.setInt(4, product.getProductQuantity());
-				pstmt.setBytes(5, product.getProductImage());
-				pstmt.setString(6, product.getProductDetail());
-				pstmt.setInt(7, product.getProductBuyPerson());
-				String productDateString = product.getProductDate();
-				if (productDateString != null) {
-					java.sql.Date productDate = java.sql.Date.valueOf(productDateString);
-					pstmt.setDate(8, productDate);
-				} else {
-					pstmt.setNull(8, Types.DATE);
-				}
-				pstmt.setString(9, product.getProductStatus());
-				return pstmt.executeUpdate();
-			}    } catch (Exception e) {
+			getSession().persist(product);
+			return 1;
+		} catch (Exception e) {
 			e.printStackTrace();
-
+			System.out.println("insert方法發生錯誤：" + e.getMessage());
 		}
 		return -1;
 	}
 
 	public int deleteByProductID(Integer productID) {
-		String sql = "delete from Product where productID = ?";
-		try {
-			Context initContext = new InitialContext();
-			DataSource dataSource = (DataSource) initContext.lookup("java:comp/env/jdbc/ski");
+	    try {
+	        Session session = getSession();
+	        Product product = session.get(Product.class, productID);
 
-			try (Connection conn = dataSource.getConnection();
-				 PreparedStatement pstmt = conn.prepareStatement(sql)) {
-				pstmt.setInt(1, productID);
-				return pstmt.executeUpdate();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return -1;
+	        if (product != null) {
+	            session.delete(product);
+	            return 1;
+	        } else {
+	            return 0; 
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        System.out.println("deleteByProductID方法發生錯誤：" + e.getMessage());
+	    }
+	    return -1;
 	}
+	
+    public byte[] loadingImage(Integer productID) {
+        String hql = "SELECT p.productImage FROM Product p WHERE p.productID = :productID";
+        Session session = getSession();
+        return (byte[]) session.createQuery(hql)
+                    .setParameter("productID", productID)
+                    .uniqueResult();
+    }
 
-	@Override
 	public int updateByProductID(Product product) {
-		String sql = "update Product " + " set" + " productClass = ?," + "productName=?," + "productPrice=?,"
-				+ "productQuantity=?," + "productImage=?," + "productDetail=?, " + "productBuyPerson=?,"
-				+ "productDate = ?," + "productStatus = ?" + " where productId =?";
-		try {
-			Context initContext = new InitialContext();
-			DataSource dataSource = (DataSource) initContext.lookup("java:comp/env/jdbc/ski");
-
-			try (Connection conn = dataSource.getConnection();
-				 PreparedStatement pstmt = conn.prepareStatement(sql)) {
-				pstmt.setInt(10, product.getProductId());
-				pstmt.setString(1, product.getProductClass());
-				pstmt.setString(2, product.getProductName());
-				pstmt.setInt(3, product.getProductPrice() );
-				pstmt.setInt(4, product.getProductQuantity());
-				pstmt.setBytes(5, product.getProductImage());
-				pstmt.setString(6, product.getProductDetail());
-				pstmt.setInt(7, product.getProductBuyPerson());
-				String productDateString = product.getProductDate();
-				if (productDateString != null) {
-					java.sql.Date productDate = java.sql.Date.valueOf(productDateString);
-					pstmt.setDate(8, productDate);
-				} else {
-					pstmt.setNull(8, Types.DATE);
-				}
-				pstmt.setString(9, product.getProductStatus());
-				return pstmt.executeUpdate();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return -1;
+	    try {
+	        Session session = getSession();
+	        session.update(product);
+	        return 1;
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        System.out.println("updateByProductID方法發生錯誤：" + e.getMessage());
+	    }
+	    return -1;
 	}
 
-	public List<Product> selectByProductID(Integer productID) {
-		   String sql = "select * from Product where productID = ?";
-		    List<Product> list = new ArrayList<Product>();
-		    try (Connection conn = DriverManager.getConnection("jdbc:mysql:///team6", "root", "password");
-		            PreparedStatement pstmt = conn.prepareStatement(sql);) {
-		        pstmt.setInt(1, productID);
-		        try (ResultSet rs = pstmt.executeQuery()) {
-		            while (rs.next()) {
-		                Product product = new Product();
-		                product.setProductId(rs.getInt("productId"));
-		                product.setProductClass(rs.getString("productClass"));
-		                product.setProductName(rs.getString("productName"));
-		                product.setProductPrice(rs.getInt("productPrice"));
-		                product.setProductQuantity(rs.getInt("productQuantity"));
-		                product.setProductImage(rs.getBytes("productImage"));
-		                product.setProductDetail(rs.getString("productDetail"));
-		                product.setProductBuyPerson(rs.getInt("productBuyPerson"));
-		                java.sql.Date productDate = rs.getDate("productDate");
-		                if (productDate != null) {
-		                    product.setProductDate(productDate.toString());
-		                }
-		                product.setProductStatus(rs.getString("productStatus"));
-		                list.add(product);
-		            }
-		        }
-		    } catch (Exception e) {
-		        e.printStackTrace();
-		    }
-		    return list;
+	public  Product selectByProductID(Integer productID) {
+		try {
+			Session session = getSession();
+			Product product = session.get(Product.class, productID);
+			return product;
+		} catch (Exception e) {
+			System.out.println("selectById方法發生錯誤：" + e.getMessage());
+			e.printStackTrace();
 		}
+		return null;
+	}
 	
 
 	@Override
 	public List<Product> selectByProductClass(String productClass) {
-	    String sql = "select * from Product where productClass = ?";
-	    List<Product> list = new ArrayList<Product>();
-	    try (Connection conn = DriverManager.getConnection("jdbc:mysql:///team6", "root", "password");
-	            PreparedStatement pstmt = conn.prepareStatement(sql);) {
-	        pstmt.setString(1, productClass);
-	        try (ResultSet rs = pstmt.executeQuery()) {
-	            while (rs.next()) {
-	                Product product = new Product();
-	                product.setProductId(rs.getInt("productId"));
-	                product.setProductClass(rs.getString("productClass"));
-	                product.setProductName(rs.getString("productName"));
-	                product.setProductPrice(rs.getInt("productPrice"));
-	                product.setProductQuantity(rs.getInt("productQuantity"));
-	                product.setProductImage(rs.getBytes("productImage"));
-	                product.setProductDetail(rs.getString("productDetail"));
-	                product.setProductBuyPerson(rs.getInt("productBuyPerson"));
-	                java.sql.Date productDate = rs.getDate("productDate");
-	                if (productDate != null) {
-	                    product.setProductDate(productDate.toString());
-	                }
-	                product.setProductStatus(rs.getString("productStatus"));
-	                list.add(product);
-	            }
-	        }
+	    try {
+	        Session session = getSession();
+	        String hql = "FROM Product p WHERE p.productClass = :productClass";
+	        Query<Product> query = session.createQuery(hql, Product.class);
+	        query.setParameter("productClass", productClass);
+	        List<Product> list = query.getResultList();
+	        return list;
 	    } catch (Exception e) {
 	        e.printStackTrace();
+	        System.out.println("selectByProductClass方法發生錯誤：" + e.getMessage());
 	    }
-	    return list;
+	    return new ArrayList<>();
 	}
 
 	@Override
 	public List<Product> selectByProductName(String productName) {
-	    String sql = "SELECT * FROM Product WHERE productName LIKE ?";
-	    List<Product> list = new ArrayList<Product>();
-	    try (Connection conn = DriverManager.getConnection("jdbc:mysql:///team6", "root", "password");
-	            PreparedStatement pstmt = conn.prepareStatement(sql)) {
-	        pstmt.setString(1, "%" + productName + "%");
-	        try (ResultSet rs = pstmt.executeQuery()) {
-	            while (rs.next()) {
-	                Product product = new Product();
-	                product.setProductId(rs.getInt("productId"));
-	                product.setProductClass(rs.getString("productClass"));
-	                product.setProductName(rs.getString("productName"));
-	                product.setProductPrice(rs.getInt("productPrice"));
-	                product.setProductQuantity(rs.getInt("productQuantity"));
-	                product.setProductImage(rs.getBytes("productImage"));
-	                product.setProductDetail(rs.getString("productDetail"));
-	                product.setProductBuyPerson(rs.getInt("productBuyPerson"));
-	                java.sql.Date productDate = rs.getDate("productDate");
-	                if (productDate != null) {
-	                    product.setProductDate(productDate.toString());
-	                }
-	                product.setProductStatus(rs.getString("productStatus"));
-	                list.add(product);
-	            }
-	        }
-	    } catch (SQLException e) {
+	    try {
+	        Session session = getSession();
+	        String hql = "FROM Product p WHERE p.productName LIKE :productName";
+	        Query<Product> query = session.createQuery(hql, Product.class);
+	        query.setParameter("productName", "%" + productName + "%");
+	        List<Product> list = query.getResultList();
+	        return list;
+	    } catch (Exception e) {
 	        e.printStackTrace();
+	        System.out.println("selectByProductName方法發生錯誤：" + e.getMessage());
 	    }
-	    return list;
+	    return new ArrayList<>();
 	}
+
 
 	@Override
 	public List<Product> selectAll() throws ClassNotFoundException {
-		String sql = "select * from Product ";
-		List<Product> list = new ArrayList<Product>();
-		try {
-			Context initContext = new InitialContext();
-			DataSource dataSource = (DataSource) initContext.lookup("java:comp/env/jdbc/ski");
-
-			try (Connection conn = dataSource.getConnection();
-				 PreparedStatement pstmt = conn.prepareStatement(sql);
-				 ResultSet rs = pstmt.executeQuery()) {
-
-				while (rs.next()) {
-					Product product = new Product();
-					product.setProductId(rs.getInt("productId"));
-					product.setProductClass(rs.getString("productClass"));
-					product.setProductName(rs.getString("productName"));
-					product.setProductPrice(rs.getInt("productPrice"));
-					product.setProductQuantity(rs.getInt("productQuantity"));
-					product.setProductImage(rs.getBytes("productImage"));
-					product.setProductDetail(rs.getString("productDetail"));
-					product.setProductBuyPerson(rs.getInt("productBuyPerson"));
-					java.sql.Date productDate = rs.getDate("productDate");
-					if (productDate != null) {
-						product.setProductDate(productDate.toString());
-					}
-					product.setProductStatus(rs.getString("productStatus"));
-					list.add(product);
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return list;
-	}
-//=================main方法測試=================
-	public static void main(String[] args) {
-	    ProductDao productDao = new ProductDaoImpl();
-	    Product product = new Product();
-	    
-	    product.setProductStatus("上架中");
-	    product.setProductDetail("安安");
-	    product.setProductQuantity(1);
-	    product.setProductDate("2023-05-05");
-	    product.setProductBuyPerson(2);
-	    product.setProductPrice(4);
-	    product.setProductClass("機能服飾");
-	    product.setProductName("發熱衣");
-
-	    // 讀取圖片檔案並將其轉換為 byte array
-	    File file = new File("/Users/tomo/Downloads/istockphoto-878524608-612x612.jpg"); 
-	    byte[] productImage = new byte[(int) file.length()];
 	    try {
-	        FileInputStream fileInputStream = new FileInputStream(file);
-	        fileInputStream.read(productImage);
-	        fileInputStream.close();
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	    }
-
-	    // 將圖片資料設定到 product 物件
-	    product.setProductImage(productImage);
-
-	    try {
-	        productDao.insert(product);
+	        Session session = getSession();
+	        String hql = "FROM Product";
+	        List<Product> list = session.createQuery(hql, Product.class)
+	                .getResultList();
+	        return list;
 	    } catch (Exception e) {
 	        e.printStackTrace();
+	        System.out.println("selectAll方法發生錯誤：" + e.getMessage());
 	    }
+	    return new ArrayList<>();
 	}
+//=================main方法測試=================
+//	public static void main(String[] args) {
+//	    ProductDao productDao = new ProductDaoImpl();
+//	    Product product = new Product();
+//	    
+//	    product.setProductStatus("上架中");
+//	    product.setProductDetail("安安");
+//	    product.setProductQuantity(1);
+//	    product.setProductDate("2023-05-05");
+//	    product.setProductBuyPerson(2);
+//	    product.setProductPrice(4);
+//	    product.setProductClass("機能服飾");
+//	    product.setProductName("發熱衣");
+//
+//	    // 讀取圖片檔案並將其轉換為 byte array
+//	    File file = new File("/Users/tomo/Downloads/istockphoto-878524608-612x612.jpg"); 
+//	    byte[] productImage = new byte[(int) file.length()];
+//	    try {
+//	        FileInputStream fileInputStream = new FileInputStream(file);
+//	        fileInputStream.read(productImage);
+//	        fileInputStream.close();
+//	    } catch (IOException e) {
+//	        e.printStackTrace();
+//	    }
+//
+//	    // 將圖片資料設定到 product 物件
+//	    product.setProductImage(productImage);
+//
+//	    try {
+//	        productDao.insert(product);
+//	    } catch (Exception e) {
+//	        e.printStackTrace();
+//	    }
+//	}
+
 
 //	public static void main(String[] args) {
 //		ProductDao productDao = new ProductDaoImpl();

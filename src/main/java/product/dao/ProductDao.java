@@ -4,17 +4,21 @@ import product.vo.Product;
 
 import java.util.List;
 
+import core.CoreDao;
 
-public interface ProductDao {
+
+public interface ProductDao extends CoreDao {
 	int insert(Product product);
 
 	int updateByProductID(Product product);
 	
 	int deleteByProductID(Integer productID);
+	
+	byte[] loadingImage(Integer productID);
 
 	List<Product> selectByProductClass(String productClass);
 	
-	List<Product> selectByProductID(Integer productID);
+	Product selectByProductID(Integer productID);
 
 	List<Product> selectByProductName(String productName);
 

@@ -76,14 +76,15 @@ public class ProductInsertServlet2 extends HttpServlet {
     }
 
     private byte[] convertInputStreamToByteArray(InputStream inputStream) throws IOException {
-        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-        int nRead;
-        byte[] data = new byte[5000000];
-        while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
-            buffer.write(data, 0, nRead);
+        try (ByteArrayOutputStream buffer = new ByteArrayOutputStream()) {
+            int nRead;
+            byte[] data = new byte[5000000];
+            while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
+                buffer.write(data, 0, nRead);
+            }
+            buffer.flush();
+            return buffer.toByteArray();
         }
-        buffer.flush();
-        return buffer.toByteArray();
     }
 
     private Integer parseIntegerParameter(String parameter) {
@@ -101,4 +102,6 @@ public class ProductInsertServlet2 extends HttpServlet {
         doPost(req, res);
     }
 }
+
+
 	
