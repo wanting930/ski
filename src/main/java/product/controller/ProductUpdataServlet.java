@@ -60,7 +60,7 @@ public class ProductUpdataServlet extends HttpServlet {
         }
 
         Product product = new Product();
-        product.setProductId(productId);
+//        product.setProductId(productId);
         product.setProductClass(productClass);
         product.setProductName(productName);
         product.setProductPrice(productPrice);
