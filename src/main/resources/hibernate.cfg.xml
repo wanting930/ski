@@ -21,29 +21,31 @@
 <!-- 		在Spring的環境底下，不可以用thread，要用Spring提供的方法 -->
 		<property name="hibernate.current_session_context_class">thread</property>
 
-		<mapping class="article.vo.Article" />
-        <mapping class="article.vo.ArticleImage" />
-        <mapping class="article.vo.ArticleLike" />
-        <mapping class="article.vo.Comment" />
-        <mapping class="article.vo.CommentLike" />
-        <mapping class="article.vo.Report" />
+<!-- 		<mapping class="article.vo.Article" /> -->
+<!--         <mapping class="article.vo.ArticleImage" /> -->
+<!--         <mapping class="article.vo.ArticleLike" /> -->
+<!--         <mapping class="article.vo.Comment" /> -->
+<!--         <mapping class="article.vo.CommentLike" /> -->
+<!--         <mapping class="article.vo.Report" /> -->
 
-     	<mapping class="chat.model.Friends" />
-        <mapping class="chat.model.OneChat" />
-        <mapping class="chat.model.AllChat" />
+<!--      	<mapping class="chat.model.Friends" /> -->
+<!--         <mapping class="chat.model.OneChat" /> -->
+<!--         <mapping class="chat.model.AllChat" /> -->
 		
-		<mapping class="loc.model.SkiLocation" />
-        <mapping class="loc.model.SkiLocationHistory" />
+<!-- 		<mapping class="loc.model.SkiLocation" /> -->
+<!--         <mapping class="loc.model.SkiLocationHistory" /> -->
 		
 		<mapping class="member.vo.Member" />
 		<mapping class="member.vo.Coach" />
 		
-		<mapping class="order.courseCar.model.CourseCar" />
-        <mapping class="order.courseOrder.model.CourseOrder" />
-        <mapping class="order.courseOrderDetail.model.CourseOrderDetail" />
-        <mapping class="order.productCar.model.ProductCar" />
-        <mapping class="order.productOrder.model.ProductOrder" />
-        <mapping class="order.productOrderDetail.model.ProductOrderDetail" />
-
+<!-- 		<mapping class="order.courseCar.model.CourseCar" /> -->
+<!--         <mapping class="order.courseOrder.model.CourseOrder" /> -->
+<!--         <mapping class="order.courseOrderDetail.model.CourseOrderDetail" /> -->
+<!--         <mapping class="order.productCar.model.ProductCar" /> -->
+<!--         <mapping class="order.productOrder.model.ProductOrder" /> -->
+<!--         <mapping class="order.productOrderDetail.model.ProductOrderDetail" /> -->
+        
+<!--         <mapping class="product.vo.Product" /> -->
+        
 	</session-factory>
 </hibernate-configuration>
