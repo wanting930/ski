@@ -17,7 +17,7 @@ public class ProductService {
 	}
 	//新增
 	public Product insert(String ProductClass,String ProductName,Integer ProductPrice, byte[] ProductImage,
-			String ProductDetail,Integer ProductBuyPerson,String ProductDate, String ProductStatus) {
+			String ProductDetail,Integer ProductBuyPerson,Date ProductDate, String ProductStatus) {
 		Product product = new Product();
 		product.setProductClass(ProductClass);
 		product.setProductName(ProductName);
@@ -33,7 +33,7 @@ public class ProductService {
 	
 	//更新
 	public Product update(String ProductClass,String ProductName,Integer ProductPrice, byte[] ProductImage,
-			String ProductDetail,Integer ProductBuyPerson,String ProductDate, String ProductStatus) {
+			String ProductDetail,Integer ProductBuyPerson,Date ProductDate, String ProductStatus) {
 	Product product = new Product();
 	product.setProductClass(ProductClass);
 	product.setProductName(ProductName);

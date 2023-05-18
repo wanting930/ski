@@ -3,8 +3,14 @@ package product.vo;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -25,6 +31,9 @@ import lombok.Setter;
 public class Product implements Serializable {
 	
 	private static final long serivalVersionUID = 1L;
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer productID;
 	private String productClass;
 	private String productName;
@@ -32,8 +41,10 @@ public class Product implements Serializable {
 	private Integer productQuantity;
 	private byte[] productImage;
 	private String productDetail;
-	private Integer productBuyPerson;
-	private String productDate;
+	@Builder.Default
+	private Integer productBuyPerson = 0;
+	 @Builder.Default
+	private Date productDate = Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant());
 	private String productStatus;
 	
 
