@@ -29,7 +29,7 @@
 <!-- 		<mapping class="article.vo.Article" /> -->
 <!-- 		<mapping class="article.vo.ArticleImage" /> -->
 <!-- 		<mapping class="article.vo.ArticleLike" /> -->
-<!-- 		<mapping class="article.vo.ArticlType" /> -->
+<!-- 		<mapping class="article.vo.ArticleType" /> -->
 <!-- 		<mapping class="article.vo.Comment" /> -->
 <!-- 		<mapping class="article.vo.CommentLike" /> -->
 <!-- 		<mapping class="article.vo.Report" /> -->
