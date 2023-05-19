@@ -1,6 +1,5 @@
 package course.dao.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -8,7 +7,7 @@ import org.hibernate.query.Query;
 
 import course.dao.CourseDao;
 import course.entity.Course;
-import product.vo.Product;
+
 
 
 	    public class CourseDaoImpl implements CourseDao {
@@ -35,15 +34,22 @@ import product.vo.Product;
 	    	}
 	        
 	    	@Override
-	        public int updateByCourseId(Course course) {
-	    		return 0;
+	        public Course updateByCourseId(Course course) {
+	    		getSession().merge(course);
+	    		return course;
 	    	}
 	           
 	        @Override
 	        public int deleteByCourseId(Integer courseId) {
 	        	Course course = getSession().get(Course.class, courseId);
-	    		getSession().remove(course);
-	    		return 1;
+	    		try {
+	    			getSession().remove(course);
+	    			return 1;
+				} catch (Exception e) {				
+					e.printStackTrace();
+			        System.out.println("deleteByCourseId：" + e.getMessage());
+			        return 0;
+				}        	
 	        }
 	        
 	    }

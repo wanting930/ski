@@ -1,16 +1,9 @@
 package course.controller;
 
-
-
 import java.util.List;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
-
-import static course.core.dto.CourseDto.PojoToJson;
-//import static core.util.CommonUtil.writePojo2Json;
-//import static web.member.util.MemberConstants.SERVICE;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -18,12 +11,13 @@ import course.dao.impl.CourseDaoImpl;
 import course.entity.Course;
 
 
-@WebServlet("/crouse/main")
-public class getAllCourseServlet extends HttpServlet {
-private static final long serialVersionUID = 1L;
+//@WebServlet("/course")
+public class UpdateCourseByIdServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
 	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+			
 			CourseDaoImpl dao = new CourseDaoImpl();
 //			PojoToJson(response, dao.getAllCourses());
 			List<Course> list = dao.getAllCourses();
