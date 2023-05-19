@@ -26,8 +26,11 @@ function fillForm(product) {
     document.getElementById('productDetail').value = product.productDetail;
     document.getElementById('productPrice').value = product.productPrice;
     document.getElementById('productQuantity').value = product.productQuantity;
-    document.getElementById('productDate').value = product.productDate;
-    console.log(product)
+    
+    const productDate = new Date(product.productDate);
+    const formattedDate = productDate.toLocaleDateString("en-CA"); // 使用 "en-CA" 作為語言代碼
+    document.getElementById('productDate').value = formattedDate;
+
     // 請注意，文件上傳輸入（如商品圖片）可能需要其他處理方式，並且不能僅僅通過 .value 來設置。
 }
 
