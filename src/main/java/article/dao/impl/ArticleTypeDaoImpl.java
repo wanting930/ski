@@ -49,38 +49,38 @@ public class ArticleTypeDaoImpl implements ArticleTypeDao, coreDao {
 		return getSession().createQuery("FROM ArticleType", ArticleType.class).list();
 	}
 	
-	public static void main(String[] args) throws ClassNotFoundException {
-
-		SessionFactory sf=HibernateUtil.getSessionFactory();
-		Session session=sf.getCurrentSession();
-		Transaction tr=session.getTransaction();
-		ArticleTypeDao dao = new ArticleTypeDaoImpl();
-		try {
-			tr.begin();
-			
-			//新增
-//			ArticleType articleType1 = new ArticleType(null, "揪團");
-//			dao.insert(articleType1);
-			
-			//刪除ID
-//			dao.deleteByArticleTypeID(4);
-			
-			//修改
-//			ArticleType articleType2 = new ArticleType(2, "新手");
-//			dao.updateByArticleTypeID(articleType2);
-			
-			//查詢ID
-			System.out.println(dao.selectByArticleTypeID(2));
-			
-			//查詢全部
-//			System.out.println(dao.selectAll());
-			
-			tr.commit();
-		} catch (Exception e) {
-			tr.rollback();
-			// TODO: handle exception
-		}
-	}
+//	public static void main(String[] args) throws ClassNotFoundException {
+//
+//		SessionFactory sf=HibernateUtil.getSessionFactory();
+//		Session session=sf.getCurrentSession();
+//		Transaction tr=session.getTransaction();
+//		ArticleTypeDao dao = new ArticleTypeDaoImpl();
+//		try {
+//			tr.begin();
+//			
+//			//新增
+////			ArticleType articleType1 = new ArticleType(null, "揪團");
+////			dao.insert(articleType1);
+//			
+//			//刪除ID
+////			dao.deleteByArticleTypeID(4);
+//			
+//			//修改
+////			ArticleType articleType2 = new ArticleType(2, "新手");
+////			dao.updateByArticleTypeID(articleType2);
+//			
+//			//查詢ID
+//			System.out.println(dao.selectByArticleTypeID(2));
+//			
+//			//查詢全部
+////			System.out.println(dao.selectAll());
+//			
+//			tr.commit();
+//		} catch (Exception e) {
+//			tr.rollback();
+//			// TODO: handle exception
+//		}
+//	}
 	
 
 }

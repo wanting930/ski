@@ -147,64 +147,64 @@ public class CommentLikeDaoImpl implements CommentLikeDao, coreDao {
 //		return null;
 	}
 	
-	public static void main(String[] args) throws ClassNotFoundException {
-
-		SessionFactory sf=HibernateUtil.getSessionFactory();
-		Session session=sf.getCurrentSession();
-		Transaction tr=session.getTransaction();
-		CommentLikeDao dao = new CommentLikeDaoImpl();
-		try {
-			tr.begin();
-			
-			//新增
-//			CommentLike commentLike1 = new CommentLike(2, 2, 2, "0");
-//			dao.insert(commentLike1);
-			
-			//刪除ID
-//			dao.deleteByCommentLikeID(2);
-			
-			//修改
-//			CommentLike commentLike2 = new CommentLike(2, 2, 2, "1");
-//			dao.updateByCommentLikeID(commentLike2);
-			
-			//查詢ID
-			System.out.println(dao.selectByCommentLikeID(1));
-			
-			//查詢全部
-//			System.out.println(dao.selectAll());
-			
-			tr.commit();
-		} catch (Exception e) {
-			tr.rollback();
-			// TODO: handle exception
-		}
-		
-		
-		//------------------------------------------------------------------
-		
-		
+//	public static void main(String[] args) throws ClassNotFoundException {
+//
+//		SessionFactory sf=HibernateUtil.getSessionFactory();
+//		Session session=sf.getCurrentSession();
+//		Transaction tr=session.getTransaction();
 //		CommentLikeDao dao = new CommentLikeDaoImpl();
-
-		// new byte[]{0, 1, 2, 3} 圖片
-		//新增
-//		CommentLike commentLike1 = new CommentLike(2, 2, 2, "0");
-//		dao.insert(commentLike1);
-		
-		//查詢ID
-//		System.out.println(dao.selectByCommentLikeID(1));
-		
-		//查詢全部
-//		for (CommentLike commentLike : dao.selectAll()) {
-//			System.out.println(commentLike.getCommentLikeID());
+//		try {
+//			tr.begin();
+//			
+//			//新增
+////			CommentLike commentLike1 = new CommentLike(2, 2, 2, "0");
+////			dao.insert(commentLike1);
+//			
+//			//刪除ID
+////			dao.deleteByCommentLikeID(2);
+//			
+//			//修改
+////			CommentLike commentLike2 = new CommentLike(2, 2, 2, "1");
+////			dao.updateByCommentLikeID(commentLike2);
+//			
+//			//查詢ID
+//			System.out.println(dao.selectByCommentLikeID(1));
+//			
+//			//查詢全部
+////			System.out.println(dao.selectAll());
+//			
+//			tr.commit();
+//		} catch (Exception e) {
+//			tr.rollback();
+//			// TODO: handle exception
 //		}
-		
-		//刪除
-//		dao.deleteByCommentLikeID(2);
-		
-		//修改
-//		CommentLike commentLike2 = new CommentLike(2, 2, 2, "1");
-//		dao.updateByCommentLikeID(commentLike2);
-	}
+//		
+//		
+//		//------------------------------------------------------------------
+//		
+//		
+////		CommentLikeDao dao = new CommentLikeDaoImpl();
+//
+//		// new byte[]{0, 1, 2, 3} 圖片
+//		//新增
+////		CommentLike commentLike1 = new CommentLike(2, 2, 2, "0");
+////		dao.insert(commentLike1);
+//		
+//		//查詢ID
+////		System.out.println(dao.selectByCommentLikeID(1));
+//		
+//		//查詢全部
+////		for (CommentLike commentLike : dao.selectAll()) {
+////			System.out.println(commentLike.getCommentLikeID());
+////		}
+//		
+//		//刪除
+////		dao.deleteByCommentLikeID(2);
+//		
+//		//修改
+////		CommentLike commentLike2 = new CommentLike(2, 2, 2, "1");
+////		dao.updateByCommentLikeID(commentLike2);
+//	}
 
 
 }

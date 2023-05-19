@@ -234,69 +234,69 @@ public class ArticleDaoImpl implements ArticleDao, coreDao{
 //		return null;
 	}
 
-	public static void main(String[] args) throws ClassNotFoundException {
-		
-		
-		
-		SessionFactory sf=HibernateUtil.getSessionFactory();
-		Session session=sf.getCurrentSession();
-		Transaction tr=session.getTransaction();
-		ArticleDao dao = new ArticleDaoImpl();
-		try {
-			tr.begin();
-			
-			//新增
-//			Article article1 = new Article(null, 2, "a", "b", "c", Timestamp.valueOf("2023-04-30 00:00:00"), Timestamp.valueOf("2023-04-30 00:00:00"), 3, "d");
-//			dao.insert(article1);
-			
-			//刪除ID
-//			dao.deleteByArticleID(4);
-			
-			//修改
-//			Article article2 = new Article(3, 3, "e", "f", "g", Timestamp.valueOf("2023-04-30 00:00:00"), Timestamp.valueOf("2023-04-30 00:00:00"), 4, "h");
-//			dao.updateByArticleID(article2);
-			
-			//查詢ID
-//			dao.selectByArticleID(2);
-			System.out.println(dao.selectByArticleID(2));
-			
-			//查詢全部
-//			List<Article> list = new ArticleDaoImpl().selectAll();
-//			System.out.println(list);
-			System.out.println(dao.selectAll());
-			
-			tr.commit();
-		} catch (Exception e) {
-			tr.rollback();
-			// TODO: handle exception
-		}
-		
-		
-		
-		
-		
-		
-		//------------------------------------------------------------------
-
-		// new byte[]{0, 1, 2, 3} 圖片
-		//新增
-//		Article article1 = new Article(2, 2, "a", "b", "c", Timestamp.valueOf("2023-04-30 00:00:00"), Timestamp.valueOf("2023-04-30 00:00:00"), 3, "d");
-//		dao.insert(article1);
-		
-		//查詢ID
-//		System.out.println(dao.selectByArticleID(1));
-		
-		//查詢全部
-//		for (Article article : dao.selectAll()) {
-//			System.out.println(article.getArticleContent());
+//	public static void main(String[] args) throws ClassNotFoundException {
+//		
+//		
+//		
+//		SessionFactory sf=HibernateUtil.getSessionFactory();
+//		Session session=sf.getCurrentSession();
+//		Transaction tr=session.getTransaction();
+//		ArticleDao dao = new ArticleDaoImpl();
+//		try {
+//			tr.begin();
+//			
+//			//新增
+////			Article article1 = new Article(null, 2, "a", "b", "c", Timestamp.valueOf("2023-04-30 00:00:00"), Timestamp.valueOf("2023-04-30 00:00:00"), 3, "d");
+////			dao.insert(article1);
+//			
+//			//刪除ID
+////			dao.deleteByArticleID(4);
+//			
+//			//修改
+////			Article article2 = new Article(3, 3, "e", "f", "g", Timestamp.valueOf("2023-04-30 00:00:00"), Timestamp.valueOf("2023-04-30 00:00:00"), 4, "h");
+////			dao.updateByArticleID(article2);
+//			
+//			//查詢ID
+////			dao.selectByArticleID(2);
+//			System.out.println(dao.selectByArticleID(2));
+//			
+//			//查詢全部
+////			List<Article> list = new ArticleDaoImpl().selectAll();
+////			System.out.println(list);
+//			System.out.println(dao.selectAll());
+//			
+//			tr.commit();
+//		} catch (Exception e) {
+//			tr.rollback();
+//			// TODO: handle exception
 //		}
-		
-		//刪除
-//		dao.deleteByArticleID(2);
-		
-		//修改
-//		Article article2 = new Article(2, 3, "e", "f", "g", Timestamp.valueOf("2023-04-30 00:00:00"), Timestamp.valueOf("2023-04-30 00:00:00"), 4, "h");
-//		dao.updateByArticleID(article2);
-	}
+//		
+//		
+//		
+//		
+//		
+//		
+//		//------------------------------------------------------------------
+//
+//		// new byte[]{0, 1, 2, 3} 圖片
+//		//新增
+////		Article article1 = new Article(2, 2, "a", "b", "c", Timestamp.valueOf("2023-04-30 00:00:00"), Timestamp.valueOf("2023-04-30 00:00:00"), 3, "d");
+////		dao.insert(article1);
+//		
+//		//查詢ID
+////		System.out.println(dao.selectByArticleID(1));
+//		
+//		//查詢全部
+////		for (Article article : dao.selectAll()) {
+////			System.out.println(article.getArticleContent());
+////		}
+//		
+//		//刪除
+////		dao.deleteByArticleID(2);
+//		
+//		//修改
+////		Article article2 = new Article(2, 3, "e", "f", "g", Timestamp.valueOf("2023-04-30 00:00:00"), Timestamp.valueOf("2023-04-30 00:00:00"), 4, "h");
+////		dao.updateByArticleID(article2);
+//	}
 
 }
