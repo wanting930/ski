@@ -51,13 +51,32 @@ public class ProductDaoImpl implements ProductDao {
 	    return -1;
 	}
 	
-    public byte[] loadingImage(Integer productID) {
+	public byte[] loadingImage(Integer productID, Session session) {
+        if (productID == null) {
+            throw new IllegalArgumentException("Product ID cannot be null");
+        }
+        
         String hql = "SELECT p.productImage FROM Product p WHERE p.productID = :productID";
-        Session session = getSession();
-        return (byte[]) session.createQuery(hql)
-                    .setParameter("productID", productID)
-                    .uniqueResult();
+        byte[] imageData = null;
+        
+        try {
+            imageData = (byte[]) session.createQuery(hql)
+                .setParameter("productID", productID)
+                .uniqueResult();
+        } catch (Exception e) {
+            e.printStackTrace(); // 或者使用更合适的方式记录错误，比如日志记录器。
+        }
+        
+        if (imageData == null || imageData.length == 0) {
+            throw new IllegalStateException("No image data found for the product ID " + productID);
+        }
+        
+        return imageData;
     }
+
+	
+
+
 
 	public int updateByProductID(Product product) {
 	    try {

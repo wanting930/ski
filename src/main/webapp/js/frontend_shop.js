@@ -1,61 +1,103 @@
-fetch('http://localhost:8080/ski/getAll')
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(data => {
-        console.log(data)
-        
-        // query the product container element
-        const productContainer = document.querySelector('div.product-container')
+// Helper function to create product element
+function createProductElement(product) {
+  return fetch(`http://localhost:8080/ski/loadImage?productID=${product.productID}`)
+    .then(response => response.json())
+    .then(imageData => {
+      const productDiv = document.createElement('div');
+      productDiv.classList.add('product');
 
-        // iterate through the array and append to the product container
-        data.forEach(product => {
-            const productDiv = document.createElement('div');
-            productDiv.classList.add('product');
-            productDiv.style.width = '150px';
+      const productHtml = `
+        <a href="product-page.html">
+          <img src="data:image/png;base64,${imageData.imageData}" alt="商品圖片" style="width: 130px;">
+          <div class="productName">${product.productName}</div>
+          <div class="productPrice">${product.productPrice}</div>
+        </a>
+        <button class="add-to-cart-btn">加入購物車</button>
+      `;
 
-            const productHtml = `
-                <a href="product-page.html">
-                   <img src="http://localhost:8080/productest/loadImage?productID=${product.productID}" alt="商品圖片" style="width: 130px;">
-                  <div class="productName">商品名稱: ${product.productName}</div>
-                  <div class="productPrice">$${product.productPrice}</div>
-                </a>
-                <button class="add-to-cart-btn" onClick="addCart(${product.productId})">加入購物車</button>
-            `;
+      productDiv.innerHTML = productHtml;
 
-            productDiv.innerHTML = productHtml;
+      return productDiv;
+    });
+}
 
-            productContainer.appendChild(productDiv);
+// Product class buttons event handler
+document.addEventListener('DOMContentLoaded', () => {
+  const productClassButtons = document.querySelectorAll('.ProductClass');
+
+  productClassButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const productClass = button.innerText.trim();
+
+      fetch(`http://localhost:8080/ski/productSelectByClass?productClass=${productClass}`)
+        .then(response => response.json())
+        .then(data => {
+          const productContainer = document.querySelector('.product-container');
+          productContainer.innerHTML = '';
+
+          let promises = data.map(createProductElement);
+
+          Promise.all(promises).then(productElements => {
+            productElements.forEach(element => {
+              productContainer.appendChild(element);
+            });
+          });
+        })
+        .catch(error => {
+          console.error('There has been a problem with your fetch operation: ', error);
         });
+    });
+  });
+});
+
+// Click event for allProductsButton
+const allProductsButton = document.querySelector('#allProductsButton');
+allProductsButton.addEventListener('click', () => {
+  fetch('http://localhost:8080/ski/getAll')
+    .then(response => response.json())
+    .then(data => {
+      const productContainer = document.querySelector('.product-container');
+      productContainer.innerHTML = '';
+
+      let promises = data.map(createProductElement);
+
+      Promise.all(promises).then(productElements => {
+        productElements.forEach(element => {
+          productContainer.appendChild(element);
+        });
+      });
     })
-    .catch(error => console.error('There has been a problem with your fetch operation: ', error));
+    .catch(error => {
+      console.error('There has been a problem with your fetch operation: ', error);
+    });
+});
+
+// Execute searchProduct function
+function searchProduct(searchTerm) {
+  var url = "http://localhost:8080/ski/productSelectByName?productName=" + searchTerm;
+
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      const productContainer = document.querySelector('.product-container');
+      productContainer.innerHTML = '';
+
+      let promises = data.map(createProductElement);
+
+      Promise.all(promises).then(productElements => {
+        productElements.forEach(element => {
+          productContainer.appendChild(element);
+        });
+      });
+    })
+    .catch(error => {
+      console.log(error);
+    });
+}
 
 $(document).ready(function() {
-    $(window).resize(function() {
-        // Update navbar text size based on window width
-        if ($(window).width() < 768) {
-            $('.navbar .nav-link').css('font-size', '14px');
-        } else {
-            $('.navbar .nav-link').css('font-size', '18px');
-        }
-
-        // Update footer text size based on window width
-        if ($(window).width() < 768) {
-            $('.footer').css('font-size', '12px');
-        } else {
-            $('.footer').css('font-size', '16px');
-        }
-
-        // Update product display based on window width
-        if ($(window).width() < 768) {
-            $('.product').css('width', '100px');
-            $('.product img').css('width', '80px');
-        } else {
-            $('.product').css('width', '150px');
-            $('.product img').css('width', '130px');
-        }
-    });
+  $(".search").click(function() {
+    var searchTerm = $(".search-bar").val();
+    searchProduct(searchTerm);
+  });
 });

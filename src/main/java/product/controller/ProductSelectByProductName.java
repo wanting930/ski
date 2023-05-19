@@ -23,6 +23,7 @@ public class ProductSelectByProductName extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=utf-8");
         request.setCharacterEncoding("UTF-8");
+        
 
         String productName = request.getParameter("productName");
 

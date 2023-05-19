@@ -1,10 +1,10 @@
-// 首先，從 URL 查詢參數中獲取商品ID
+
 // 首先，從 URL 查詢參數中獲取商品ID
 const urlParams = new URLSearchParams(window.location.search);
 const productID = urlParams.get('id');
 
 // 接著，使用這個商品ID來獲取商品詳情
-fetch(`http://localhost:8080/productest/productSelectByID?productID=${productID}`, {
+fetch(`http://localhost:8080/ski/productSelectByID?productID=${productID}`, {
   method: 'GET',
   headers: {
     'Content-Type': 'application/json'
@@ -75,7 +75,7 @@ function updateProduct() {
   }
 
   // 更新資料的程式碼，您可以使用 Fetch API 進行資料更新
-  fetch('http://localhost:8080/productest/productUpdate', {
+  fetch('http://localhost:8080/ski/productUpdate', {
     method: 'POST',
     body: formData
   })
@@ -84,7 +84,7 @@ function updateProduct() {
       // 處理伺服器的回應
       console.log(data); // 根據需求自定義處理方式
       // 導航回商品管理頁面
-      window.location.href = '/public/product/backend_productPut.html';
+      window.location.href = '/ski/product/backend_productPut.html';
     })
     .catch(error => {
       console.error('錯誤:', error);

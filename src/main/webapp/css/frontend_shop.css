@@ -7,15 +7,16 @@
   border-radius: 5px;
   cursor: pointer;
 }
+
 .search {
-    display: inline-block;
-    padding: 10px;
-    margin: 5px;
-    background-color: #eee;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
+  display: inline-block;
+  padding: 10px;
+  margin: 5px;
+  background-color: #eee;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
 
 .search-bar {
   display: inline-block;
@@ -28,27 +29,27 @@
 }
 
 .product-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
-  
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.product {
+  display: inline-block;
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  text-align: center;
+  flex: 1 0 200px; /* Flex basis is set to 200px */
+  box-sizing: border-box;
+}
+
+@media screen and (max-width: 768px) {
   .product {
-    display: inline-block;
-    margin: 10px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    text-align: center;
-    flex: 1 0 200px; /* Flex basis is set to 200px */
-    box-sizing: border-box;
+    flex: 1 0 100%; /* Flex basis is set to 100% for smaller screens */
   }
-  
-  @media screen and (max-width: 768px) {
-    .product {
-      flex: 1 0 100%; /* Flex basis is set to 100% for smaller screens */
-    }
-  }
+}
 
 .productName {
   font-size: 16px;
@@ -74,41 +75,50 @@
   border-radius: 5px;
   cursor: pointer;
 }
-.navbar{
-    background-color: #073642 !important
-} 
 
-.navbar-dark .navbar-nav .nav-link{
-    font-size: 18px;
-    /* font-weight: bold; */
-    color: white;
+.navbar {
+  background-color: #073642 !important;
 }
 
-.sidetool_group{
-    right : 10px;
-    bottom: 5px;
+.navbar-dark .navbar-nav .nav-link {
+  font-size: 18px;
+  color: white;
+}
+
+.sidetool_group {
+  right: 10px;
+  bottom: 5px;
 }
 
 .sidetool_button {
-    background-color: rgb(254, 239, 105);
+  background-color: rgb(254, 239, 105);
 }
 
-.sidetool_icon{
-    margin: 0;
-    width: 20px;
-    height: 20px;
+.sidetool_icon {
+  margin: 0;
+  width: 20px;
+  height: 20px;
 }
 
-
-.footer{
-    background-color: #073642 
+.footer {
+  background-color: #073642;
 }
 
-.footer-link{
-    color: white;
-    font-size: 20px;
-    text-decoration: none;
+.footer-link {
+  color: white;
+  font-size: 20px;
+  text-decoration: none;
 }
-p{
-    font-size: 24px;
+
+p {
+  font-size: 24px;
+}
+
+.product-container .product-item {
+  width: 200px;
+  height: 250px;
+  border: 1px solid #ccc;
+  margin: 10px;
+  padding: 10px;
+  text-align: center;
 }
