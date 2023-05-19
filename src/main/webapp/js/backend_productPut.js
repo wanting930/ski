@@ -1,16 +1,36 @@
-fetch('http://localhost:8080/ski/getAll')
-  .then(response => response.json())
-  .then(data => {
-    // Process the data retrieved from the server
-    renderProducts(data);
-  })
-  .catch(error => {
-    // Handle any errors that occurred during the request
-    console.error(error);
-  });
+//頁面加載完成後執行
+document.addEventListener('DOMContentLoaded', function() {
+  // 獲取商品數據並渲染表格
+  fetchProducts();
 
+  // 為刪除按鈕綁定事件
+  // 為修改按钮也绑定事件
+  document.getElementById('productTableBody').addEventListener('click', function(event) {
+    if (event.target.classList.contains('btn-delete')) {
+      const productID = event.target.dataset.productId;
+      deleteProduct(productID);
+    } else if (event.target.classList.contains('btn-edit')) {
+      const productID = event.target.dataset.productId;
+      jumpupdatepage(productID); // 跳轉到修改頁面
+    }
+  });
+});
+
+// 獲取商品數據並渲染表格
+function fetchProducts() {
+  fetch('http://localhost:8080/ski/getAll')
+    .then(response => response.json())
+    .then(data => {
+      renderProducts(data);
+    })
+    .catch(error => {
+      console.error(error);
+    });
+}
+
+// 渲染商品表格
 function renderProducts(products) {
-  const tableBody = document.querySelector('tbody');
+  const tableBody = document.getElementById('productTableBody');
   tableBody.innerHTML = '';
 
   products.forEach(product => {
@@ -18,24 +38,22 @@ function renderProducts(products) {
     row.classList.add('align-middle');
 
     const editButton = document.createElement('button');
-    editButton.classList.add('btn', 'btn-secondary');
+    editButton.classList.add('btn', 'btn-secondary', 'btn-edit');
     editButton.textContent = '修改';
-    editButton.addEventListener('click', () => {
-      jumpupdatepage(product.productID);
-    });
+    editButton.dataset.productId = product.productID;
 
     const deleteButton = document.createElement('button');
-    deleteButton.classList.add('btn', 'btn-secondary');
+    deleteButton.classList.add('btn', 'btn-secondary', 'btn-delete');
     deleteButton.textContent = '刪除';
+    deleteButton.dataset.productId = product.productID;
 
-    // 將圖片資料轉換成 Base64 編碼的字串
     const base64Image = btoa(new Uint8Array(product.productImage).reduce((data, byte) => data + String.fromCharCode(byte), ''));
     const imageSrc = `data:image/png;base64,${base64Image}`;
 
     row.innerHTML = `
       <th scope="row">${product.productID}</th>
       <td class="col-2">
-          <img src="${imageSrc}" class="img-thumbnail">
+        <img src="${imageSrc}" class="img-thumbnail">
       </td>
       <td>${product.productClass}</td>
       <td>${product.productName}</td>
@@ -53,35 +71,23 @@ function renderProducts(products) {
   });
 }
 
+// 跳轉到商品頁面
 function jumpupdatepage(productID) {
   const url = `/ski/product/backend_productUpdate.html?id=${productID}`;
   window.location.href = url;
 }
 
+// 刪除商品
 function deleteProduct(productID) {
-  // Call the backend DELETE API here
-  fetch(`http://localhost:8080/ski/deleteProduct/${productID}`, {
-    method: 'DELETE',
+  fetch(`http://localhost:8080/ski/productDelete?productID=${productID}`, {
+    method: 'GET',
   })
     .then(response => response.json())
     .then(data => {
-      // Process the response from the server
       console.log('Product deleted successfully:', data);
-      // You can update the UI or perform any other actions as needed
-      // For example, you can reload the product list after deletion
-      fetch('http://localhost:8080/ski/getAll')
-        .then(response => response.json())
-        .then(data => {
-          renderProducts(data);
-        })
-        .catch(error => {
-          console.error(error);
-        });
+      fetchProducts(); // 重新獲取商品數據並渲染表格
     })
     .catch(error => {
-      // Handle any errors that occurred during the request
       console.error(error);
     });
 }
-
-
