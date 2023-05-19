@@ -3,10 +3,12 @@ package course.dao.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import course.dao.CourseDao;
 import course.entity.Course;
+import product.vo.Product;
 
 
 	    public class CourseDaoImpl implements CourseDao {
@@ -24,13 +26,14 @@ import course.entity.Course;
 	        
 	        @Override
 	    	public List<Course> getAllCourses() {
-	        	List<Course> resultList = new ArrayList<>();
-	        	String hql = "FROM Course";
-	        	Query<Course> query = getSession().createQuery(hql, Course.class);
-	        	resultList = query.getResultList();
-	        	return resultList;       
-	    	}
+		        	String hql = "FROM Course";
+		        	Query<Course> query = getSession().createQuery(hql, Course.class);
+		        	List<Course> resultList = query.getResultList();
+		        	
+		        	return resultList; 
 
+	    	}
+	        
 	    	@Override
 	        public int updateByCourseId(Course course) {
 	    		return 0;
