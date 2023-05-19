@@ -25,7 +25,7 @@ import product.vo.Product;
 
 @WebServlet("/productAdd")
 @MultipartConfig
-public class ProductInsertServlet2 extends HttpServlet {
+public class ProductInsertServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private ProductDao productDao = new ProductDaoImpl();
 
