@@ -10,7 +10,7 @@ function createProductElement(product) {
         <a href="product-page.html">
           <img src="data:image/png;base64,${imageData.imageData}" alt="商品圖片" style="width: 130px;">
           <div class="productName">${product.productName}</div>
-          <div class="productPrice">${product.productPrice}</div>
+          <div class="productPrice">${product.productPrice}元</div>
         </a>
         <button class="add-to-cart-btn">加入購物車</button>
       `;
