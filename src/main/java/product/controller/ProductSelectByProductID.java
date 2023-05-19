@@ -28,10 +28,11 @@ public class ProductSelectByProductID extends HttpServlet {
 
         ProductDaoImpl productDaoImpl = new ProductDaoImpl();
 
-        Product product = productDaoImpl.selectByProductID(productID);
+        List<Product> productList = productDaoImpl.selectByProductID(productID);
+        
 
         Gson gson = new Gson();
-        String json = gson.toJson(product);
+        String json = gson.toJson(productList);
 
         response.setContentType("application/json;charset=utf-8");
 

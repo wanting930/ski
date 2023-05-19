@@ -28,10 +28,14 @@ function renderProducts(products) {
     deleteButton.classList.add('btn', 'btn-secondary');
     deleteButton.textContent = '刪除';
 
+    // 將圖片資料轉換成 Base64 編碼的字串
+    const base64Image = btoa(new Uint8Array(product.productImage).reduce((data, byte) => data + String.fromCharCode(byte), ''));
+    const imageSrc = `data:image/png;base64,${base64Image}`;
+
     row.innerHTML = `
       <th scope="row">${product.productID}</th>
       <td class="col-2">
-          <img src="http://localhost:8080/ski/loadImage?productID=${product.productID}" class="img-thumbnail">
+          <img src="${imageSrc}" class="img-thumbnail">
       </td>
       <td>${product.productClass}</td>
       <td>${product.productName}</td>

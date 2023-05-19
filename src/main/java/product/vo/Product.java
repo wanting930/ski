@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,7 +28,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 @Data
-@Table
+@Table(name="Product")
 public class Product implements Serializable {
 	
 	private static final long serivalVersionUID = 1L;
@@ -45,6 +46,7 @@ public class Product implements Serializable {
 	private Integer productBuyPerson = 0;
 	 @Builder.Default
 	private Date productDate = Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant());
+	@Column(name="productStatus")
 	private String productStatus;
 	
 

@@ -90,16 +90,18 @@ public class ProductDaoImpl implements ProductDao {
 	    return -1;
 	}
 
-	public  Product selectByProductID(Integer productID) {
-		try {
-			Session session = getSession();
-			Product product = session.get(Product.class, productID);
-			return product;
-		} catch (Exception e) {
-			System.out.println("selectById方法發生錯誤：" + e.getMessage());
-			e.printStackTrace();
-		}
-		return null;
+	public List<Product> selectByProductID(Integer productID) {
+	    try {
+	        Session session = getSession();
+	        Query<Product> query = session.createQuery("FROM Product WHERE productID = :productID", Product.class);
+	        query.setParameter("productID", productID);
+	        List<Product> productList = query.getResultList();
+	        return productList;
+	    } catch (Exception e) {
+	        System.out.println("selectByProductID方法发生错误：" + e.getMessage());
+	        e.printStackTrace();
+	    }
+	    return null;
 	}
 	
 

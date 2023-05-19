@@ -19,7 +19,7 @@ public interface ProductDao extends CoreDao {
 
 	List<Product> selectByProductClass(String productClass);
 	
-	Product selectByProductID(Integer productID);
+	List<Product> selectByProductID(Integer productID);
 
 	List<Product> selectByProductName(String productName);
 
