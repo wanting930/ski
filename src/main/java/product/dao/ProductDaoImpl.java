@@ -122,14 +122,14 @@ public class ProductDaoImpl implements ProductDao {
 	    try {
 	        Session session = getSession();
 	        String hql = "FROM Product";
-	        List<Product> list = session.createQuery(hql, Product.class)
-	                .getResultList();
-	        return list;
+	        Query<Product> query = session.createQuery(hql, Product.class); // import org.hibernate.query.Query;
+			List<Product> list = query.getResultList();
+			return list;
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	        System.out.println("selectAll方法發生錯誤：" + e.getMessage());
 	    }
-	    return new ArrayList<>();
+	    return null;
 	}
 //=================main方法測試=================
 //	public static void main(String[] args) {

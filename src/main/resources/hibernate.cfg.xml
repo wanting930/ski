@@ -51,7 +51,7 @@
 <!-- 		<mapping class="order.productOrder.model.ProductOrder" /> -->
 <!-- 		<mapping class="order.productOrderDetail.model.ProductOrderDetail" />  -->
 
-<!-- 		<mapping class="product.vo.Product" /> -->
+		<mapping class="product.vo.Product" />
 		
 <!-- 		<mapping class="qa.vo.qa"/> -->
 
