@@ -208,12 +208,15 @@
 					<div class="row mb-3">
 						<div class="col-8 align-self-center">
 							<div class="input-group">
-								<span class="input-group-text" id="inputGroup-sizing-default">商品狀態</span>
-								<input type="text" class="form-control" id="productStatus"
-									aria-label="商品狀態" aria-describedby="inputGroup-sizing-default">
+								<label class="input-group-text" for="productStatus">商品狀態</label>
+								<select class="form-select" id="productStatus">
+									<option selected>請選擇商品狀態</option>
+									<option value="上架中">上架中</option>
+									<option value="下架中">下架中</option>
+								</select>
 							</div>
 						</div>
-						<div class="col-4 align-self-center text-danger">請輸入商品狀態</div>
+						<div class="col-4 align-self-center text-danger">請選擇商品狀態</div>
 					</div>
 
 					<div class="row mb-3">
@@ -225,7 +228,7 @@
 						</div>
 						<div class="col-8 align-self-center">
 							<div>商品圖片</div>
-							<img id="originalImage" name="originalImage" data-original-image="" style="width: 100%; height: auto;">
+							<img id="originalImage" name="originalImage" data-original-image="">
 						</div>
 						<!-- <div class="col-4 align-self-center"> -->
 						<!-- </div> -->

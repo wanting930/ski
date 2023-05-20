@@ -48,9 +48,8 @@ public class ProductUpdataServlet extends HttpServlet {
 
         // 處理圖片上傳
         Part imagePart = request.getPart("productImage");
-        System.out.println(imagePart);
         byte[] productImage = null;
-        if (imagePart != null) {
+        if (imagePart != null && imagePart.getSize() > 0) { // check if the imagePart has data
             InputStream imageInputStream = imagePart.getInputStream();
             productImage = convertInputStreamToByteArray(imageInputStream);
         }
@@ -61,7 +60,9 @@ public class ProductUpdataServlet extends HttpServlet {
         product.setProductName(productName);
         product.setProductPrice(productPrice);
         product.setProductQuantity(productQuantity);
-        product.setProductImage(productImage);
+        if (productImage != null) { // only set the image if it's not null
+            product.setProductImage(productImage);
+        }
         product.setProductDetail(productDetail);
         product.setProductStatus(productStatus);
         JsonObject jsonResponse = new JsonObject();

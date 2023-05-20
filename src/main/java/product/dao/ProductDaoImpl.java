@@ -66,21 +66,11 @@ public class ProductDaoImpl implements ProductDao {
 
 
 	public int updateByProductID(Product product) {
-	    try {
-	        Session session = getSession();
-	        if (product.getProductImage() == null) {
-	            Product currentProduct = session.get(Product.class, product.getProductID());
-	            product.setProductImage(currentProduct.getProductImage());
-	        }
+	    
+	        Session session = getSession();  
 	        session.merge(product);
-	        return 1;
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        System.out.println("updateByProductID方法發生錯誤：" + e.getMessage());
-	    }
-	    return -1;
+	    return 1;
 	}
-
 
 	public List<Product> selectByProductID(Integer productID) {
 	    try {

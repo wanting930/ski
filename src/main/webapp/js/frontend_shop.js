@@ -7,6 +7,10 @@ function createProductElement(product) {
       productDiv.classList.add('product');
       productDiv.classList.add('row');
 
+      if (product.productStatus === "下架中") {
+        productDiv.classList.add('hidden');
+      }
+
       const productHtml = `
       <div class="col-3">
         <div class="card text-center">
@@ -24,9 +28,16 @@ function createProductElement(product) {
 
       productDiv.innerHTML = productHtml;
 
+      // Hide product status
+      const productStatusElement = productDiv.querySelector('.productStatus');
+      if (productStatusElement) {
+        productStatusElement.style.display = 'none';
+      }
+
       return productDiv;
     });
 }
+
 
 function displayAllProducts() {
   fetch('http://localhost:8080/ski/getAll')

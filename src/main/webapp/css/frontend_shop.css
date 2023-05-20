@@ -93,3 +93,13 @@ p {
   padding: 10px;
   text-align: center;
 } */
+
+.hidden {
+  display: none;
+}
+
+#products-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
