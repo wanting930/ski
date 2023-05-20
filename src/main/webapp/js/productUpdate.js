@@ -41,14 +41,13 @@ function updateProduct() {
     console.log('Update button clicked');
     // 從表單獲取新的商品資訊
     const updatedProduct = new FormData();
-    updatedProduct.append("productID", productID);
     updatedProduct.append("productClass", document.getElementById('productClass').value);
     updatedProduct.append("productName", document.getElementById('productName').value);
     updatedProduct.append("productStatus", document.getElementById('productStatus').value);
     updatedProduct.append("productDetail", document.getElementById('productDetail').value);
     updatedProduct.append("productPrice", document.getElementById('productPrice').value);
     updatedProduct.append("productQuantity", document.getElementById('productQuantity').value);
-    updatedProduct.append("productDate", document.getElementById('productDate').value);
+   
     // 將商品圖片也加入 FormData 中
     const productImage = document.getElementById('productImage').files[0];
     updatedProduct.append("productImage", productImage);
