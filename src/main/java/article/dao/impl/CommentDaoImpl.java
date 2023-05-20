@@ -160,63 +160,63 @@ public class CommentDaoImpl implements CommentDao, coreDao {
 //		return null;
 	}
 	
-	public static void main(String[] args) throws ClassNotFoundException {
-
-		SessionFactory sf=HibernateUtil.getSessionFactory();
-		Session session=sf.getCurrentSession();
-		Transaction tr=session.getTransaction();
-		CommentDao dao = new CommentDaoImpl();
-		try {
-			tr.begin();
-			
-			//新增
-//			Comment comment1 = new Comment(2, 2, 2, "c", Timestamp.valueOf("2023-04-30 00:00:00"), Timestamp.valueOf("2023-04-30 00:00:00"), 4);
-//			dao.insert(comment1);
-			
-			//刪除ID
-//			dao.deleteByCommentID(2);
-			
-			//修改
-//			Comment comment2 = new Comment(2, 2, 2, "aaa", Timestamp.valueOf("2023-04-30 00:00:00"), Timestamp.valueOf("2023-04-30 00:00:00"), 4);
-//			dao.updateByCommentID(comment2);
-			
-			//查詢ID
-			System.out.println(dao.selectByCommentID(1));
-			
-			//查詢全部
-//			System.out.println(dao.selectAll());
-			
-			tr.commit();
-		} catch (Exception e) {
-			tr.rollback();
-			// TODO: handle exception
-		}
-		
-		
-		//------------------------------------------------------------------
-
-		
-		
+//	public static void main(String[] args) throws ClassNotFoundException {
+//
+//		SessionFactory sf=HibernateUtil.getSessionFactory();
+//		Session session=sf.getCurrentSession();
+//		Transaction tr=session.getTransaction();
 //		CommentDao dao = new CommentDaoImpl();
-		// new byte[]{0, 1, 2, 3} 圖片
-		//新增
-//		Comment comment1 = new Comment(2, 2, 2, "c", Timestamp.valueOf("2023-04-30 00:00:00"), Timestamp.valueOf("2023-04-30 00:00:00"), 4);
-//		dao.insert(comment1);
-		
-		//查詢ID
-//		System.out.println(dao.selectByCommentID(1));
-		
-		//查詢全部
-//		for (Comment comment : dao.selectAll()) {
-//			System.out.println(comment.getCommentID());
+//		try {
+//			tr.begin();
+//			
+//			//新增
+////			Comment comment1 = new Comment(2, 2, 2, "c", Timestamp.valueOf("2023-04-30 00:00:00"), Timestamp.valueOf("2023-04-30 00:00:00"), 4);
+////			dao.insert(comment1);
+//			
+//			//刪除ID
+////			dao.deleteByCommentID(2);
+//			
+//			//修改
+////			Comment comment2 = new Comment(2, 2, 2, "aaa", Timestamp.valueOf("2023-04-30 00:00:00"), Timestamp.valueOf("2023-04-30 00:00:00"), 4);
+////			dao.updateByCommentID(comment2);
+//			
+//			//查詢ID
+//			System.out.println(dao.selectByCommentID(1));
+//			
+//			//查詢全部
+////			System.out.println(dao.selectAll());
+//			
+//			tr.commit();
+//		} catch (Exception e) {
+//			tr.rollback();
+//			// TODO: handle exception
 //		}
-		
-		//刪除
-//		dao.deleteByCommentID(2);
-		
-		//修改
-//		Comment comment2 = new Comment(2, 2, 2, "aaa", Timestamp.valueOf("2023-04-30 00:00:00"), Timestamp.valueOf("2023-04-30 00:00:00"), 4);
-//		dao.updateByCommentID(comment2);
-	}
+//		
+//		
+//		//------------------------------------------------------------------
+//
+//		
+//		
+////		CommentDao dao = new CommentDaoImpl();
+//		// new byte[]{0, 1, 2, 3} 圖片
+//		//新增
+////		Comment comment1 = new Comment(2, 2, 2, "c", Timestamp.valueOf("2023-04-30 00:00:00"), Timestamp.valueOf("2023-04-30 00:00:00"), 4);
+////		dao.insert(comment1);
+//		
+//		//查詢ID
+////		System.out.println(dao.selectByCommentID(1));
+//		
+//		//查詢全部
+////		for (Comment comment : dao.selectAll()) {
+////			System.out.println(comment.getCommentID());
+////		}
+//		
+//		//刪除
+////		dao.deleteByCommentID(2);
+//		
+//		//修改
+////		Comment comment2 = new Comment(2, 2, 2, "aaa", Timestamp.valueOf("2023-04-30 00:00:00"), Timestamp.valueOf("2023-04-30 00:00:00"), 4);
+////		dao.updateByCommentID(comment2);
+//	}
 
 }

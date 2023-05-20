@@ -1,8 +1,8 @@
 package product.controller;
 
-import product.dao.ProductDao;
-import product.dao.ProductDaoImpl;
-import product.vo.Product;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -11,42 +11,37 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+import core.HibernateUtil;
+import product.dao.ProductDao;
+import product.dao.ProductDaoImpl;
+import product.vo.Product;
 
 @WebServlet("/productAdd")
 @MultipartConfig
-public class ProductInsertServlet2 extends HttpServlet {
+public class ProductInsertServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private ProductDao productDao = new ProductDaoImpl();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=utf-8");
+        response.setContentType("application/json;charset=utf-8");
         request.setCharacterEncoding("UTF-8");
+
+        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 
         String productClass = request.getParameter("productClass");
         String productName = request.getParameter("productName");
         Integer productPrice = parseIntegerParameter(request.getParameter("productPrice"));
         Integer productQuantity = parseIntegerParameter(request.getParameter("productQuantity"));
-        String productDetail = request.getParameter("productDetail");
-        Integer productBuyPerson = parseIntegerParameter(request.getParameter("productBuyPerson"));
-        String productDateString = request.getParameter("productDate");
         String productStatus = request.getParameter("productStatus");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        java.sql.Date productDateSql = null;
-        try {
-            java.util.Date productDateUtil = sdf.parse(productDateString);
-            productDateSql = new java.sql.Date(productDateUtil.getTime());
-        } catch (ParseException e) {
-            e.printStackTrace();
-            response.getWriter().write("失敗，日期解析錯誤");
-            return;
-        }
-
         // 處理圖片上傳
         Part imagePart = request.getPart("productImage");
         byte[] productImage = null;
@@ -54,25 +49,31 @@ public class ProductInsertServlet2 extends HttpServlet {
             InputStream imageInputStream = imagePart.getInputStream();
             productImage = convertInputStreamToByteArray(imageInputStream);
         }
+        String productDetail = request.getParameter("productDetail");
+
+      
 
         Product product = new Product();
         product.setProductClass(productClass);
         product.setProductName(productName);
         product.setProductPrice(productPrice);
         product.setProductQuantity(productQuantity);
+        product.setProductStatus(productStatus);
         product.setProductImage(productImage);
         product.setProductDetail(productDetail);
-        product.setProductBuyPerson(productBuyPerson);
-        product.setProductDate(productDateString);
-        product.setProductStatus(productStatus);
 
+        JsonObject jsonResponse = new JsonObject();
         if (productDao.insert(product) > 0) {
-            // 商品成功插入
-            response.getWriter().write("成功");
+            jsonResponse.addProperty("status", "success");
+            jsonResponse.addProperty("message", "成功");
         } else {
-            // 插入商品失敗
-            response.getWriter().write("失敗");
+            jsonResponse.addProperty("status", "failure");
+            jsonResponse.addProperty("message", "失敗");
         }
+
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(jsonResponse);
+        response.getWriter().write(jsonString);
     }
 
     private byte[] convertInputStreamToByteArray(InputStream inputStream) throws IOException {
@@ -102,6 +103,3 @@ public class ProductInsertServlet2 extends HttpServlet {
         doPost(req, res);
     }
 }
-
-
-	

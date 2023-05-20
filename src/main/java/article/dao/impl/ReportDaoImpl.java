@@ -158,62 +158,62 @@ public class ReportDaoImpl implements ReportDao, coreDao {
 //		return null;
 	}
 	
-	public static void main(String[] args) throws ClassNotFoundException {
-
-		SessionFactory sf=HibernateUtil.getSessionFactory();
-		Session session=sf.getCurrentSession();
-		Transaction tr=session.getTransaction();
-		ReportDao dao = new ReportDaoImpl();
-		try {
-			tr.begin();
-			
-			//新增
-//			Report report1 = new Report(2, 2, 2, "def", "1", "0");
-//			dao.insert(report1);
-			
-			//刪除ID
-//			dao.deleteByReportID(4);
-			
-			//修改
-//			Report report2 = new Report(3, 3, 3, "aaa", "0", "1");
-//			dao.updateByReportID(report2);
-			
-			//查詢ID
-			System.out.println(dao.selectByReportID(3));
-			
-			//查詢全部
-//			System.out.println(dao.selectAll());
-			
-			tr.commit();
-		} catch (Exception e) {
-			tr.rollback();
-			// TODO: handle exception
-		}
-		
-		
-		//------------------------------------------------------------------
-		
-		
+//	public static void main(String[] args) throws ClassNotFoundException {
+//
+//		SessionFactory sf=HibernateUtil.getSessionFactory();
+//		Session session=sf.getCurrentSession();
+//		Transaction tr=session.getTransaction();
 //		ReportDao dao = new ReportDaoImpl();
-
-		// new byte[]{0, 1, 2, 3} 圖片
-		//新增
-//		Report report1 = new Report(2, 2, 2, "def", "1", "0");
-//		dao.insert(report1);
-		
-		//查詢ID
-//		System.out.println(dao.selectByReportID(3));
-		
-		//查詢全部
-//		for (Report report : dao.selectAll()) {
-//			System.out.println(report.getReportID());
+//		try {
+//			tr.begin();
+//			
+//			//新增
+////			Report report1 = new Report(2, 2, 2, "def", "1", "0");
+////			dao.insert(report1);
+//			
+//			//刪除ID
+////			dao.deleteByReportID(4);
+//			
+//			//修改
+////			Report report2 = new Report(3, 3, 3, "aaa", "0", "1");
+////			dao.updateByReportID(report2);
+//			
+//			//查詢ID
+//			System.out.println(dao.selectByReportID(3));
+//			
+//			//查詢全部
+////			System.out.println(dao.selectAll());
+//			
+//			tr.commit();
+//		} catch (Exception e) {
+//			tr.rollback();
+//			// TODO: handle exception
 //		}
-		
-		//刪除
-//		dao.deleteByReportID(4);
-		
-		//修改
-//		Report report2 = new Report(3, 3, 3, "aaa", "0", "1");
-//		dao.updateByReportID(report2);
-	}
+//		
+//		
+//		//------------------------------------------------------------------
+//		
+//		
+////		ReportDao dao = new ReportDaoImpl();
+//
+//		// new byte[]{0, 1, 2, 3} 圖片
+//		//新增
+////		Report report1 = new Report(2, 2, 2, "def", "1", "0");
+////		dao.insert(report1);
+//		
+//		//查詢ID
+////		System.out.println(dao.selectByReportID(3));
+//		
+//		//查詢全部
+////		for (Report report : dao.selectAll()) {
+////			System.out.println(report.getReportID());
+////		}
+//		
+//		//刪除
+////		dao.deleteByReportID(4);
+//		
+//		//修改
+////		Report report2 = new Report(3, 3, 3, "aaa", "0", "1");
+////		dao.updateByReportID(report2);
+//	}
 }

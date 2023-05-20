@@ -1,6 +1,8 @@
 package product.controller;
 
 import com.google.gson.Gson;
+
+import core.HibernateUtil;
 import product.dao.ProductDao;
 import product.dao.ProductDaoImpl;
 import product.vo.Product;
@@ -10,6 +12,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +27,9 @@ public class ProGetAllServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		resp.setContentType("text/html; charset=utf-8");
+		
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();resp.setContentType("text/html; charset=utf-8");
 		ProductDao dao = new ProductDaoImpl();
 		List<Product> list = new ArrayList<Product>();
 		try {

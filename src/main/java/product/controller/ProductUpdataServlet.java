@@ -1,5 +1,11 @@
 package product.controller;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -7,14 +13,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+import core.HibernateUtil;
 import product.dao.ProductDao;
 import product.dao.ProductDaoImpl;
 import product.vo.Product;
@@ -27,29 +33,18 @@ public class ProductUpdataServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=utf-8");
+        response.setContentType("application/json;charset=utf-8");
         request.setCharacterEncoding("UTF-8");
+        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        Session session = sessionFactory.getCurrentSession();
 
-        Integer productId = parseIntegerParameter(request.getParameter("productId"));
-        String productClass = request.getParameter("productClass");
-        String productName = request.getParameter("productName");
-        Integer productPrice = parseIntegerParameter(request.getParameter("productPrice"));
-        Integer productQuantity = parseIntegerParameter(request.getParameter("productQuantity"));
-        String productDetail = request.getParameter("productDetail");
-        Integer productBuyPerson = parseIntegerParameter(request.getParameter("productBuyPerson"));
-        String productDateString = request.getParameter("productDate");
-        String productStatus = request.getParameter("productStatus");
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        java.sql.Date productDateSql = null;
-        try {
-            java.util.Date productDateUtil = sdf.parse(productDateString);
-            productDateSql = new java.sql.Date(productDateUtil.getTime());
-        } catch (ParseException e) {
-            e.printStackTrace();
-            response.getWriter().write("失敗，日期解析錯誤");
-            return;
-        }
+//        Integer productID = Integer.parseInt(readValue(request.getPart("productID")));
+        String productClass = readValue(request.getPart("productClass"));
+        String productName = readValue(request.getPart("productName"));
+        Integer productPrice = Integer.parseInt(readValue(request.getPart("productPrice")));
+        Integer productQuantity = Integer.parseInt(readValue(request.getPart("productQuantity")));
+        String productDetail = readValue(request.getPart("productDetail"));
+        String productStatus = readValue(request.getPart("productStatus"));
 
         // 處理圖片上傳
         Part imagePart = request.getPart("productImage");
@@ -60,30 +55,40 @@ public class ProductUpdataServlet extends HttpServlet {
         }
 
         Product product = new Product();
-//        product.setProductId(productId);
+//        product.setProductID(productID);
         product.setProductClass(productClass);
         product.setProductName(productName);
         product.setProductPrice(productPrice);
         product.setProductQuantity(productQuantity);
         product.setProductImage(productImage);
         product.setProductDetail(productDetail);
-        product.setProductBuyPerson(productBuyPerson);
-        product.setProductDate(productDateString);
         product.setProductStatus(productStatus);
-
+        JsonObject jsonResponse = new JsonObject();
         if (productDao.updateByProductID(product) > 0) {
-            // 商品成功更新
-            response.getWriter().write("更新成功");
+            jsonResponse.addProperty("status", "success");
+            jsonResponse.addProperty("message", "成功");
         } else {
-            // 更新商品失敗
-            response.getWriter().write("更新失敗");
+            jsonResponse.addProperty("status", "failure");
+            jsonResponse.addProperty("message", "失敗");
         }
-    }
+        
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(jsonResponse);
+        response.getWriter().write(jsonString);
+        
+        String successResponse = "{ \"message\": \"新增成功\" }";
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		response.getWriter().write(successResponse);
+
+	}
+    
+    
 
     private byte[] convertInputStreamToByteArray(InputStream inputStream) throws IOException {
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         int nRead;
-        byte[] data = new byte[5000000];
+        byte[] data = new byte[500000];
         while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
             buffer.write(data, 0, nRead);
         }
@@ -91,16 +96,16 @@ public class ProductUpdataServlet extends HttpServlet {
         return buffer.toByteArray();
     }
 
-    private Integer parseIntegerParameter(String parameter) {
-        if (parameter != null && !parameter.isEmpty()) {
-            try {
-                return Integer.parseInt(parameter);
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-            }
+    private String readValue(Part part) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(part.getInputStream(), "UTF-8"));
+        StringBuilder value = new StringBuilder();
+        char[] buffer = new char[1024];
+        for (int length = 0; (length = reader.read(buffer)) > 0;) {
+            value.append(buffer, 0, length);
         }
-        return null;
+        return value.toString();
     }
+    
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         doPost(request, response);

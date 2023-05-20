@@ -1,10 +1,11 @@
 package product.dao;
 
-import product.vo.Product;
-
 import java.util.List;
 
+import org.hibernate.Session;
+
 import core.CoreDao;
+import product.vo.Product;
 
 
 public interface ProductDao extends CoreDao {
@@ -14,11 +15,11 @@ public interface ProductDao extends CoreDao {
 	
 	int deleteByProductID(Integer productID);
 	
-	byte[] loadingImage(Integer productID);
+	byte[] loadingImage(Integer productID, Session session);
 
 	List<Product> selectByProductClass(String productClass);
 	
-	Product selectByProductID(Integer productID);
+	List<Product> selectByProductID(Integer productID);
 
 	List<Product> selectByProductName(String productName);
 

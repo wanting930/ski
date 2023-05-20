@@ -140,62 +140,62 @@ public class ArticleImageDaoImpl implements ArticleImageDao, coreDao{
 //		return null;
 	}
 	
-	public static void main(String[] args) throws ClassNotFoundException {
-
-		byte[] img = new byte[]{0, 1, 2, 3};
-		SessionFactory sf=HibernateUtil.getSessionFactory();
-		Session session=sf.getCurrentSession();
-		Transaction tr=session.getTransaction();
-		ArticleImageDao dao = new ArticleImageDaoImpl();
-		try {
-			tr.begin();
-			
-			//新增
-//			ArticleImage articleImage1 = new ArticleImage(null, 2, img);
-//			dao.insert(articleImage1);
-			
-			//刪除ID
-//			dao.deleteByArticleImageID(4);
-			
-			//修改
-//			ArticleImage articleImage2 = new ArticleImage(2, 3, img);
-//			dao.updateByArticleImageID(articleImage2);
-			
-			//查詢ID
-			System.out.println(dao.selectByArticleImageID(2));
-			
-			//查詢全部
-//			System.out.println(dao.selectAll());
-			
-			tr.commit();
-		} catch (Exception e) {
-			tr.rollback();
-			// TODO: handle exception
-		}
-		
-		
-		//------------------------------------------------------------------
-		//新增
-		
-//		ArticleDao dao = new ArticleDaoImpl();
-//		ArticleImage articleImage1 = new ArticleImage(2, 2, img);
-//		dao.insert(articleImage1);
-		
-		//查詢ID
-//		System.out.println(dao.selectByArticleImageID(1));
-		
-		//查詢全部
-//		for (ArticleImage articleImage : dao.selectAll()) {
-//			System.out.println(articleImage.getArticleImageID());
+//	public static void main(String[] args) throws ClassNotFoundException {
+//
+//		byte[] img = new byte[]{0, 1, 2, 3};
+//		SessionFactory sf=HibernateUtil.getSessionFactory();
+//		Session session=sf.getCurrentSession();
+//		Transaction tr=session.getTransaction();
+//		ArticleImageDao dao = new ArticleImageDaoImpl();
+//		try {
+//			tr.begin();
+//			
+//			//新增
+////			ArticleImage articleImage1 = new ArticleImage(null, 2, img);
+////			dao.insert(articleImage1);
+//			
+//			//刪除ID
+////			dao.deleteByArticleImageID(4);
+//			
+//			//修改
+////			ArticleImage articleImage2 = new ArticleImage(2, 3, img);
+////			dao.updateByArticleImageID(articleImage2);
+//			
+//			//查詢ID
+//			System.out.println(dao.selectByArticleImageID(2));
+//			
+//			//查詢全部
+////			System.out.println(dao.selectAll());
+//			
+//			tr.commit();
+//		} catch (Exception e) {
+//			tr.rollback();
+//			// TODO: handle exception
 //		}
-		
-		//刪除
-//		dao.deleteByArticleImageID(2);
-		
-		//修改
-//		ArticleImage articleImage2 = new ArticleImage(2, 3, img);
-//		dao.updateByArticleImageID(articleImage2);
-	}
+//		
+//		
+//		//------------------------------------------------------------------
+//		//新增
+//		
+////		ArticleDao dao = new ArticleDaoImpl();
+////		ArticleImage articleImage1 = new ArticleImage(2, 2, img);
+////		dao.insert(articleImage1);
+//		
+//		//查詢ID
+////		System.out.println(dao.selectByArticleImageID(1));
+//		
+//		//查詢全部
+////		for (ArticleImage articleImage : dao.selectAll()) {
+////			System.out.println(articleImage.getArticleImageID());
+////		}
+//		
+//		//刪除
+////		dao.deleteByArticleImageID(2);
+//		
+//		//修改
+////		ArticleImage articleImage2 = new ArticleImage(2, 3, img);
+////		dao.updateByArticleImageID(articleImage2);
+//	}
 	
 	
 

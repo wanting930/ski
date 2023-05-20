@@ -25,14 +25,12 @@ public class ProductDeleteServlet extends HttpServlet {
 
 		// 調用ProductDaoImpl中的deleteByProductID方法刪除產品
 		int rowsDeleted = productDao.deleteByProductID(productID);
+		
+		String successResponse = "{ \"message\": \"刪除成功\" }";
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		response.getWriter().write(successResponse);
 
-		if (rowsDeleted > 0) {
-			// 刪除成功
-			response.getWriter().println("刪除成功");
-		} else {
-			// 刪除失敗
-			response.getWriter().println("刪除失敗");
-		}
 	}
 
 

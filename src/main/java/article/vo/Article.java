@@ -20,7 +20,7 @@ public class Article implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer articleID;
 	private Integer userID;
-	private String articleType;
+	private Integer articleTypeID;
 	private String articleTitle;
 	private String articleContent;
 	private java.sql.Timestamp articleDateTime;
@@ -42,11 +42,11 @@ public class Article implements Serializable{
 	public void setUserID(Integer userID) {
 		this.userID = userID;
 	}
-	public String getArticleType() {
-		return articleType;
+	public Integer getArticleTypeID() {
+		return articleTypeID;
 	}
-	public void setArticleType(String articleType) {
-		this.articleType = articleType;
+	public void setArticleType(Integer articleTypeID) {
+		this.articleTypeID = articleTypeID;
 	}
 	public String getArticleTitle() {
 		return articleTitle;
@@ -86,12 +86,12 @@ public class Article implements Serializable{
 	}
 	
 	//source->Fields
-	public Article(Integer articleID, Integer userID, String articleType, String articleTitle, String articleContent,
+	public Article(Integer articleID, Integer userID, Integer articleTypeID, String articleTitle, String articleContent,
 			java.sql.Timestamp articleDateTime, java.sql.Timestamp articleModified, Integer articleLike, String articleStatus) {
 		super();
 		this.articleID = articleID;
 		this.userID = userID;
-		this.articleType = articleType;
+		this.articleTypeID = articleTypeID;
 		this.articleTitle = articleTitle;
 		this.articleContent = articleContent;
 		this.articleDateTime = articleDateTime;
@@ -102,7 +102,7 @@ public class Article implements Serializable{
 	//source->toString
 	@Override
 	public String toString() {
-		return "Article [articleID=" + articleID + ", userID=" + userID + ", articleType=" + articleType
+		return "Article [articleID=" + articleID + ", userID=" + userID + ", articleTypeID=" + articleTypeID
 				+ ", articleTitle=" + articleTitle + ", articleContent=" + articleContent + ", articleDateTime="
 				+ articleDateTime + ", articleModified=" + articleModified + ", articleLike=" + articleLike
 				+ ", articleStatus=" + articleStatus + "]";

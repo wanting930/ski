@@ -23,21 +23,17 @@ public class ProductSelectByProductName extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=utf-8");
         request.setCharacterEncoding("UTF-8");
+        
 
-        // 获取要查询的商品名称
         String productName = request.getParameter("productName");
 
-        // 创建 ProductDaoImpl 对象
         ProductDaoImpl productDaoImpl = new ProductDaoImpl();
 
-        // 调用 ProductDaoImpl 中的 selectByProductName 方法查询产品
         List<Product> productList = productDaoImpl.selectByProductName(productName);
 
-        // 将结果转换为 JSON 字符串
         Gson gson = new Gson();
         String json = gson.toJson(productList);
 
-        // 设置响应的内容类型和字符编码
         response.setContentType("application/json;charset=utf-8");
 
         // 将 JSON 字符串写入响应

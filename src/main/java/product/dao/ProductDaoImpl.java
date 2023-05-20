@@ -51,13 +51,32 @@ public class ProductDaoImpl implements ProductDao {
 	    return -1;
 	}
 	
-    public byte[] loadingImage(Integer productID) {
+	public byte[] loadingImage(Integer productID, Session session) {
+        if (productID == null) {
+            throw new IllegalArgumentException("Product ID cannot be null");
+        }
+        
         String hql = "SELECT p.productImage FROM Product p WHERE p.productID = :productID";
-        Session session = getSession();
-        return (byte[]) session.createQuery(hql)
-                    .setParameter("productID", productID)
-                    .uniqueResult();
+        byte[] imageData = null;
+        
+        try {
+            imageData = (byte[]) session.createQuery(hql)
+                .setParameter("productID", productID)
+                .uniqueResult();
+        } catch (Exception e) {
+            e.printStackTrace(); // 或者使用更合适的方式记录错误，比如日志记录器。
+        }
+        
+        if (imageData == null || imageData.length == 0) {
+            throw new IllegalStateException("No image data found for the product ID " + productID);
+        }
+        
+        return imageData;
     }
+
+	
+
+
 
 	public int updateByProductID(Product product) {
 	    try {
@@ -71,16 +90,18 @@ public class ProductDaoImpl implements ProductDao {
 	    return -1;
 	}
 
-	public  Product selectByProductID(Integer productID) {
-		try {
-			Session session = getSession();
-			Product product = session.get(Product.class, productID);
-			return product;
-		} catch (Exception e) {
-			System.out.println("selectById方法發生錯誤：" + e.getMessage());
-			e.printStackTrace();
-		}
-		return null;
+	public List<Product> selectByProductID(Integer productID) {
+	    try {
+	        Session session = getSession();
+	        Query<Product> query = session.createQuery("FROM Product WHERE productID = :productID", Product.class);
+	        query.setParameter("productID", productID);
+	        List<Product> productList = query.getResultList();
+	        return productList;
+	    } catch (Exception e) {
+	        System.out.println("selectByProductID方法发生错误：" + e.getMessage());
+	        e.printStackTrace();
+	    }
+	    return null;
 	}
 	
 
@@ -122,14 +143,14 @@ public class ProductDaoImpl implements ProductDao {
 	    try {
 	        Session session = getSession();
 	        String hql = "FROM Product";
-	        List<Product> list = session.createQuery(hql, Product.class)
-	                .getResultList();
-	        return list;
+	        Query<Product> query = session.createQuery(hql, Product.class); // import org.hibernate.query.Query;
+			List<Product> list = query.getResultList();
+			return list;
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	        System.out.println("selectAll方法發生錯誤：" + e.getMessage());
 	    }
-	    return new ArrayList<>();
+	    return null;
 	}
 //=================main方法測試=================
 //	public static void main(String[] args) {

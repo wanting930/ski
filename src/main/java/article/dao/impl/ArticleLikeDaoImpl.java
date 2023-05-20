@@ -147,61 +147,61 @@ public class ArticleLikeDaoImpl implements ArticleLikeDao, coreDao{
 //		return null;
 	}
 	
-	public static void main(String[] args) throws ClassNotFoundException {
-
-		SessionFactory sf=HibernateUtil.getSessionFactory();
-		Session session=sf.getCurrentSession();
-		Transaction tr=session.getTransaction();
-		ArticleLikeDao dao = new ArticleLikeDaoImpl();
-		try {
-			tr.begin();
-			
-			//新增
-//			ArticleLike articleLike1 = new ArticleLike(2, 2, 2, "0");
-//			dao.insert(articleLike1);
-			
-			//刪除ID
-//			dao.deleteByArticleLikeID(4);
-			
-			//修改
-//			ArticleLike articleLike2 = new ArticleLike(2, 2, 2, "1");
-//			dao.updateByArticleLikeID(articleLike2);
-			
-			//查詢ID
-			System.out.println(dao.selectByArticleLikeID(2));
-			
-			//查詢全部
-//			System.out.println(dao.selectAll());
-			
-			tr.commit();
-		} catch (Exception e) {
-			tr.rollback();
-			// TODO: handle exception
-		}
-		
-		
-		//------------------------------------------------------------------
-
-//		ArticleDao dao = new ArticleDaoImpl();
-		// new byte[]{0, 1, 2, 3} 圖片
-		//新增
-//		ArticleLike articleLike1 = new ArticleLike(2, 2, 2, "0");
-//		dao.insert(articleLike1);
-		
-		//查詢ID
-//		System.out.println(dao.selectByArticleLikeID(1));
-		
-		//查詢全部
-//		for (ArticleLike articleLike : dao.selectAll()) {
-//			System.out.println(articleLike.getArticleLikeID());
+//	public static void main(String[] args) throws ClassNotFoundException {
+//
+//		SessionFactory sf=HibernateUtil.getSessionFactory();
+//		Session session=sf.getCurrentSession();
+//		Transaction tr=session.getTransaction();
+//		ArticleLikeDao dao = new ArticleLikeDaoImpl();
+//		try {
+//			tr.begin();
+//			
+//			//新增
+////			ArticleLike articleLike1 = new ArticleLike(2, 2, 2, "0");
+////			dao.insert(articleLike1);
+//			
+//			//刪除ID
+////			dao.deleteByArticleLikeID(4);
+//			
+//			//修改
+////			ArticleLike articleLike2 = new ArticleLike(2, 2, 2, "1");
+////			dao.updateByArticleLikeID(articleLike2);
+//			
+//			//查詢ID
+//			System.out.println(dao.selectByArticleLikeID(2));
+//			
+//			//查詢全部
+////			System.out.println(dao.selectAll());
+//			
+//			tr.commit();
+//		} catch (Exception e) {
+//			tr.rollback();
+//			// TODO: handle exception
 //		}
-		
-		//刪除
-//		dao.deleteByArticleLikeID(2);
-		
-		//修改
-//		ArticleLike articleLike2 = new ArticleLike(2, 2, 2, "1");
-//		dao.updateByArticleLikeID(articleLike2);
-	}
+//		
+//		
+//		//------------------------------------------------------------------
+//
+////		ArticleDao dao = new ArticleDaoImpl();
+//		// new byte[]{0, 1, 2, 3} 圖片
+//		//新增
+////		ArticleLike articleLike1 = new ArticleLike(2, 2, 2, "0");
+////		dao.insert(articleLike1);
+//		
+//		//查詢ID
+////		System.out.println(dao.selectByArticleLikeID(1));
+//		
+//		//查詢全部
+////		for (ArticleLike articleLike : dao.selectAll()) {
+////			System.out.println(articleLike.getArticleLikeID());
+////		}
+//		
+//		//刪除
+////		dao.deleteByArticleLikeID(2);
+//		
+//		//修改
+////		ArticleLike articleLike2 = new ArticleLike(2, 2, 2, "1");
+////		dao.updateByArticleLikeID(articleLike2);
+//	}
 
 }
