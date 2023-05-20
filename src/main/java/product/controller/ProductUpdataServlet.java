@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import javax.json.Json;
-import javax.json.JsonObjectBuilder;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -18,6 +16,9 @@ import javax.servlet.http.Part;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import core.HibernateUtil;
 import product.dao.ProductDao;
@@ -62,17 +63,27 @@ public class ProductUpdataServlet extends HttpServlet {
         product.setProductImage(productImage);
         product.setProductDetail(productDetail);
         product.setProductStatus(productStatus);
-
-        JsonObjectBuilder builder = Json.createObjectBuilder();
+        JsonObject jsonResponse = new JsonObject();
         if (productDao.updateByProductID(product) > 0) {
-            // 商品成功更新
-            builder.add("message", "更新成功");
+            jsonResponse.addProperty("status", "success");
+            jsonResponse.addProperty("message", "成功");
         } else {
-            // 更新商品失敗
-            builder.add("message", "更新失敗");
+            jsonResponse.addProperty("status", "failure");
+            jsonResponse.addProperty("message", "失敗");
         }
-        response.getWriter().write(builder.build().toString());
-    }
+        
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(jsonResponse);
+        response.getWriter().write(jsonString);
+        
+        String successResponse = "{ \"message\": \"新增成功\" }";
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		response.getWriter().write(successResponse);
+
+	}
+    
+    
 
     private byte[] convertInputStreamToByteArray(InputStream inputStream) throws IOException {
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
