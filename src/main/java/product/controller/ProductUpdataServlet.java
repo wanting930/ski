@@ -38,7 +38,7 @@ public class ProductUpdataServlet extends HttpServlet {
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session session = sessionFactory.getCurrentSession();
 
-//        Integer productID = Integer.parseInt(readValue(request.getPart("productID")));
+        Integer productID = Integer.parseInt(readValue(request.getPart("productID")));
         String productClass = readValue(request.getPart("productClass"));
         String productName = readValue(request.getPart("productName"));
         Integer productPrice = Integer.parseInt(readValue(request.getPart("productPrice")));
@@ -48,6 +48,7 @@ public class ProductUpdataServlet extends HttpServlet {
 
         // 處理圖片上傳
         Part imagePart = request.getPart("productImage");
+        System.out.println(imagePart);
         byte[] productImage = null;
         if (imagePart != null) {
             InputStream imageInputStream = imagePart.getInputStream();
@@ -55,7 +56,7 @@ public class ProductUpdataServlet extends HttpServlet {
         }
 
         Product product = new Product();
-//        product.setProductID(productID);
+        product.setProductID(productID);
         product.setProductClass(productClass);
         product.setProductName(productName);
         product.setProductPrice(productPrice);
@@ -71,15 +72,11 @@ public class ProductUpdataServlet extends HttpServlet {
             jsonResponse.addProperty("status", "failure");
             jsonResponse.addProperty("message", "失敗");
         }
-        
+        System.out.println(productImage);
         Gson gson = new Gson();
+        jsonResponse.addProperty("message", "新增成功");
         String jsonString = gson.toJson(jsonResponse);
         response.getWriter().write(jsonString);
-        
-        String successResponse = "{ \"message\": \"新增成功\" }";
-		response.setContentType("application/json");
-		response.setCharacterEncoding("UTF-8");
-		response.getWriter().write(successResponse);
 
 	}
     

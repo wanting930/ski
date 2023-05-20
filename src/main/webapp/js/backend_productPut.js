@@ -50,6 +50,10 @@ function renderProducts(products) {
     const base64Image = btoa(new Uint8Array(product.productImage).reduce((data, byte) => data + String.fromCharCode(byte), ''));
     const imageSrc = `data:image/png;base64,${base64Image}`;
 
+    // 將日期格式轉換為 yyyy-MM-dd 格式
+    const date = new Date(product.productDate);
+    const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+
     row.innerHTML = `
       <th scope="row">${product.productID}</th>
       <td class="col-2">
@@ -59,7 +63,7 @@ function renderProducts(products) {
       <td>${product.productName}</td>
       <td>${product.productStatus}</td>
       <td>${product.productDetail}</td>
-      <td>${product.productDate}</td>
+      <td>${formattedDate}</td>
       <td></td>
       <td></td>
     `;

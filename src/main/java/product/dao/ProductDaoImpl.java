@@ -1,21 +1,11 @@
 package product.dao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.naming.Context;
-import javax.sql.DataSource;
 
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
-import member.vo.Member;
 import product.vo.Product;
 
 public class ProductDaoImpl implements ProductDao {
@@ -74,14 +64,15 @@ public class ProductDaoImpl implements ProductDao {
         return imageData;
     }
 
-	
-
-
 
 	public int updateByProductID(Product product) {
 	    try {
 	        Session session = getSession();
-	        session.update(product);
+	        if (product.getProductImage() == null) {
+	            Product currentProduct = session.get(Product.class, product.getProductID());
+	            product.setProductImage(currentProduct.getProductImage());
+	        }
+	        session.merge(product);
 	        return 1;
 	    } catch (Exception e) {
 	        e.printStackTrace();
@@ -89,6 +80,7 @@ public class ProductDaoImpl implements ProductDao {
 	    }
 	    return -1;
 	}
+
 
 	public List<Product> selectByProductID(Integer productID) {
 	    try {
