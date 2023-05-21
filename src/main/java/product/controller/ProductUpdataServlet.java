@@ -46,14 +46,9 @@ public class ProductUpdataServlet extends HttpServlet {
         Integer productQuantity = Integer.parseInt(readValue(request.getPart("productQuantity")));
         String productDetail = readValue(request.getPart("productDetail"));
         String productStatus = readValue(request.getPart("productStatus"));
-
-        // 處理圖片上傳
-        Part imagePart = request.getPart("productImage");
-        byte[] productImage = null;
-        if (imagePart != null && imagePart.getSize() > 0) { // check if the imagePart has data
-            InputStream imageInputStream = imagePart.getInputStream();
-            productImage = convertInputStreamToByteArray(imageInputStream);
-        }
+      
+      
+       
 
         Product product = new Product();
         product.setProductID(productID);
@@ -61,11 +56,17 @@ public class ProductUpdataServlet extends HttpServlet {
         product.setProductName(productName);
         product.setProductPrice(productPrice);
         product.setProductQuantity(productQuantity);
-        if (productImage != null) { // only set the image if it's not null
-            product.setProductImage(productImage);
-        }
         product.setProductDetail(productDetail);
         product.setProductStatus(productStatus);
+        
+        Part imagePart = request.getPart("productImage");
+        byte[] productImage = null;
+        if (imagePart != null && imagePart.getSize() > 0) { // check if the imagePart has data
+            InputStream imageInputStream = imagePart.getInputStream();
+            productImage = convertInputStreamToByteArray(imageInputStream);
+            if (productImage != null) { // only set the image if it's not null
+                product.setProductImage(productImage);
+        
         JsonObject jsonResponse = new JsonObject();
         if (productDao.updateByProductID(product) > 0) {
             jsonResponse.addProperty("status", "success");
@@ -74,13 +75,14 @@ public class ProductUpdataServlet extends HttpServlet {
             jsonResponse.addProperty("status", "failure");
             jsonResponse.addProperty("message", "失敗");
         }
-        System.out.println(productImage);
         Gson gson = new Gson();
         jsonResponse.addProperty("message", "新增成功");
         String jsonString = gson.toJson(jsonResponse);
         response.getWriter().write(jsonString);
 
 	}
+        }
+    }
     
     
 
