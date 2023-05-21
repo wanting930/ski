@@ -173,8 +173,6 @@ $(document).ready(function() {
         }
     });
 });
-//按鈕添加點擊事件監聽器
-document.getElementById("productImage").addEventListener("change", a);
 
 
 

@@ -21,7 +21,7 @@ function createProductElement(product) {
               <div class="productPrice">${product.productPrice}元</div>
               </a>
           </div>
-          <div class="btn btn-info addcar" onclick="addcar" >加入購物車</div>
+          <div class="btn btn-info addcar" >加入購物車</div>
           </div>
       `;
 

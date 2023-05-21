@@ -35,6 +35,7 @@ public class ProductUpdataServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("application/json;charset=utf-8");
         request.setCharacterEncoding("UTF-8");
+        System.out.println(request.toString());
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session session = sessionFactory.getCurrentSession();
 
