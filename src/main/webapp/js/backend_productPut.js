@@ -62,14 +62,13 @@ function renderProducts(products) {
       <td>${product.productClass}</td>
       <td>${product.productName}</td>
       <td>${product.productStatus}</td>
-      <td>${product.productDetail}</td>
       <td>${formattedDate}</td>
       <td></td>
       <td></td>
     `;
 
-    row.querySelector('td:nth-child(8)').appendChild(editButton);
-    row.querySelector('td:nth-child(9)').appendChild(deleteButton);
+    row.querySelector('td:nth-child(7)').appendChild(editButton);
+    row.querySelector('td:nth-child(8').appendChild(deleteButton);
 
     tableBody.appendChild(row);
   });
