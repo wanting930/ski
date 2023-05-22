@@ -11,7 +11,7 @@ import course.dao.impl.CourseDaoImpl;
 import course.entity.Course;
 
 
-//@WebServlet("/course")
+@WebServlet("/course_GBN")
 public class GetCourseByNameServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
@@ -20,9 +20,10 @@ public class GetCourseByNameServlet extends HttpServlet {
 			
 			CourseDaoImpl dao = new CourseDaoImpl();
 //			PojoToJson(response, dao.getAllCourses());
-			List<Course> list = dao.getAllCourses();
-			for (Object e : list) {
-				System.out.println(e);
+			List<Course> list = dao.getCourseByCourseName("z");
+			for (Course e : list) {
+				System.out.println(e.getCourseID());
+				System.out.println(e.getCourseName());
 			}
 			return;
 			

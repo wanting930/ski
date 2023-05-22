@@ -18,9 +18,16 @@ public interface CourseDao extends CoreDao{
 	
     Course getCourseByCourseId(Integer courseId) ;
     
+    List<Course> getCourseByCourseName(String courseName) ;
+    
+//    include level & skill
+    List<Course> getCourseByTag(String skill, String level);
+    
     List<Course> getAllCourses();
     
-    Course updateByCourseId(Course course) ;
+    int updateCourse(Course course) ;
+    
+//    int updateCourseStatus(Integer courseId) ;
     
     int deleteByCourseId(Integer courseId) ;
 }

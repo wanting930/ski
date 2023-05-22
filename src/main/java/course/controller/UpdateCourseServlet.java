@@ -9,21 +9,46 @@ import javax.servlet.http.HttpServletResponse;
 
 import course.dao.impl.CourseDaoImpl;
 import course.entity.Course;
+import product.vo.Product;
 
 
-//@WebServlet("/course")
-public class UpdateCourseByIdServlet extends HttpServlet {
+@WebServlet("/course_UD")
+public class UpdateCourseServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) {
 			
 			CourseDaoImpl dao = new CourseDaoImpl();
-//			PojoToJson(response, dao.getAllCourses());
-			List<Course> list = dao.getAllCourses();
-			for (Object e : list) {
-				System.out.println(e);
-			}
+//			Integer productID = Integer.parseInt(readValue(request.getPart("productID")));
+//	        String productClass = readValue(request.getPart("productClass"));
+//	        String productName = readValue(request.getPart("productName"));
+//	        Integer productPrice = Integer.parseInt(readValue(request.getPart("productPrice")));
+//	        Integer productQuantity = Integer.parseInt(readValue(request.getPart("productQuantity")));
+//	        String productDetail = readValue(request.getPart("productDetail"));
+//	        String productStatus = readValue(request.getPart("productStatus"));
+			
+			Course course = new Course();
+			
+			course.setCourseID(2);
+			course.setCourseName("matics2");
+			course.setCourseIntroduce("Introduction to calculus");
+			course.setCourseMax(30);
+			course.setCourseMin(10);
+			course.setCoursePerson(15);
+			course.setCoursePrice(99.99);
+			course.setCoursePhoto(new byte[]{/* course photo byte data */});
+			course.setLevel("1");
+			course.setCoachID(101);
+			course.setSkill("0");
+			course.setPointID(123);
+			course.setCourseDate("2023-06-01");
+			course.setStartDate("2023-06-10");
+			course.setEndDate("2023-08-20");
+			course.setCourseStatus("Active");
+			
+			int resultarg = dao.updateCourse(course);
+//			js轉物件後丟回，須個別屬性設定嗎?
 			return;
 			
 			

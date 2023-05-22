@@ -9,11 +9,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+
 import course.dao.impl.CourseDaoImpl;
 import course.entity.Course;
 
 
-@WebServlet("/course")
+@WebServlet("/course_GA")
 public class GetAllCourseServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
@@ -23,44 +25,18 @@ public class GetAllCourseServlet extends HttpServlet {
 			CourseDaoImpl dao = new CourseDaoImpl();
 //			PojoToJson(response, dao.getAllCourses());
 			List<Course> list = dao.getAllCourses();
-			for (Object e : list) {
-				System.out.println(e);
-			}
+//			for (Course e : list) {
+//				System.out.println(e.getCourseID());
+//				System.out.println(e.getCourseName());
+//			}
 			
-			response.getWriter().print("Hello");
+//			response.getWriter().print("Hello");
 			
-		//		Member member = json2Pojo(request, Member.class);
-//		if (member == null) {
-//			member = new Member();
-//			member.setMessage("無會員資訊");
-//			member.setSuccessful(false);
-//			writePojo2Json(response, member);
-//			return;
-//		}
-		
-//		member = SERVICE.register(member);
-//		writePojo2Json(response, member);
+			Gson gson = new Gson();
+			String jsonStr = gson.toJson(list);
+			response.getWriter().write(jsonStr);
+//			return PojoToJson(response, dao.getAllCourses());
 
-//	 @Override
-//	    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//	        // Retrieve request parameters
-//	        String parameter1 = request.getParameter("parameter1");
-//	        String parameter2 = request.getParameter("parameter2");
-//
-//	        // Process the request parameters
-//	        String result = processRequest(parameter1, parameter2);
-//
-//	        // Set the response content type
-//	        response.setContentType("text/plain");
-//
-//	        // Write the response content
-//	        response.getWriter().write(result);
-//	    }
-//
-//	    private String processRequest(String param1, String param2) {
-//	        // Process the request and generate a response
-//	        // This is just a placeholder implementation
-//	        return "Result: " + param1 + " - " + param2;
 
 	
 	}

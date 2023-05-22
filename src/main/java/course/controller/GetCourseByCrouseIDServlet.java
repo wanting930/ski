@@ -1,32 +1,31 @@
 package course.controller;
 
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import course.dao.impl.CourseDaoImpl;
+import course.entity.Course;
 
 
-@WebServlet("/course_DL")
-public class DeleteCourseByIDServlet extends HttpServlet {
+@WebServlet("/course_GBI")
+public class GetCourseByCrouseIDServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) {
-//			Integer CourseID = Integer.parseInt(request.getParameter("CourseID"));
+			
 			CourseDaoImpl dao = new CourseDaoImpl();
 //			PojoToJson(response, dao.getAllCourses());
-			int result = dao.deleteByCourseId(2);
+			Course course = dao.getCourseByCourseId(3);
+
+				System.out.println(course.getCourseID());
+				System.out.println(course.getCourseName());
 			
-//			if (result > 0) {
-//				// 刪除成功
-//				response.getWriter().println("刪除成功");
-//			} else {
-//				// 刪除失敗
-//				response.getWriter().println("刪除失敗");
-//			}
-			return ;					
+			return;			
+	
 	}
 }
 
