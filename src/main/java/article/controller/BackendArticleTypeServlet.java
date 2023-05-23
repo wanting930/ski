@@ -154,17 +154,21 @@ public class BackendArticleTypeServlet extends HttpServlet{
 	private String searchID(HttpServletRequest req,HttpServletResponse res ,Integer type) throws IOException {
 		res.setContentType("text/html; charset=utf-8");
 		ArticleTypeDao dao = new ArticleTypeDaoImpl();
+		ArticleType articleType5 = null; // 新增物件
 		try {
 			Integer articleType4 = Integer.parseInt(req.getParameter("articleTypeID"));
-			dao.selectByArticleTypeID(articleType4);
+			articleType5 = dao.selectByArticleTypeID(articleType4); // 將結果存到物件
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		Gson gson = new Gson();
-		String jsonStr = gson.toJson(dao);
+		String jsonStr = gson.toJson(articleType5); // 將儲存到的物件轉成json
+		res.setContentType("application/json");
+		res.setCharacterEncoding("UTF-8");
 		res.getWriter().write(jsonStr);
 		System.out.println("success");
 		return jsonStr;
+		
 	}
 	
 	// 搜尋內容

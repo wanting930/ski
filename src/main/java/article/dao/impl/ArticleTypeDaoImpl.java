@@ -49,14 +49,11 @@ public class ArticleTypeDaoImpl implements ArticleTypeDao {
 	
 	@Override
 	public List<ArticleType> selectByArticleTypeContent(String articleTypeContent) {
-//		String hqlQuery = "FROM ArticleType WHERE articleTypeContent = "+articleTypeContent;
-		String hqlQuery = "FROM ArticleType WHERE articleTypeContent = :content";
+		String hqlQuery = "FROM ArticleType WHERE articleTypeContent LIKE :content";
 	    Query<ArticleType> query = getSession().createQuery(hqlQuery, ArticleType.class);
-	    query.setParameter("content", articleTypeContent);
+	    query.setParameter("content","%"+ articleTypeContent+"%");
 	    List<ArticleType> list = query.getResultList();
 	    return list;
-//		ArticleType articleType = getSession().createNativeQuery("FROM ArticleType WHERE articleTypeContent = "+articleTypeContent).getSingleResult();
-//	    return articleType;
 	}
 	
 	@Override
@@ -97,7 +94,7 @@ public class ArticleTypeDaoImpl implements ArticleTypeDao {
 //			dao.updateByArticleTypeID(articleType2);
 			
 			//查詢ID
-			System.out.println(dao.selectByArticleTypeID(1));
+			System.out.println(dao.selectByArticleTypeID(2));
 			
 			//查詢內容
 //			for(ArticleType articleType: dao.selectByArticleTypeContent("ewead")) {

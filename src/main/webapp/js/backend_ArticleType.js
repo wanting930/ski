@@ -268,17 +268,17 @@ $("button.task_search").on("click", function () {
         if (!$(this).hasClass("-disabled")) { // 如果新增按鈕的class沒有"-disabled"就執行
             let form_data = {}
             if (!(isNaN(parseInt(task_name_search)))) {
-                console.log('輸入為數字');
+                // console.log('輸入為數字');
                 form_data = { // 將輸入的文字送入資料庫
                     "articleTypeID": task_name_search,
-                    //"articleTypeContent": articleTypeContent,
+                    "articleTypeContent": articleTypeContent,
                     "action": "searchIDAndContent",
                     "type": "Number"
                 }
             } else {
-                console.log('輸入為字串');
+                // console.log('輸入為字串');
                 form_data = { // 將輸入的文字送入資料庫
-                    //"articleTypeID": articleTypeID,
+                    "articleTypeID": articleTypeID,
                     "articleTypeContent": task_name_search,
                     "action": "searchIDAndContent",
                     "type": "String"
@@ -294,18 +294,15 @@ $("button.task_search").on("click", function () {
                 },
                 success: function (data) {
                     console.log("搜尋成功");
-                    console.log(data);
+                    // console.log(data);
                     $("#type > table > tbody").find("tr").remove(); // 刪除原網頁表格
                     if (!(isNaN(parseInt(task_name_search)))) {
 
                         console.log('輸入為數字');
                         let list_html = "";
-                        let articleTypeID = form_data.articleTypeID;
-                        let articleTypeContent = form_data.articleTypeContent;
-
                         list_html += `<tr class="tr">`;
-                        list_html += `<td><p class="id">${articleTypeID}</p></td>`;
-                        list_html += `<td> <p class="para">${articleTypeContent}</p> <input type="text" class="task_name_update -none" value="${articleTypeContent}"></td>`;
+                        list_html += `<td><p class="id">${data.articleTypeID}</p></td>`;
+                        list_html += `<td> <p class="para">${data.articleTypeContent}</p> <input type="text" class="task_name_update -none" value="${articleTypeContent}"></td>`;
                         list_html += `<td> <button class="btn_update">修改</button><button class="btn_delete -none">刪除</button>
 										<button class="btn_cancel -none">取消</button></td>`;
                         list_html += "</tr>"
