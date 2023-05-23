@@ -3,8 +3,9 @@ package article.dao; //把impl刪掉
 import java.util.List;
 
 import article.vo.Article;
+import core.CoreDao;
 
-public interface ArticleDao {
+public interface ArticleDao extends CoreDao{
 
 	int insert(Article article);
 

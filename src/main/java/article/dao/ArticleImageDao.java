@@ -3,8 +3,9 @@ package article.dao;
 import java.util.List;
 
 import article.vo.ArticleImage;
+import core.CoreDao;
 
-public interface ArticleImageDao {
+public interface ArticleImageDao extends CoreDao{
 
 	int insert(ArticleImage articleImage);
 

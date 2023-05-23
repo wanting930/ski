@@ -3,8 +3,9 @@ package article.dao;
 import java.util.List;
 
 import article.vo.Report;
+import core.CoreDao;
 
-public interface ReportDao {
+public interface ReportDao extends CoreDao{
 
 	int insert(Report report);
 

@@ -2,16 +2,11 @@ package article.dao.impl;
 
 import java.util.List;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 
 import article.dao.CommentDao;
 import article.vo.Comment;
-import article.core.HibernateUtil;
-import article.core.coreDao;
 
-public class CommentDaoImpl implements CommentDao, coreDao {
+public class CommentDaoImpl implements CommentDao {
 	
 	@Override
 	public int insert(Comment comment) {

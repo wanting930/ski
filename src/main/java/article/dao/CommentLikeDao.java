@@ -3,8 +3,9 @@ package article.dao;
 import java.util.List;
 
 import article.vo.CommentLike;
+import core.CoreDao;
 
-public interface CommentLikeDao {
+public interface CommentLikeDao extends CoreDao{
 
 	int insert(CommentLike commentLike);
 

@@ -8,10 +8,6 @@ package article.dao.impl;
 import java.util.List;
 
 //import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 
 //import com.mysql.cj.Query;
 
@@ -19,10 +15,8 @@ import org.hibernate.query.Query;
 
 import article.dao.ArticleDao;
 import article.vo.Article;
-import article.core.HibernateUtil;
-import article.core.coreDao;
 
-public class ArticleDaoImpl implements ArticleDao, coreDao{
+public class ArticleDaoImpl implements ArticleDao{
 
 	@Override
 	public int insert(Article article) {

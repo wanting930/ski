@@ -2,17 +2,12 @@ package article.dao.impl;
 
 import java.util.List;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 
 import article.dao.ReportDao;
 import article.vo.Report;
-import article.core.HibernateUtil;
-import article.core.coreDao;
 
 
-public class ReportDaoImpl implements ReportDao, coreDao {
+public class ReportDaoImpl implements ReportDao {
 
 	@Override
 	public int insert(Report report) {

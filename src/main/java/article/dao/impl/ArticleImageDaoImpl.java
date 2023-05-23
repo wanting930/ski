@@ -2,16 +2,11 @@ package article.dao.impl;
 
 import java.util.List;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 
 import article.dao.ArticleImageDao;
 import article.vo.ArticleImage;
-import article.core.HibernateUtil;
-import article.core.coreDao;
 
-public class ArticleImageDaoImpl implements ArticleImageDao, coreDao{
+public class ArticleImageDaoImpl implements ArticleImageDao{
 	
 	@Override
 	public int insert(ArticleImage articleImage) {

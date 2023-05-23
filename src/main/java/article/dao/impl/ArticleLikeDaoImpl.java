@@ -2,16 +2,11 @@ package article.dao.impl;
 
 import java.util.List;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 
 import article.dao.ArticleLikeDao;
 import article.vo.ArticleLike;
-import article.core.HibernateUtil;
-import article.core.coreDao;
 
-public class ArticleLikeDaoImpl implements ArticleLikeDao, coreDao{
+public class ArticleLikeDaoImpl implements ArticleLikeDao{
 	
 	@Override
 	public int insert(ArticleLike articleLike) {

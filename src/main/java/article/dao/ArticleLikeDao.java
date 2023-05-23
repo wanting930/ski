@@ -3,8 +3,9 @@ package article.dao;
 import java.util.List;
 
 import article.vo.ArticleLike;
+import core.CoreDao;
 
-public interface ArticleLikeDao {
+public interface ArticleLikeDao extends CoreDao{
 
 	int insert(ArticleLike articleLike);
 
