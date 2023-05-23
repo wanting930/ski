@@ -25,10 +25,10 @@ public class GetAllCourseServlet extends HttpServlet {
 			CourseDaoImpl dao = new CourseDaoImpl();
 //			PojoToJson(response, dao.getAllCourses());
 			List<Course> list = dao.getAllCourses();
-//			for (Course e : list) {
-//				System.out.println(e.getCourseID());
-//				System.out.println(e.getCourseName());
-//			}
+			for (Course e : list) {
+				System.out.println(e.getCourseID());
+				System.out.println(e.getCourseName());
+			}
 			
 //			response.getWriter().print("Hello");
 			
