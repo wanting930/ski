@@ -17,9 +17,13 @@ public interface ArticleTypeDao extends CoreDao{
 	ArticleType selectByArticleTypeID(Integer articleTypeID);
 	
 	List<ArticleType> selectByArticleTypeContent(String articleTypeContent);
+	
+	List<ArticleType> selectByArticleTypeContentRepeat(String articleTypeContent);
 
 	List<ArticleType> selectAll() throws ClassNotFoundException;
 	
 	List<ArticleType> deleteAllAndInsertAll() throws ClassNotFoundException;
+	
+	List<ArticleType> getArticlesByPage(int pageNumber, int pageSize) throws ClassNotFoundException;
 
 }

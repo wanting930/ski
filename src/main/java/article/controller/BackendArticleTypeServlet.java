@@ -59,6 +59,12 @@ public class BackendArticleTypeServlet extends HttpServlet{
 				}
 				
 				break;
+			case "searchIDAndContentRepeat":
+				fowardPath=searchIDAndContentRepeat(req,res,"3");
+				break;
+			case "limit":
+				fowardPath=limit(req,res);
+				break;
 			default:{
 				System.out.println("收到未知請求");
 				break;
@@ -70,6 +76,7 @@ public class BackendArticleTypeServlet extends HttpServlet{
 		
 	}
 	
+	// 顯示全部
 	private String showAll(HttpServletRequest req,HttpServletResponse res) throws IOException {
 		res.setContentType("text/html; charset=utf-8");
 		ArticleTypeDao dao = new ArticleTypeDaoImpl();
@@ -86,22 +93,25 @@ public class BackendArticleTypeServlet extends HttpServlet{
 		return jsonStr;
 	}
 	
+	// 新增分類內容
 	private String addContent(HttpServletRequest req,HttpServletResponse res) throws IOException {
 		res.setContentType("text/html; charset=utf-8");
 		ArticleTypeDao dao = new ArticleTypeDaoImpl();
+		int articleType6 = 0; // 新增物件
 		try {
 			ArticleType articleType1 = new ArticleType(null, req.getParameter("articleTypeContent"));
-			dao.insert(articleType1);
+			articleType6 = dao.insert(articleType1);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		Gson gson = new Gson();
-		String jsonStr = gson.toJson(dao);
+		String jsonStr = gson.toJson(articleType6);
 		res.getWriter().write(jsonStr);
 		System.out.println("success");
 		return jsonStr;
 	}
 	
+	// 修改分頁內容
 	private String updateContent(HttpServletRequest req,HttpServletResponse res) throws IOException {
 		res.setContentType("text/html; charset=utf-8");
 		ArticleTypeDao dao = new ArticleTypeDaoImpl();
@@ -118,6 +128,7 @@ public class BackendArticleTypeServlet extends HttpServlet{
 		return jsonStr;
 	}
 	
+	// 刪除分類內容
 	private String deleteContent(HttpServletRequest req,HttpServletResponse res) throws IOException {
 		res.setContentType("text/html; charset=utf-8");
 		ArticleTypeDao dao = new ArticleTypeDaoImpl();
@@ -134,6 +145,7 @@ public class BackendArticleTypeServlet extends HttpServlet{
 		return jsonStr;
 	}
 	
+	// 刪除一筆資料重整ID的自動流水號
 	private String deleteContentAndShowAll(HttpServletRequest req,HttpServletResponse res) throws IOException {
 		res.setContentType("text/html; charset=utf-8");
 		ArticleTypeDao dao = new ArticleTypeDaoImpl();
@@ -163,8 +175,8 @@ public class BackendArticleTypeServlet extends HttpServlet{
 		}
 		Gson gson = new Gson();
 		String jsonStr = gson.toJson(articleType5); // 將儲存到的物件轉成json
-		res.setContentType("application/json");
-		res.setCharacterEncoding("UTF-8");
+//		res.setContentType("application/json");
+//		res.setCharacterEncoding("UTF-8");
 		res.getWriter().write(jsonStr);
 		System.out.println("success");
 		return jsonStr;
@@ -184,6 +196,43 @@ public class BackendArticleTypeServlet extends HttpServlet{
 		}
 		Gson gson = new Gson();
 		String jsonStr = gson.toJson(list3);
+		res.getWriter().write(jsonStr);
+		System.out.println("success");
+		return jsonStr;
+	}
+	
+	//搜尋重複內容
+	private String searchIDAndContentRepeat(HttpServletRequest req,HttpServletResponse res ,String type) throws IOException {
+		res.setContentType("text/html; charset=utf-8");
+		ArticleTypeDao dao = new ArticleTypeDaoImpl();
+		List<ArticleType> list4 = new ArrayList<ArticleType>();
+		try {
+			String articleType6 = req.getParameter("articleTypeContent");
+			list4 = dao.selectByArticleTypeContentRepeat(articleType6);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		Gson gson = new Gson();
+		String jsonStr = gson.toJson(list4);
+		res.getWriter().write(jsonStr);
+		System.out.println("success");
+		return jsonStr;
+		}
+	
+	// 分頁
+	private String limit(HttpServletRequest req,HttpServletResponse res) throws IOException {
+		res.setContentType("text/html; charset=utf-8");
+		ArticleTypeDao dao = new ArticleTypeDaoImpl();
+		int pageNumber = Integer.parseInt(req.getParameter("page"));
+	    int pageSize = Integer.parseInt(req.getParameter("limit"));
+		List<ArticleType> list = new ArrayList<ArticleType>();
+		try {
+			list = dao.getArticlesByPage(pageNumber,pageSize);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		Gson gson = new Gson();
+		String jsonStr = gson.toJson(list);
 		res.getWriter().write(jsonStr);
 		System.out.println("success");
 		return jsonStr;

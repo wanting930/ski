@@ -2,6 +2,7 @@ package article.dao.impl;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -57,6 +58,15 @@ public class ArticleTypeDaoImpl implements ArticleTypeDao {
 	}
 	
 	@Override
+	public List<ArticleType> selectByArticleTypeContentRepeat(String articleTypeContent) {
+		String hqlQuery = "FROM ArticleType WHERE articleTypeContent = :content";
+	    Query<ArticleType> query = getSession().createQuery(hqlQuery, ArticleType.class);
+	    query.setParameter("content", articleTypeContent);
+	    List<ArticleType> list = query.getResultList();
+	    return list;
+	}
+	
+	@Override
 	public List<ArticleType> selectAll() throws ClassNotFoundException {
 		//Hibernate
 		return getSession().createQuery("FROM ArticleType", ArticleType.class).list();
@@ -73,6 +83,16 @@ public class ArticleTypeDaoImpl implements ArticleTypeDao {
 		return getSession().createQuery("FROM ArticleType", ArticleType.class).list();
 	}
 	
+	@Override
+	public List<ArticleType> getArticlesByPage(int pageNumber, int pageSize) {
+//	    Session session = sessionFactory.getCurrentSession();
+	    Criteria criteria = getSession().createCriteria(ArticleType.class);
+	    criteria.setFirstResult((pageNumber - 1) * pageSize);
+	    criteria.setMaxResults(pageSize);
+	    List<ArticleType> articlesTypes = criteria.list();
+	    return articlesTypes;
+	}
+	
 	public static void main(String[] args) throws ClassNotFoundException {
 
 		SessionFactory sf=HibernateUtil.getSessionFactory();
@@ -83,8 +103,8 @@ public class ArticleTypeDaoImpl implements ArticleTypeDao {
 			tr.begin();
 			
 			//新增
-//			ArticleType articleType1 = new ArticleType(null, "新手求救");
-//			dao.insert(articleType1);
+			ArticleType articleType1 = new ArticleType(null, "nnnnn");
+			System.out.println(dao.insert(articleType1));
 			
 			//刪除ID
 //			dao.deleteByArticleTypeID(2);
@@ -94,7 +114,7 @@ public class ArticleTypeDaoImpl implements ArticleTypeDao {
 //			dao.updateByArticleTypeID(articleType2);
 			
 			//查詢ID
-			System.out.println(dao.selectByArticleTypeID(2));
+//			System.out.println(dao.selectByArticleTypeID(2));
 			
 			//查詢內容
 //			for(ArticleType articleType: dao.selectByArticleTypeContent("ewead")) {
