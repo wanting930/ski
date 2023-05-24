@@ -1,7 +1,5 @@
 package course.controller;
 
-import java.util.List;
-
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -9,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import course.dao.impl.CourseDaoImpl;
 import course.entity.Course;
-import product.vo.Product;
+
 
 
 @WebServlet("/course_UD")
@@ -17,7 +15,7 @@ public class UpdateCourseServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) {
 			
 			CourseDaoImpl dao = new CourseDaoImpl();
 //			Integer productID = Integer.parseInt(readValue(request.getPart("productID")));
@@ -30,8 +28,33 @@ public class UpdateCourseServlet extends HttpServlet {
 			
 			Course course = new Course();
 			
-			course.setCourseID(2);
-			course.setCourseName("matics2");
+//			 System.out.println("courseID: " + request.getParameter("courseID"));
+//			 System.out.println("courseID: " + request.getParameter("courseId"));
+//			 protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//				  String parameter1 = null;
+//				  String parameter2 = null;
+//
+//				  Collection<Part> parts = request.getParts();
+//				  for (Part part : parts) {
+//				    String paramName = part.getName();
+//
+//				    if (paramName.equals("parameter1")) {
+//				      parameter1 = request.getParameter(paramName);
+//				    } else if (paramName.equals("parameter2")) {
+//				      parameter2 = request.getParameter(paramName);
+//				    }
+//				  }
+//
+//				  // Use the parameter values as needed
+//				}
+
+			 //			Integer courseID = Integer.valueOf(request.getParameter("courseID"));
+			
+	        // Use the retrieved data as needed
+	       
+//			course.setCourseID(3);
+//			course.setCourseID(courseID);
+			course.setCourseName("maticsud3");
 			course.setCourseIntroduce("Introduction to calculus");
 			course.setCourseMax(30);
 			course.setCourseMin(10);
@@ -47,7 +70,7 @@ public class UpdateCourseServlet extends HttpServlet {
 			course.setEndDate("2023-08-20");
 			course.setCourseStatus("Active");
 			
-			int resultarg = dao.updateCourse(course);
+//			int resultarg = dao.updateCourse(course);
 //			js轉物件後丟回，須個別屬性設定嗎?
 			return;
 			

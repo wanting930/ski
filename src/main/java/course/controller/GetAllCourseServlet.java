@@ -35,6 +35,8 @@ public class GetAllCourseServlet extends HttpServlet {
 			Gson gson = new Gson();
 			String jsonStr = gson.toJson(list);
 			response.getWriter().write(jsonStr);
+			response.setContentType("application/json");
+//			return jsonStr;
 //			return PojoToJson(response, dao.getAllCourses());
 
 
