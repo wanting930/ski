@@ -169,7 +169,7 @@ $("#pagination").on("click", "button.btn_limit", function () {
             if (clickButtonNumber == 1) {
                 limit = 10;
             } else {
-                limit = data.length;
+                limit = 10*clickButtonNumber;
             }
             for (let i = 0 + (10 * (clickButtonNumber - 1)); i < limit ; i++) {
                 let list_html = "";
