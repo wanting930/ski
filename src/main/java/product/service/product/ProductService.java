@@ -33,7 +33,7 @@ public class ProductService {
 	
 	//更新
 	public Product update(String ProductClass,String ProductName,Integer ProductPrice, byte[] ProductImage,
-			String ProductDetail,Integer ProductBuyPerson,Date ProductDate, String ProductStatus) {
+			String ProductDetail,Integer ProductBuyPerson, String ProductStatus) {
 	Product product = new Product();
 	product.setProductClass(ProductClass);
 	product.setProductName(ProductName);
@@ -41,7 +41,6 @@ public class ProductService {
 	product.setProductImage(ProductImage);
 	product.setProductDetail(ProductDetail);
 	product.setProductBuyPerson(ProductBuyPerson);
-	product.setProductDate(ProductDate);
 	product.setProductStatus(ProductStatus);
 	dao.updateByProductID(product);
 	return product;
