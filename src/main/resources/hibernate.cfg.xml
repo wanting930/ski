@@ -9,7 +9,7 @@
 		<property name="hibernate.connection.password">password</property>
 
 		<!-- JNDI -->
-		<!-- <property name="hibernate.connection.datasoCurce">java:comp/env/jdbc/ski</property> -->
+<!-- 		<property name="hibernate.connection.datasource">java:comp/env/jdbc/ski</property> -->
 
 		<!-- 設定MySQL方言，ex:limit -->
 		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
@@ -26,13 +26,13 @@
 <!-- 		<mapping class="ad.product.vo.productAd"/> -->
 <!-- 		<mapping class="ad.product.vo.productAdHistory"/> -->
 
-<!-- 		<mapping class="article.vo.Article" /> -->
-<!-- 		<mapping class="article.vo.ArticleImage" /> -->
-<!-- 		<mapping class="article.vo.ArticleLike" /> -->
-<!-- 		<mapping class="article.vo.ArticleType" /> -->
-<!-- 		<mapping class="article.vo.Comment" /> -->
-<!-- 		<mapping class="article.vo.CommentLike" /> -->
-<!-- 		<mapping class="article.vo.Report" /> -->
+		<mapping class="article.vo.Article" />
+		<mapping class="article.vo.ArticleImage" />
+		<mapping class="article.vo.ArticleLike" />
+		<mapping class="article.vo.ArticleType" />
+		<mapping class="article.vo.Comment" />
+		<mapping class="article.vo.CommentLike" />
+		<mapping class="article.vo.Report" />
 
 <!-- 		<mapping class="chat.model.Friends" /> -->
 <!-- 		<mapping class="chat.model.OneChat" /> -->

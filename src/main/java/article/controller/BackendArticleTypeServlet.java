@@ -33,7 +33,7 @@ public class BackendArticleTypeServlet extends HttpServlet{
 
 		String action=req.getParameter("action");
 		String type=req.getParameter("type");
-		System.out.println(action);
+//		System.out.println(action);
 		String fowardPath="";
 		switch(action) {
 			case "showAll":
@@ -88,7 +88,7 @@ public class BackendArticleTypeServlet extends HttpServlet{
 		Gson gson = new Gson();
 		String jsonStr = gson.toJson(list);
 		res.getWriter().write(jsonStr);
-		System.out.println("success");
+//		System.out.println("success");
 		return jsonStr;
 	}
 	
@@ -106,7 +106,7 @@ public class BackendArticleTypeServlet extends HttpServlet{
 		Gson gson = new Gson();
 		String jsonStr = gson.toJson(articleType6);
 		res.getWriter().write(jsonStr);
-		System.out.println("success");
+//		System.out.println("success");
 		return jsonStr;
 	}
 	
@@ -123,7 +123,7 @@ public class BackendArticleTypeServlet extends HttpServlet{
 		Gson gson = new Gson();
 		String jsonStr = gson.toJson(dao);
 		res.getWriter().write(jsonStr);
-		System.out.println("success");
+//		System.out.println("success");
 		return jsonStr;
 	}
 	
@@ -140,7 +140,7 @@ public class BackendArticleTypeServlet extends HttpServlet{
 		Gson gson = new Gson();
 		String jsonStr = gson.toJson(dao);
 		res.getWriter().write(jsonStr);
-		System.out.println("success");
+//		System.out.println("success");
 		return jsonStr;
 	}
 	
@@ -157,7 +157,7 @@ public class BackendArticleTypeServlet extends HttpServlet{
 		Gson gson = new Gson();
 		String jsonStr = gson.toJson(list2);
 		res.getWriter().write(jsonStr);
-		System.out.println("success");
+//		System.out.println("success");
 		return jsonStr;
 	}
 	
@@ -177,7 +177,7 @@ public class BackendArticleTypeServlet extends HttpServlet{
 //		res.setContentType("application/json");
 //		res.setCharacterEncoding("UTF-8");
 		res.getWriter().write(jsonStr);
-		System.out.println("success");
+//		System.out.println("success");
 		return jsonStr;
 		
 	}
@@ -196,7 +196,7 @@ public class BackendArticleTypeServlet extends HttpServlet{
 		Gson gson = new Gson();
 		String jsonStr = gson.toJson(list3);
 		res.getWriter().write(jsonStr);
-		System.out.println("success");
+//		System.out.println("success");
 		return jsonStr;
 	}
 	
@@ -214,7 +214,7 @@ public class BackendArticleTypeServlet extends HttpServlet{
 		Gson gson = new Gson();
 		String jsonStr = gson.toJson(list4);
 		res.getWriter().write(jsonStr);
-		System.out.println("success");
+//		System.out.println("success");
 		return jsonStr;
 		}
 	
@@ -233,7 +233,7 @@ public class BackendArticleTypeServlet extends HttpServlet{
 		Gson gson = new Gson();
 		String jsonStr = gson.toJson(list);
 		res.getWriter().write(jsonStr);
-		System.out.println("success");
+//		System.out.println("success");
 		return jsonStr;
 	}
 

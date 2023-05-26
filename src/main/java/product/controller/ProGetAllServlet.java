@@ -29,7 +29,8 @@ public class ProGetAllServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();resp.setContentType("text/html; charset=utf-8");
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        resp.setContentType("text/html; charset=utf-8");
 		ProductDao dao = new ProductDaoImpl();
 		List<Product> list = new ArrayList<Product>();
 		try {

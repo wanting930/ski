@@ -83,6 +83,7 @@ $(document).ready(function init() {
 //修改狀態1(下架文章)
 $("#type").on("click", "button.changeStatus1", function () {
     console.log("下架文章囉!");
+    articleStatus1 = 1;
     $("#type").closest("div").find("button.changeStatus1").addClass("-none"); // 隱藏下架按鈕
     $("#type").closest("div").find("button.changeStatus0").removeClass("-none"); // 顯示上架文章按鈕
     $.ajax({
@@ -97,7 +98,7 @@ $("#type").on("click", "button.changeStatus1", function () {
             "articleDateTime": articleDateTime1,
             "articleModified": articleModified1,
             "articleLike": articleLike1,
-            "articleStatus": "1",
+            "articleStatus": articleStatus1,
             "action": "updateStatus1"
         },
         dataType: "json",
@@ -105,7 +106,7 @@ $("#type").on("click", "button.changeStatus1", function () {
             alert("下架文章成功");
         },
         error: function (err) {
-            console.log("後端文章載入失敗");
+            console.log("後端文章修改載入失敗");
             console.log(err);
         }
     })
@@ -115,6 +116,7 @@ $("#type").on("click", "button.changeStatus1", function () {
 //修改狀態0(重新上架文章)
 $("#type").on("click", "button.changeStatus0", function () {
     console.log("重新上架文章囉!");
+    articleStatus1 = 0;
     $("#type").closest("div").find("button.changeStatus1").removeClass("-none"); // 隱藏下架按鈕
     $("#type").closest("div").find("button.changeStatus0").addClass("-none"); // 顯示上架文章按鈕
     $.ajax({
@@ -129,7 +131,7 @@ $("#type").on("click", "button.changeStatus0", function () {
             "articleDateTime": articleDateTime1,
             "articleModified": articleModified1,
             "articleLike": articleLike1,
-            "articleStatus": "0",
+            "articleStatus": articleStatus1,
             "action": "updateStatus0"
         },
         dataType: "json",
@@ -137,7 +139,7 @@ $("#type").on("click", "button.changeStatus0", function () {
             alert("重新上架成功");
         },
         error: function (err) {
-            console.log("後端文章載入失敗");
+            console.log("後端文章修改載入失敗");
             console.log(err);
         }
     })
