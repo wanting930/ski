@@ -3,6 +3,7 @@ package article.dao; //把impl刪掉
 import java.util.List;
 
 import article.vo.Article;
+import article.vo.ArticleType;
 import core.CoreDao;
 
 public interface ArticleDao extends CoreDao{
@@ -20,6 +21,7 @@ public interface ArticleDao extends CoreDao{
 	//複製insert
 	Article selectByArticleID(Integer articleID) throws ClassNotFoundException;
 
+	List<Article> selectByArticleTitle(String articleTitle);
 	//複製select
 	//List袋子裝，只能裝Article
 	List<Article> selectAll() throws ClassNotFoundException;

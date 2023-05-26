@@ -61,8 +61,7 @@ public class BackendArticleTypeServiceImpl implements CoreDao, BackendArticleTyp
 		} catch (Exception e) {
 			System.out.println("搜尋文章分類內容失敗");
 			// TODO: handle exception
-		}
-			
+		}	
 	}
 		
 	//修改文章分類選項

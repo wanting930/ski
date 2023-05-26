@@ -1,11 +1,17 @@
 package article.dao.impl;
 
+import java.sql.Timestamp;
 //import java.sql.Connection;
 //import java.sql.DriverManager;
 //import java.sql.PreparedStatement;
 //import java.sql.ResultSet;
 //import java.util.ArrayList;
 import java.util.List;
+
+import article.vo.ArticleType;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 //import org.hibernate.HibernateException;
 
@@ -15,6 +21,8 @@ import java.util.List;
 
 import article.dao.ArticleDao;
 import article.vo.Article;
+import core.HibernateUtil;
+import org.hibernate.query.Query;
 
 public class ArticleDaoImpl implements ArticleDao{
 
@@ -177,6 +185,15 @@ public class ArticleDaoImpl implements ArticleDao{
 //		return null; // 失敗回傳null給我
 	}
 
+	@Override
+	public List<Article> selectByArticleTitle(String articleTitle) {
+		String hqlQuery = "FROM Article WHERE articleTitle LIKE :title";
+		Query<Article> query = getSession().createQuery(hqlQuery, Article.class);
+		query.setParameter("title","%"+ articleTitle+"%");
+		List<Article> list = query.getResultList();
+		return list;
+	}
+
 	// 複製select
 	// List袋子裝，只能裝Article
 	@Override
@@ -228,69 +245,69 @@ public class ArticleDaoImpl implements ArticleDao{
 //		return null;
 	}
 
-//	public static void main(String[] args) throws ClassNotFoundException {
-//		
-//		
-//		
-//		SessionFactory sf=HibernateUtil.getSessionFactory();
-//		Session session=sf.getCurrentSession();
-//		Transaction tr=session.getTransaction();
-//		ArticleDao dao = new ArticleDaoImpl();
-//		try {
-//			tr.begin();
-//			
-//			//新增
-////			Article article1 = new Article(null, 2, "a", "b", "c", Timestamp.valueOf("2023-04-30 00:00:00"), Timestamp.valueOf("2023-04-30 00:00:00"), 3, "d");
-////			dao.insert(article1);
-//			
-//			//刪除ID
-////			dao.deleteByArticleID(4);
-//			
-//			//修改
-////			Article article2 = new Article(3, 3, "e", "f", "g", Timestamp.valueOf("2023-04-30 00:00:00"), Timestamp.valueOf("2023-04-30 00:00:00"), 4, "h");
-////			dao.updateByArticleID(article2);
-//			
-//			//查詢ID
-////			dao.selectByArticleID(2);
-//			System.out.println(dao.selectByArticleID(2));
-//			
-//			//查詢全部
-////			List<Article> list = new ArticleDaoImpl().selectAll();
-////			System.out.println(list);
-//			System.out.println(dao.selectAll());
-//			
-//			tr.commit();
-//		} catch (Exception e) {
-//			tr.rollback();
-//			// TODO: handle exception
+	public static void main(String[] args) throws ClassNotFoundException {
+		
+		
+		
+		SessionFactory sf=HibernateUtil.getSessionFactory();
+		Session session=sf.getCurrentSession();
+		Transaction tr=session.getTransaction();
+		ArticleDao dao = new ArticleDaoImpl();
+		try {
+			tr.begin();
+			
+			//新增
+			Article article1 = new Article(null, 2, 1, "分享好東西", "拿著，照我，師傅確定要拍嗎，確定要拍嗎，我中了兩槍，希望大家，如果我這一次不幸死的話，請大家一定要傳承我的精神，一定要傳承我的精神，啊啊啊啊啊啊啊", Timestamp.valueOf("2023-04-30 00:00:00"), Timestamp.valueOf("2023-04-30 00:00:00"), 3, "0");
+			dao.insert(article1);
+			
+			//刪除ID
+//			dao.deleteByArticleID(2);
+			
+			//修改
+//			Article article2 = new Article(3, 3, 3, "title", "content", Timestamp.valueOf("2023-04-30 00:00:00"), Timestamp.valueOf("2023-04-30 00:00:00"), 4, "0");
+//			dao.updateByArticleID(article2);
+			
+			//查詢ID
+//			dao.selectByArticleID(2);
+			System.out.println(dao.selectByArticleID(2));
+			
+			//查詢全部
+//			List<Article> list = new ArticleDaoImpl().selectAll();
+//			System.out.println(list);
+			System.out.println(dao.selectAll());
+			
+			tr.commit();
+		} catch (Exception e) {
+			tr.rollback();
+			// TODO: handle exception
+		}
+		
+		
+		
+		
+		
+		
+		//------------------------------------------------------------------
+
+		// new byte[]{0, 1, 2, 3} 圖片
+		//新增
+//		Article article1 = new Article(2, 2, "a", "b", "c", Timestamp.valueOf("2023-04-30 00:00:00"), Timestamp.valueOf("2023-04-30 00:00:00"), 3, "d");
+//		dao.insert(article1);
+		
+		//查詢ID
+//		System.out.println(dao.selectByArticleID(1));
+		
+		//查詢全部
+//		for (Article article : dao.selectAll()) {
+//			System.out.println(article.getArticleContent());
 //		}
-//		
-//		
-//		
-//		
-//		
-//		
-//		//------------------------------------------------------------------
-//
-//		// new byte[]{0, 1, 2, 3} 圖片
-//		//新增
-////		Article article1 = new Article(2, 2, "a", "b", "c", Timestamp.valueOf("2023-04-30 00:00:00"), Timestamp.valueOf("2023-04-30 00:00:00"), 3, "d");
-////		dao.insert(article1);
-//		
-//		//查詢ID
-////		System.out.println(dao.selectByArticleID(1));
-//		
-//		//查詢全部
-////		for (Article article : dao.selectAll()) {
-////			System.out.println(article.getArticleContent());
-////		}
-//		
-//		//刪除
-////		dao.deleteByArticleID(2);
-//		
-//		//修改
-////		Article article2 = new Article(2, 3, "e", "f", "g", Timestamp.valueOf("2023-04-30 00:00:00"), Timestamp.valueOf("2023-04-30 00:00:00"), 4, "h");
-////		dao.updateByArticleID(article2);
-//	}
+		
+		//刪除
+//		dao.deleteByArticleID(2);
+		
+		//修改
+//		Article article2 = new Article(2, 3, "e", "f", "g", Timestamp.valueOf("2023-04-30 00:00:00"), Timestamp.valueOf("2023-04-30 00:00:00"), 4, "h");
+//		dao.updateByArticleID(article2);
+	}
 
 }

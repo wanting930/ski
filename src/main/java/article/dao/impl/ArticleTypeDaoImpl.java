@@ -93,47 +93,47 @@ public class ArticleTypeDaoImpl implements ArticleTypeDao {
 	    return articlesTypes;
 	}
 	
-	public static void main(String[] args) throws ClassNotFoundException {
-
-		SessionFactory sf=HibernateUtil.getSessionFactory();
-		Session session=sf.getCurrentSession();
-		Transaction tr=session.getTransaction();
-		ArticleTypeDao dao = new ArticleTypeDaoImpl();
-		try {
-			tr.begin();
-			
-			//新增
-			ArticleType articleType1 = new ArticleType(null, "nnnnn");
-			System.out.println(dao.insert(articleType1));
-			
-			//刪除ID
-//			dao.deleteByArticleTypeID(2);
-			
-			//修改
-//			ArticleType articleType2 = new ArticleType(2, "新手");
-//			dao.updateByArticleTypeID(articleType2);
-			
-			//查詢ID
-//			System.out.println(dao.selectByArticleTypeID(2));
-			
-			//查詢內容
-//			for(ArticleType articleType: dao.selectByArticleTypeContent("ewead")) {
-//				System.out.println(articleType.toString());
-//			}
-			
-			
-			//查詢全部
-//			System.out.println(dao.selectAll());
-			
-			//刪除後重整ArticleType
-//			dao.deleteAllAndInsertAll();
-			
-			tr.commit();
-		} catch (Exception e) {
-			tr.rollback();
-			// TODO: handle exception
-		}
-	}
+//	public static void main(String[] args) throws ClassNotFoundException {
+//
+//		SessionFactory sf=HibernateUtil.getSessionFactory();
+//		Session session=sf.getCurrentSession();
+//		Transaction tr=session.getTransaction();
+//		ArticleTypeDao dao = new ArticleTypeDaoImpl();
+//		try {
+//			tr.begin();
+//			
+//			//新增
+////			ArticleType articleType1 = new ArticleType(null, "nnnnn");
+////			System.out.println(dao.insert(articleType1));
+//			
+//			//刪除ID
+////			dao.deleteByArticleTypeID(2);
+//			
+//			//修改
+////			ArticleType articleType2 = new ArticleType(2, "新手");
+////			dao.updateByArticleTypeID(articleType2);
+//			
+//			//查詢ID
+////			System.out.println(dao.selectByArticleTypeID(2));
+//			
+//			//查詢內容
+////			for(ArticleType articleType: dao.selectByArticleTypeContent("ewead")) {
+////				System.out.println(articleType.toString());
+////			}
+//			
+//			
+//			//查詢全部
+////			System.out.println(dao.selectAll());
+//			
+//			//刪除後重整ArticleType
+////			dao.deleteAllAndInsertAll();
+//			
+//			tr.commit();
+//		} catch (Exception e) {
+//			tr.rollback();
+//			// TODO: handle exception
+//		}
+//	}
 	
 
 }

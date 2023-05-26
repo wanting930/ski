@@ -55,9 +55,8 @@ public class BackendArticleTypeServlet extends HttpServlet{
 				if(type.equals("Number")) {
 					fowardPath=searchID(req,res,1);
 				}else if(type.equals("String")) {
-					fowardPath=searchContent(req,res,"2");
+					fowardPath = searchContent(req, res, "2");
 				}
-				
 				break;
 			case "searchIDAndContentRepeat":
 				fowardPath=searchIDAndContentRepeat(req,res,"3");
@@ -111,7 +110,7 @@ public class BackendArticleTypeServlet extends HttpServlet{
 		return jsonStr;
 	}
 	
-	// 修改分頁內容
+	// 修改分類內容
 	private String updateContent(HttpServletRequest req,HttpServletResponse res) throws IOException {
 		res.setContentType("text/html; charset=utf-8");
 		ArticleTypeDao dao = new ArticleTypeDaoImpl();
