@@ -16,8 +16,8 @@ public class CoachDaoImpl implements CoachDao {
 			getSession().persist(coach);
 			return coach.getCoachID();
 		} catch (Exception e) {
-			e.printStackTrace();
 			System.out.println("insert方法發生錯誤：" + e.getMessage());
+			e.printStackTrace();
 		}
 		return -1;
 	}
@@ -30,8 +30,8 @@ public class CoachDaoImpl implements CoachDao {
 			session.remove(coach);
 			return 1;
 		} catch (Exception e) {
-			e.printStackTrace();
 			System.out.println("deleteById方法發生錯誤：" + e.getMessage());
+			e.printStackTrace();
 		}
 		return -1;
 	}
@@ -73,8 +73,8 @@ public class CoachDaoImpl implements CoachDao {
 			Coach coach = session.get(Coach.class, coachID);
 			return coach;
 		} catch (Exception e) {
-			e.printStackTrace();
 			System.out.println("selectById方法發生錯誤：" + e.getMessage());
+			e.printStackTrace();
 		}
 		return null;
 	}
@@ -88,8 +88,8 @@ public class CoachDaoImpl implements CoachDao {
 			List<Coach> list = query.getResultList();
 			return list;
 		} catch (Exception e) {
-			e.printStackTrace();
 			System.out.println("selectAll方法發生錯誤：" + e.getMessage());
+			e.printStackTrace();
 		}
 		return null;
 	}

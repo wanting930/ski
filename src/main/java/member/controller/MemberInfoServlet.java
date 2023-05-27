@@ -4,30 +4,35 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
+import member.dao.MemberDao;
+import member.dao.impl.MemberDaoImpl;
 import member.service.MemberService;
 import member.service.impl.MemberServiceImpl;
 import member.vo.Member;
 
-@WebServlet("/member/login") // http://localhost:8080/ski/member/login
-public class LoginServlet extends HttpServlet {
-	private static final long serialVersionUID = -7529801032154818432L;
+@WebServlet("/member/memberInfo") // http://localhost:8080/ski/member/memberInfo
+//@MultipartConfig(fileSizeThreshold = 1024*1024, maxFileSize = 5*1024*1024, maxRequestSize = 5*5*1024*1024)
+public class MemberInfoServlet extends HttpServlet {
+	private static final long serialVersionUID = -1326472979046813869L;
 	private MemberService service;
+	private MemberDao dao;
 	private Gson gson;
 
 	@Override
 	public void init() throws ServletException {
 		service = new MemberServiceImpl();
+		dao = new MemberDaoImpl();
 		gson = new Gson();
 	}
-
+	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setHeader("Access-Control-Allow-Origin", "*"); // 允許來自所有網域的請求
@@ -38,35 +43,39 @@ public class LoginServlet extends HttpServlet {
 		// 設置中文編碼
 		req.setCharacterEncoding("UTF-8");
 		resp.setContentType("application/json;charset=UTF-8");
-
+		
 		// 從 HttpServletRequest 中取得 JSON 字串
 		BufferedReader br = req.getReader();
 		Member member = gson.fromJson(br, Member.class);
 		
-		member = service.login(member);
+		System.out.println(member);
+		System.out.println("userID = " + member.getUserID());
 
-		if (member == null) {
-			member = new Member();
-			member.setMessage("無會員資訊");
-			member.setSuccessful(false);
-			String memberJson = gson.toJson(member);
-			resp.getWriter().write(memberJson);
-			resp.getWriter().flush();
-			return;
-		}
+		member = dao.selectById(member.getUserID());
+		
+//		byte[] photo = member.getPhoto();
+//		System.out.println(photo);
+		
+//		byte[] photo = member.getPhoto(); // 從 member 物件中獲取 photo 的 byte 陣列
 
-		if (member.isSuccessful()) {
-			// 如果原先已有session將沿用之，如果沒有，則不會創建一個新的session (原先已有session，將會執行此段程式碼)
-			if (req.getSession(false) != null) {
-				req.changeSessionId();
-			}
-			final HttpSession session = req.getSession();
-			session.setAttribute("userID", member.getUserID());
-			session.setAttribute("userName", member.getUserName());
-		}
-		String memberJson = gson.toJson(member);
-		resp.getWriter().write(memberJson);
-		resp.getWriter().flush();
+		byte[] photoBytes = member.getPhoto();
+//		String base64Photo = Base64.getEncoder().encodeToString(photoBytes);
+		
+		ServletOutputStream stream = resp.getOutputStream();
+		stream.write(photoBytes);
+		stream.flush();
+		stream.close();
+		
+//		String memberJson = gson.toJson(member);
+//		resp.getWriter().write(memberJson);
+//		resp.getWriter().flush();
 
 	}
+
+	
+	
+	
+	
+	
+	
 }
