@@ -1,6 +1,8 @@
 package course.entity;
 
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,22 +24,22 @@ import lombok.Setter;
 	    public class Course {
 		@Id
 		@GeneratedValue(strategy = GenerationType.IDENTITY)
-		private int courseID;
+		private Integer courseID;
         private String courseName;
         private String courseIntroduce;
-        private int courseMax;
-        private int courseMin;
-        private int coursePerson;
-        private double coursePrice;
+        private Integer courseMax;
+        private Integer courseMin;
+        private Integer coursePerson;
+        private Integer coursePrice;
         private byte[] coursePhoto;
-        private String level;   
-        private int coachID;
-        private String skill;
-        private int pointID;
-        private String courseDate;
-        private String startDate;
-        private String endDate;
-        private String courseStatus;
+        private Integer level;   
+        private Integer coachID;
+        private Integer skill;
+        private Integer pointID;
+        private Date courseDate;
+        private Date startDate;
+        private Date endDate;
+        private Integer courseStatus;
 
 //	        // Constructors
 //	        public Course() {
