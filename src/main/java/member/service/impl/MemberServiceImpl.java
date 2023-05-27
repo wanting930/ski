@@ -1,5 +1,7 @@
 package member.service.impl;
 
+import java.util.List;
+
 import member.dao.MemberDao;
 import member.dao.impl.MemberDaoImpl;
 import member.service.MemberService;
@@ -114,6 +116,16 @@ public class MemberServiceImpl implements MemberService {
 		member.setMessage("密碼變更成功，請重新登入");
 		member.setSuccessful(true);
 		return member;
+	}
+	
+	@Override
+	public List<Member> findAll() {
+		return dao.selectAll();
+	}
+	
+	@Override
+	public Member findOne(Integer userID) {
+		return dao.selectById(userID);
 	}
 
 }

@@ -1,5 +1,7 @@
 package member.service;
 
+import java.util.List;
+
 import member.vo.Member;
 
 public interface MemberService {
@@ -13,5 +15,9 @@ public interface MemberService {
 	Member checkPassword(Member member);
 
 	Member passwordChange(Member member);
+
+	List<Member> findAll();
+
+	Member findOne(Integer userID);
 
 }
