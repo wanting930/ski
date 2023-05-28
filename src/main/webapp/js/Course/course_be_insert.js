@@ -17,7 +17,7 @@ $("#addButton").on("click", function (event) {
     )
     .each(function () {
       const input = $(this);
-      console.log(this);
+     
       const value = input.val();
       if (value === null || value === "") {
         const errorMsg = input.parent().parent().siblings(".text-danger");
@@ -41,10 +41,12 @@ $("#addButton").on("click", function (event) {
     const courseStatus = document.getElementById("courseStatus").value;
     const coursePhoto = document.getElementById("coursePhoto").files[0];
     const courseIntroduce = document.getElementById("courseIntroduce").value;
-
+	
     // Create FormData object to store form data
     const formData = new FormData();
+    console.log(courseSkill);
     formData.append("courseSkill", courseSkill);
+    console.log(formData.get("courseSkill"));
     formData.append("courseLevel", courseLevel);
     formData.append("courseName", courseName);
     formData.append("courseLocation", courseLocation);
@@ -59,7 +61,7 @@ $("#addButton").on("click", function (event) {
     formData.append("courseIntroduce", courseIntroduce);
 
     $.ajax({
-      url: "http://localhost:8080/ski/InsertCourseServlet", // Replace 'your_server_endpoint' with the actual endpoint URL
+      url: "http://localhost:8080/ski/course_IS", // Replace 'your_server_endpoint' with the actual endpoint URL
       type: "POST",
       data: formData,
       processData: false,

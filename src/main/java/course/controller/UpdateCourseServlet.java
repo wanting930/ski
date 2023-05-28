@@ -57,14 +57,14 @@ public class UpdateCourseServlet extends HttpServlet {
         Integer courseStatus =  Integer.valueOf(request.getParameter("courseStatus"));       
 
         
-        try {
-        	Part filePart = request.getPart("coursePhoto");
-			String test = setimage(filePart);
-			System.out.println("test"+test);
-		} catch (IOException | ServletException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//        try {
+//        	Part filePart = request.getPart("coursePhoto");
+//			String test = setimage(filePart);
+//			System.out.println("test"+test);
+//		} catch (IOException | ServletException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 
         
         
