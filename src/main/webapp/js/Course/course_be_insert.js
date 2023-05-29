@@ -46,7 +46,7 @@ $("#addButton").on("click", function (event) {
     const formData = new FormData();
     console.log(courseSkill);
     formData.append("courseSkill", courseSkill);
-    console.log(formData.get("courseSkill"));
+
     formData.append("courseLevel", courseLevel);
     formData.append("courseName", courseName);
     formData.append("courseLocation", courseLocation);

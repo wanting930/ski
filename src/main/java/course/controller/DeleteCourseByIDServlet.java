@@ -13,11 +13,11 @@ public class DeleteCourseByIDServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) {
-//			Integer CourseID = Integer.parseInt(request.getParameter("CourseID"));
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) {
+			Integer CourseID = Integer.parseInt(request.getParameter("CourseID"));
 			CourseDaoImpl dao = new CourseDaoImpl();
-//			PojoToJson(response, dao.getAllCourses());
-			int result = dao.deleteByCourseId(2);
+			System.out.println(CourseID);
+			int result = dao.deleteByCourseId(CourseID);
 			
 //			if (result > 0) {
 //				// 刪除成功

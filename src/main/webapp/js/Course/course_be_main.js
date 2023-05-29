@@ -53,8 +53,6 @@ function renderCourse(Course) {
     deleteButton.textContent = "刪除";
     deleteButton.dataset.courseId = course.courseID;
 
-    // const base64Image = btoa(new Uint8Array(course.courseImage).reduce((data, byte) => data + String.fromCharCode(byte), ''));
-    // const imageSrc = `data:image/png;base64,${base64Image}`;
 
     // 將日期格式轉換為 yyyy-MM-dd 格式
     const date = new Date(course.courseDate);
@@ -62,8 +60,12 @@ function renderCourse(Course) {
       .toString()
       .padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`;
 
+	const base64Image = btoa(new Uint8Array(course.coursePhoto).reduce((data, byte) => data + String.fromCharCode(byte), ''));
+    const imageSrc = `data:image/png;base64,${base64Image}`;
+
     row.innerHTML = `
       <th scope="row">${course.courseID}</th>
+      <td><img src='${imageSrc}' style="max-width: 150px; max-height: 80px;"></img></td>
       <td>couchID</td>
       <td>${course.skill}</td>
       <td>${course.level}</td>
@@ -76,18 +78,19 @@ function renderCourse(Course) {
       <td></td>
     `;
 
-    row.querySelector("td:nth-child(10)").appendChild(editlink);
-    row.querySelector("td:nth-child(11)").appendChild(deleteButton);
+    row.querySelector("td:nth-child(11)").appendChild(editlink);
+    row.querySelector("td:nth-child(12)").appendChild(deleteButton);
 
     tableBody.appendChild(row);
   });
 }
 
-function deleteExc() {
+function deleteExc(courseID) {
   if (confirm("確認刪除此課程?")) {
     $.ajax({
-      url: "http://localhost:8080/ski/course_DL?id=" + course.courseID,
-      type: "GET",
+      url: "http://localhost:8080/ski/course_DL",
+      type: "POST",
+      data: { CourseID: courseID },
       dataType: "json",
       success: function (data) {
         console.success(data);
@@ -96,6 +99,9 @@ function deleteExc() {
         console.error(error);
       },
     });
-  } else {
+    alarm("刪除成功");
+    AllCrouseRequsest();
+  }else{
+  	alarm("刪除失敗");
   }
 }

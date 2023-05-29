@@ -1,6 +1,7 @@
 package course.controller;
 
 import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -23,23 +24,13 @@ public class GetAllCourseServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 			
 			CourseDaoImpl dao = new CourseDaoImpl();
-//			PojoToJson(response, dao.getAllCourses());
-			List<Course> list = dao.getAllCourses();
-			for (Course e : list) {
-				System.out.println(e.getCourseID());
-				System.out.println(e.getCourseName());
-			}
-			
-//			response.getWriter().print("Hello");
+
+			List<Course> list = dao.getAllCourses();				
 			
 			Gson gson = new Gson();
 			String jsonStr = gson.toJson(list);
 			response.getWriter().write(jsonStr);
 			response.setContentType("application/json");
-//			return jsonStr;
-//			return PojoToJson(response, dao.getAllCourses());
-
-
 	
 	}
 }

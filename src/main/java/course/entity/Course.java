@@ -1,14 +1,13 @@
 package course.entity;
 
 
+import java.util.Base64;
 import java.util.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Transient;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -41,6 +40,10 @@ import lombok.Setter;
         private Date endDate;
         private Integer courseStatus;
 
+//	        public void setCoursePhotoString(String base64Image) {
+//	            this.coursePhoto = Base64.getDecoder().decode(base64Image);
+//	        }
+        
 //	        // Constructors
 //	        public Course() {
 //	        }
