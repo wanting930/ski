@@ -1,11 +1,10 @@
 package article.controller;
 
 
-import article.vo.ArticleType;
 import com.google.gson.Gson;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -40,6 +39,8 @@ public class BackendArticleServlet extends HttpServlet {
                     fowardPath=searchID(req,res,1);
                 }else if(type.equals("String")) {
                     fowardPath=searchTitle(req,res,"2");
+                }else if(type.equals("上下架")) {
+                	fowardPath=searchStatus(req,res,"3");
                 }
                 break;
             case "updateStatus1":
@@ -119,6 +120,24 @@ public class BackendArticleServlet extends HttpServlet {
 //        System.out.println("success");
         return jsonStr;
     }
+    
+ // 搜尋內容
+    private String searchStatus(HttpServletRequest req,HttpServletResponse res ,String type) throws IOException {
+        res.setContentType("text/html; charset=utf-8");
+        ArticleDao dao = new ArticleDaoImpl();
+        List<Article> list3 = new ArrayList<Article>();
+        try {
+            String article5 = req.getParameter("articleStatus");
+            list3 = dao.selectByArticleStatus(article5);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Gson gson = new Gson();
+        String jsonStr = gson.toJson(list3);
+        res.getWriter().write(jsonStr);
+//        System.out.println("success");
+        return jsonStr;
+    }
 
     // 修改狀態(下架文章)
     private String updateStatus1(HttpServletRequest req,HttpServletResponse res) throws IOException {
@@ -126,7 +145,8 @@ public class BackendArticleServlet extends HttpServlet {
         ArticleDao dao = new ArticleDaoImpl();
         List<Article> list1 = new ArrayList<Article>();
         try {
-            Article article2 = new Article(Integer.parseInt(req.getParameter("articleTypeID")),Integer.parseInt(req.getParameter("userID")), Integer.parseInt(req.getParameter("articleTypeID")),req.getParameter("articleTitle"),req.getParameter("articleContent"), Timestamp.valueOf(req.getParameter("articleDateTime")),Timestamp.valueOf(req.getParameter("articleModified")),Integer.parseInt(req.getParameter("articleLike")),"1");
+
+            Article article2 = new Article(Integer.parseInt(req.getParameter("articleID")),Integer.parseInt(req.getParameter("userID")), Integer.parseInt(req.getParameter("articleTypeID")),req.getParameter("articleTitle"),req.getParameter("articleContent"), req.getParameter("articleDateTime"),req.getParameter("articleModified"),Integer.parseInt(req.getParameter("articleLike")),"0");
             dao.updateByArticleID(article2);
             list1 = dao.selectAll();
         } catch (Exception e) {
@@ -142,10 +162,30 @@ public class BackendArticleServlet extends HttpServlet {
     // 修改狀態(重新上架文章)
     private String updateStatus0(HttpServletRequest req,HttpServletResponse res) throws IOException {
         res.setContentType("text/html; charset=utf-8");
+//        Date date = new Date();
+//        Timestamp tsDateTime=new Timestamp(date.getTime());
+//        Timestamp tsModified=new Timestamp(date.getTime());
+//        tsDateTime = Timestamp.valueOf(req.getParameter("articleDateTime"));
+//        tsModified = Timestamp.valueOf(req.getParameter("articleModified"));
         ArticleDao dao = new ArticleDaoImpl();
         List<Article> list1 = new ArrayList<Article>();
         try {
-            Article article2 = new Article(Integer.parseInt(req.getParameter("articleTypeID")),Integer.parseInt(req.getParameter("userID")), Integer.parseInt(req.getParameter("articleTypeID")),req.getParameter("articleTitle"),req.getParameter("articleContent"), Timestamp.valueOf(req.getParameter("articleDateTime")),Timestamp.valueOf(req.getParameter("articleModified")),Integer.parseInt(req.getParameter("articleLike")),"0");
+//        	System.out.println("-------------------------------------------------");
+//        	System.out.println(req.getParameter("articleID"));
+//        	System.out.println(req.getParameter("userID"));
+//        	System.out.println(req.getParameter("articleTypeID"));
+//        	System.out.println(req.getParameter("articleTitle"));
+//        	System.out.println(req.getParameter("articleContent"));
+//        	System.out.println(req.getParameter("articleDateTime"));
+//        	System.out.println(req.getParameter("articleModified"));
+//        	System.out.println(req.getParameter("articleLike"));
+//        	System.out.println(req.getParameter("articleStatus"));
+//        	System.out.println("-------------------------------------------------");
+//        	String articleTitle = String.valueOf(req.getParameter("articleTitle"));
+            Article article2 = new Article(Integer.parseInt(req.getParameter("articleID")),Integer.parseInt(req.getParameter("userID")),
+            		Integer.parseInt(req.getParameter("articleTypeID")), req.getParameter("articleTitle"),req.getParameter("articleContent"),
+            		req.getParameter("articleDateTime"), req.getParameter("articleModified"),
+            		Integer.parseInt(req.getParameter("articleLike")),"1");
             dao.updateByArticleID(article2);
             list1 = dao.selectAll();
         } catch (Exception e) {

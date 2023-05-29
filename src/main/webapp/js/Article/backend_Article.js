@@ -22,6 +22,7 @@ $(document).ready(function init() {
         data: {
             "articleID": articleID,
             "articleTitle": articleTitle,
+            "articleStatus": articleStatus,
             "action": "showAll"
         },
         dataType: "json",
@@ -34,13 +35,25 @@ $(document).ready(function init() {
                 let list_html = "";
                 let articleID = data[i].articleID;
                 let articleTitle = data[i].articleTitle;
+                if(data[i].articleStatus == "1"){
+                    list_html += `<tr class="tr">`;
+                    list_html += `<td><p class="id">${articleID}</p></td>`;
+                    // list_html += `<td><a class="saveArticleID" href="http://localhost:8080/ski/article/backend_Article_ChangeStatus.html">${articleTitle}</a></td>`;
+                    list_html += `<td><button class="nextPageBtn">${articleTitle}</button></td>`;
+                    list_html += `<td><p class="green">上架</p>
+                                        <p class="red -none">下架</p></td>`;
+                    list_html += `</tr>`
+                }else if(data[i].articleStatus == "0"){
+                    list_html += `<tr class="tr">`;
+                    list_html += `<td><p class="id">${articleID}</p></td>`;
+                    // list_html += `<td><a class="saveArticleID" href="http://localhost:8080/ski/article/backend_Article_ChangeStatus.html">${articleTitle}</a></td>`;
+                    list_html += `<td><button class="nextPageBtn">${articleTitle}</button></td>`;
+                    list_html += `<td><p class="green -none">上架</p>
+                                        <p class="red">下架</p></td>`;
+                    list_html += `</tr>`
+                }
 
-                list_html += `<tr class="tr">`;
-                list_html += `<td><p class="id">${articleID}</p></td>`;
-                // list_html += `<td><a class="saveArticleID" href="http://localhost:8080/ski/article/backend_Article_ChangeStatus.html">${articleTitle}</a></td>`;
-                list_html += `<td><button class="nextPageBtn">${articleTitle}</button></td>`;
-                list_html += `<td><p class="color">狀態</p></td>`;
-                list_html += `</tr>`
+                
 
                 $("#type > table > tbody").append(list_html); // 加入網頁表格中
                 number = articleID; // 紀錄目前分類編號最後一碼
@@ -108,6 +121,7 @@ $("#pagination").on("click", "button.btn_limit", function () {
         data: {
             "articleID": articleID,
             "articleTitle": articleTitle,
+            "articleStatus": articleStatus,
             "action": "showAll"
         },
         dataType: "json",
@@ -125,12 +139,23 @@ $("#pagination").on("click", "button.btn_limit", function () {
                 let articleID = data[i].articleID;
                 let articleTitle = data[i].articleTitle;
 
-                list_html += `<tr class="tr">`;
-                list_html += `<td><p class="id">${articleID}</p></td>`;
-                // list_html += `<td><a class="saveArticleID" href="http://localhost:8080/ski/article/backend_Article_ChangeStatus.html">${articleTitle}</a></td>`;
-                list_html += `<td><button class="nextPageBtn">${articleTitle}</button></td>`;
-                list_html += `<td><p class="color">狀態</p></td>`;
-                list_html += "</tr>"
+                if(data[i].articleStatus == "1"){
+                    list_html += `<tr class="tr">`;
+                    list_html += `<td><p class="id">${articleID}</p></td>`;
+                    // list_html += `<td><a class="saveArticleID" href="http://localhost:8080/ski/article/backend_Article_ChangeStatus.html">${articleTitle}</a></td>`;
+                    list_html += `<td><button class="nextPageBtn">${articleTitle}</button></td>`;
+                    list_html += `<td><p class="green">上架</p>
+                                        <p class="red -none">下架</p></td>`;
+                    list_html += `</tr>`
+                }else if(data[i].articleStatus == "0"){
+                    list_html += `<tr class="tr">`;
+                    list_html += `<td><p class="id">${articleID}</p></td>`;
+                    // list_html += `<td><a class="saveArticleID" href="http://localhost:8080/ski/article/backend_Article_ChangeStatus.html">${articleTitle}</a></td>`;
+                    list_html += `<td><button class="nextPageBtn">${articleTitle}</button></td>`;
+                    list_html += `<td><p class="green -none">上架</p>
+                                        <p class="red">下架</p></td>`;
+                    list_html += `</tr>`
+                }
 
                 $("#type > table > tbody").append(list_html); // 加入網頁表格中
             }
@@ -161,11 +186,27 @@ $("button.task_search").on("click", function () {
                 }
             } else {
                 // console.log('輸入為字串');
-                form_data = { // 將輸入的文字送入資料庫
-                    "articleID": articleID,
-                    "articleTitle": task_name_search,
-                    "action": "searchIDAndTitle",
-                    "type": "String"
+                if(task_name_search === "上架"){
+                    form_data = { // 將輸入的文字送入資料庫
+                        "articleID": articleID,
+                        "articleStatus": "1",
+                        "action": "searchIDAndTitle",
+                        "type": "上下架"
+                    }
+                }else if(task_name_search === "下架"){
+                    form_data = { // 將輸入的文字送入資料庫
+                        "articleID": articleID,
+                        "articleStatus": "0",
+                        "action": "searchIDAndTitle",
+                        "type": "上下架"
+                    }
+                }else{
+                    form_data = { // 將輸入的文字送入資料庫
+                        "articleID": articleID,
+                        "articleTitle": task_name_search,
+                        "action": "searchIDAndTitle",
+                        "type": "String"
+                    }
                 }
             }
             $.ajax({
@@ -184,12 +225,23 @@ $("button.task_search").on("click", function () {
 
                         console.log('輸入為數字');
                         let list_html = "";
-                        list_html += `<tr class="tr">`;
-                        list_html += `<td><p class="id">${data.articleID}</p></td>`;
-                        // list_html += `<td><a class="saveArticleID" href="http://localhost:8080/ski/article/backend_Article_ChangeStatus.html">${articleTitle}</a></td>`;
-                        list_html += `<td><button class="nextPageBtn">${articleTitle}</button></td>`;
-                        list_html += `<td><p class="color">狀態</p></td>`;
-                        list_html += "</tr>"
+                        if(data[i].articleStatus == "1"){
+                            list_html += `<tr class="tr">`;
+                            list_html += `<td><p class="id">${data.articleID}</p></td>`;
+                            // list_html += `<td><a class="saveArticleID" href="http://localhost:8080/ski/article/backend_Article_ChangeStatus.html">${articleTitle}</a></td>`;
+                            list_html += `<td><button class="nextPageBtn">${articleTitle}</button></td>`;
+                            list_html += `<td><p class="green">上架</p>
+                                                <p class="red -none">下架</p></td>`;
+                            list_html += `</tr>`
+                        }else if(data[i].articleStatus == "0"){
+                            list_html += `<tr class="tr">`;
+                            list_html += `<td><p class="id">${data.articleID}</p></td>`;
+                            // list_html += `<td><a class="saveArticleID" href="http://localhost:8080/ski/article/backend_Article_ChangeStatus.html">${articleTitle}</a></td>`;
+                            list_html += `<td><button class="nextPageBtn">${articleTitle}</button></td>`;
+                            list_html += `<td><p class="green -none">上架</p>
+                                                <p class="red">下架</p></td>`;
+                            list_html += `</tr>`
+                        }
 
                         $("#type > table > tbody").append(list_html); // 加入網頁表格中
 
@@ -199,14 +251,24 @@ $("button.task_search").on("click", function () {
                             let list_html = "";
                             let articleID = data[i].articleID;
                             let articleTitle = data[i].articleTitle;
-                            console.log(articleTypeID);
-
-                            list_html += `<tr class="tr">`;
-                            list_html += `<td><p class="id">${articleID}</p></td>`;
-                            // list_html += `<td><a class="saveArticleID" href="http://localhost:8080/ski/article/backend_Article_ChangeStatus.html">${articleTitle}</a></td>`;
-                            list_html += `<td><button class="nextPageBtn">${articleTitle}</button></td>`;
-                            list_html += `<td><p class="color">狀態</p></td>`;
-                            list_html += "</tr>"
+                            // console.log(data[i].articleStatus);
+                            if(data[i].articleStatus == "1"){
+                                list_html += `<tr class="tr">`;
+                                list_html += `<td><p class="id">${articleID}</p></td>`;
+                                // list_html += `<td><a class="saveArticleID" href="http://localhost:8080/ski/article/backend_Article_ChangeStatus.html">${articleTitle}</a></td>`;
+                                list_html += `<td><button class="nextPageBtn">${articleTitle}</button></td>`;
+                                list_html += `<td><p class="green">上架</p>
+                                                    <p class="red -none">下架</p></td>`;
+                                list_html += `</tr>`
+                            }else if(data[i].articleStatus == "0"){
+                                list_html += `<tr class="tr">`;
+                                list_html += `<td><p class="id">${articleID}</p></td>`;
+                                // list_html += `<td><a class="saveArticleID" href="http://localhost:8080/ski/article/backend_Article_ChangeStatus.html">${articleTitle}</a></td>`;
+                                list_html += `<td><button class="nextPageBtn">${articleTitle}</button></td>`;
+                                list_html += `<td><p class="green -none">上架</p>
+                                                    <p class="red">下架</p></td>`;
+                                list_html += `</tr>`
+                            }
 
                             $("#type > table > tbody").append(list_html); // 加入網頁表格中
                             // number = articleTypeID; // 紀錄目前分類編號最後一碼

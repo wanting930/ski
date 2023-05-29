@@ -33,3 +33,11 @@ tr, td{
 .-none {
     display: none;
 }
+
+.green{
+    color:green;
+}
+
+.red{
+    color:red;
+}

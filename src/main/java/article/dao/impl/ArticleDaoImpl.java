@@ -1,6 +1,8 @@
 package article.dao.impl;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 //import java.sql.Connection;
 //import java.sql.DriverManager;
 //import java.sql.PreparedStatement;
@@ -193,6 +195,14 @@ public class ArticleDaoImpl implements ArticleDao{
 		List<Article> list = query.getResultList();
 		return list;
 	}
+	
+	public List<Article> selectByArticleStatus(String articleStatus) {
+		String hqlQuery = "FROM Article WHERE articleStatus LIKE :status";
+		Query<Article> query = getSession().createQuery(hqlQuery, Article.class);
+		query.setParameter("status", articleStatus);
+		List<Article> list = query.getResultList();
+		return list;
+	}
 
 	// 複製select
 	// List袋子裝，只能裝Article
@@ -257,11 +267,26 @@ public class ArticleDaoImpl implements ArticleDao{
 			tr.begin();
 			
 			//新增
-			Article article1 = new Article(null, 2, 1, "分享好東西", "拿著，照我，師傅確定要拍嗎，確定要拍嗎，我中了兩槍，希望大家，如果我這一次不幸死的話，請大家一定要傳承我的精神，一定要傳承我的精神，啊啊啊啊啊啊啊", Timestamp.valueOf("2023-04-30 00:00:00"), Timestamp.valueOf("2023-04-30 00:00:00"), 3, "0");
+			SimpleDateFormat df = new SimpleDateFormat("YYYY.MM.dd HH:mm:ss");
+			Timestamp tsDateTime = Timestamp.valueOf("2023-04-30 00:00:00");
+			Timestamp tsModified = Timestamp.valueOf("2023-04-30 00:00:00");
+			String sDateTime = df.format(tsDateTime);
+			String sModified = df.format(tsModified);
+//			Date date = new Date();
+//			Timestamp tsDateTime=new Timestamp(date.getTime());
+//	        Timestamp tsModified=new Timestamp(date.getTime());
+//	        tsDateTime = Timestamp.valueOf("2023-04-30 00:00:00");
+//	        tsModified = Timestamp.valueOf("2023-04-30 00:00:00");
+	        System.out.println(sDateTime);
+			Article article1 = new Article(null, 3, 1, "分享好東西3", "3拿著，照我，師傅確定要拍嗎，確定要拍嗎，我中了兩槍，希望大家，如果我這一次不幸死的話，請大家一定要傳承我的精神，一定要傳承我的精神，啊啊啊啊啊啊啊", sDateTime, sModified, 3, "0");
 			dao.insert(article1);
 			
 			//刪除ID
+//			dao.deleteByArticleID(5);
+//			dao.deleteByArticleID(4);
+//			dao.deleteByArticleID(3);
 //			dao.deleteByArticleID(2);
+//			dao.deleteByArticleID(1);
 			
 			//修改
 //			Article article2 = new Article(3, 3, 3, "title", "content", Timestamp.valueOf("2023-04-30 00:00:00"), Timestamp.valueOf("2023-04-30 00:00:00"), 4, "0");

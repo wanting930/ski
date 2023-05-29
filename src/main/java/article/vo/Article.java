@@ -23,8 +23,8 @@ public class Article implements Serializable{
 	private Integer articleTypeID;
 	private String articleTitle;
 	private String articleContent;
-	private java.sql.Timestamp articleDateTime;
-	private java.sql.Timestamp articleModified;
+	private String articleDateTime;
+	private String articleModified;
 	private Integer articleLike;
 	private String articleStatus;
 	//如果有圖片型別用byte[]
@@ -60,16 +60,16 @@ public class Article implements Serializable{
 	public void setArticleContent(String articleContent) {
 		this.articleContent = articleContent;
 	}
-	public java.sql.Timestamp getArticleDateTime() {
+	public String getArticleDateTime() {
 		return articleDateTime;
 	}
-	public void setArticleDateTime(java.sql.Timestamp articleDateTime) {
+	public void setArticleDateTime(String articleDateTime) {
 		this.articleDateTime = articleDateTime;
 	}
-	public java.sql.Timestamp getArticleModified() {
+	public String getArticleModified() {
 		return articleModified;
 	}
-	public void setArticleModified(java.sql.Timestamp articleModified) {
+	public void setArticleModified(String articleModified) {
 		this.articleModified = articleModified;
 	}
 	public Integer getArticleLike() {
@@ -87,15 +87,15 @@ public class Article implements Serializable{
 	
 	//source->Fields
 	public Article(Integer articleID, Integer userID, Integer articleTypeID, String articleTitle, String articleContent,
-			java.sql.Timestamp articleDateTime, java.sql.Timestamp articleModified, Integer articleLike, String articleStatus) {
+			String sDateTime, String sModified, Integer articleLike, String articleStatus) {
 		super();
 		this.articleID = articleID;
 		this.userID = userID;
 		this.articleTypeID = articleTypeID;
 		this.articleTitle = articleTitle;
 		this.articleContent = articleContent;
-		this.articleDateTime = articleDateTime;
-		this.articleModified = articleModified;
+		this.articleDateTime = sDateTime;
+		this.articleModified = sModified;
 		this.articleLike = articleLike;
 		this.articleStatus = articleStatus;
 	}
