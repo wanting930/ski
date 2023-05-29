@@ -1,6 +1,7 @@
 // Usage example: Call the function with the course ID to retrieve the information
 const urlParams = new URLSearchParams(window.location.search);
-const courseId = urlParams.get("id"); // Replace 'your_course_id' with the actual ID of the course
+const courseID = urlParams.get("courseID"); // 
+
 
 $(document).ready(function () {
   getCourseInfo();
@@ -106,11 +107,12 @@ $(document).ready(function () {
 });
 
 // Function to retrieve course information by ID
-function getCourseInfo(courseId) {
+function getCourseInfo() {
   // Perform AJAX request to fetch course data
   $.ajax({
     url: "http://localhost:8080/ski/course_GBI",
-    type: "GET",
+    data:{courseID: courseID},
+    type: "POST",
     success:  function (response) {
    	const courseDate = moment(response.courseDate).format("YYYY-MM-DD");
    	const startDate = moment(response.startDate).format("YYYY-MM-DD");
@@ -120,7 +122,6 @@ function getCourseInfo(courseId) {
       $("#courseLevel").val(response.level);
       $("#courseName").val(response.courseName);
       $("#courseLocation").val(response.pointID);
-
       $("#courseDate").val(courseDate);
       $("#startDate").val(startDate);
       $("#endDate").val(endDate);
@@ -128,7 +129,16 @@ function getCourseInfo(courseId) {
       $("#courseMax").val(response.courseMax);
       $("#courseMin").val(response.courseMin);
       $("#courseStatus").val(response.courseStatus);
-      $("#coursePhoto").val(response.coursePhoto);
+
+	document.getElementById('originalImage').src = imageSrc;
+    document.getElementById('originalImage').dataset.originalImage = base64Image;
+    
+	  const base64Image = btoa(new Uint8Array(response.coursePhoto).reduce((data, byte) => data + String.fromCharCode(byte), ''));
+	  const imageSrc = `data:image/png;base64,${base64Image}`;
+		
+      $("#coursePhoto").val(file)  ;
+      
+      
       $("#courseIntroduce").val(response.courseIntroduce);
 
       // Additional handling or UI updates can be done here if needed

@@ -1,9 +1,9 @@
 package course.controller;
 
 
-import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -57,65 +57,50 @@ public class UpdateCourseServlet extends HttpServlet {
         Integer courseStatus =  Integer.valueOf(request.getParameter("courseStatus"));       
 
         
-//        try {
-//        	Part filePart = request.getPart("coursePhoto");
-//			String test = setimage(filePart);
-//			System.out.println("test"+test);
-//		} catch (IOException | ServletException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-
+        byte[] coursePhoto = null;
+		try {
+			Part filePart;
+			filePart = request.getPart("coursePhoto");
+			InputStream fileContent = filePart.getInputStream();
+			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+	        byte[] buffer = new byte[4096];
+	        int bytesRead;
+			while ((bytesRead = fileContent.read(buffer)) != -1) {
+	            outputStream.write(buffer, 0, bytesRead);
+	            coursePhoto = outputStream.toByteArray();
+	        }
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ServletException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         
-        
-//        String coursePhoto = request.getParameter("coursePhoto");
-//        byte[] imageBytes = Base64.getDecoder().decode(coursePhoto);
         
         String courseIntroduce = request.getParameter("courseIntroduce");
         
         Course course = new Course();
         
-//		course.setCourseID(courseID);
-//		course.setSkill(courseSkill);
-//		course.setLevel(courseLevel);
-//		course.setCourseName(courseName);
-//		course.setPointID(courseLocation);
-//		course.setCourseDate(courseDate);
-//		course.setStartDate(startDate);
-//		course.setEndDate(endDate);
-//		course.setCoursePrice(coursePrice);
-//		course.setCourseMax(courseMax);
-//		course.setCourseMin(courseMin);
-//		course.setCourseStatus(courseStatus);
-//		course.setCoursePhoto(coursePhoto);
-//		course.setCourseIntroduce(courseIntroduce);
+		course.setCourseID(courseID);
+		course.setSkill(courseSkill);
+		course.setLevel(courseLevel);
+		course.setCourseName(courseName);
+		course.setPointID(courseLocation);
+		course.setCourseDate(courseDate);
+		course.setStartDate(startDate);
+		course.setEndDate(endDate);
+		course.setCoursePrice(coursePrice);
+		course.setCourseMax(courseMax);
+		course.setCourseMin(courseMin);
+		course.setCourseStatus(courseStatus);
+		course.setCoursePhoto(coursePhoto);
+		course.setCourseIntroduce(courseIntroduce);
 		
-//        dao.updateCourse(course);
+        dao.updateCourse(course);
         
        
         }	
 	
-	private String setimage(Part part) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(part.getInputStream(), "UTF-8"));
-        StringBuilder value = new StringBuilder();
-        char[] buffer = new char[1024];
-        for (int length = 0; (length = reader.read(buffer)) > 0;) {
-            value.append(buffer, 0, length);
-        }
-        return value.toString();
-		
-		
-//	    String fileName = part.getSubmittedFileName();
-//        
-//        InputStream inputStream = part.getInputStream();
-//        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-//        byte[] buffer = new byte[4096];
-//        int bytesRead;
-//        while ((bytesRead = inputStream.read(buffer)) != -1) {
-//          outputStream.write(buffer, 0, bytesRead);
-//        }
-//      byte[] imageBytes = outputStream.toByteArray();
-//      return imageBytes;
-    }
 }
 

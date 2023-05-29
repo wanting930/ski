@@ -44,14 +44,13 @@ function renderCourse(Course) {
 	editButton.textContent = "修改";
 	const editlink = document.createElement("a");
 	//link.textContent = "修改";
-	editlink.href = "http://localhost:8080/ski/course/backend_courseUpdate.html?id=" + course.courseID;
+	editlink.href = "http://localhost:8080/ski/course/backend_courseUpdate.html?courseID="+course.courseID;
 	
 	editlink.appendChild(editButton);
 
     const deleteButton = document.createElement("button");
     deleteButton.classList.add("btn", "btn-secondary", "btn-delete");
     deleteButton.textContent = "刪除";
-    deleteButton.dataset.courseId = course.courseID;
 
 
     // 將日期格式轉換為 yyyy-MM-dd 格式
