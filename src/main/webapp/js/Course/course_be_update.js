@@ -11,7 +11,6 @@ $(document).ready(function () {
   // Add event listener for form submission
   $("#addButton").on("click", function (event) {
     event.preventDefault(); // Prevent form from being submitted
-	console.log("tregger");
     // Reset error messages
     $(".text-danger").addClass("d-none");
 
@@ -59,6 +58,8 @@ $(document).ready(function () {
 	console.log(courseMin);
 	console.log(courseStatus);
 	console.log(coursePhoto);
+	console.log("CP" + coursePhoto);
+	console.log("typeof" + typeof(coursePhoto));
 	console.log(courseIntroduce);
 
       // Create FormData object to store form data
@@ -77,14 +78,14 @@ $(document).ready(function () {
       formData.append("courseStatus", courseStatus);
       formData.append("coursePhoto", coursePhoto);
       formData.append("courseIntroduce", courseIntroduce);
-      console.log(formData.get("courseID"));
+
       
       
      $.ajax({
   url: "http://localhost:8080/ski/course_UD",
   type: "POST",
   data: formData,
-  processData: false,
+   processData: false,
   contentType: false,
   success: function (response) {
     alert("更新成功");
@@ -110,18 +111,19 @@ function getCourseInfo(courseId) {
   $.ajax({
     url: "http://localhost:8080/ski/course_GBI",
     type: "GET",
-    success:  function (a) {
-    	const response = a;
-      // Populate the form fields with the retrieved data
-		console.log(response);  
+    success:  function (response) {
+   	const courseDate = moment(response.courseDate).format("YYYY-MM-DD");
+   	const startDate = moment(response.startDate).format("YYYY-MM-DD");
+   	const endDate = moment(response.endDate).format("YYYY-MM-DD") 
+      
       $("#courseSkill").val(response.skill);
       $("#courseLevel").val(response.level);
       $("#courseName").val(response.courseName);
       $("#courseLocation").val(response.pointID);
-      
-      $("#courseDate").val(response.courseDate);
-      $("#startDate").val(response.startDate);
-      $("#endDate").val(response.endDate);
+
+      $("#courseDate").val(courseDate);
+      $("#startDate").val(startDate);
+      $("#endDate").val(endDate);
       $("#coursePrice").val(response.coursePrice);
       $("#courseMax").val(response.courseMax);
       $("#courseMin").val(response.courseMin);

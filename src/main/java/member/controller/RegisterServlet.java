@@ -8,7 +8,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
@@ -16,9 +15,9 @@ import member.service.MemberService;
 import member.service.impl.MemberServiceImpl;
 import member.vo.Member;
 
-@WebServlet("/member/login") // http://localhost:8080/ski/member/login
-public class LoginServlet extends HttpServlet {
-	private static final long serialVersionUID = -7529801032154818432L;
+@WebServlet("/member/register") // http://localhost:8080/ski/member/register
+public class RegisterServlet extends HttpServlet {
+	private static final long serialVersionUID = -173522111169092063L;
 	private MemberService service;
 	private Gson gson;
 
@@ -42,8 +41,8 @@ public class LoginServlet extends HttpServlet {
 		// 從 HttpServletRequest 中取得 JSON 字串
 		BufferedReader br = req.getReader();
 		Member member = gson.fromJson(br, Member.class);
-		
-		member = service.login(member);
+
+		member = service.register(member);
 
 		if (member == null) {
 			member = new Member();
@@ -55,15 +54,6 @@ public class LoginServlet extends HttpServlet {
 			return;
 		}
 
-		if (member.isSuccessful()) {
-			// 如果原先已有session將沿用之，如果沒有，則不會創建一個新的session (原先已有session，將會執行此段程式碼)
-			if (req.getSession(false) != null) {
-				req.changeSessionId();
-			}
-			final HttpSession session = req.getSession();
-			session.setAttribute("userID", member.getUserID());
-			session.setAttribute("userName", member.getUserName());
-		}
 		String memberJson = gson.toJson(member);
 		resp.getWriter().write(memberJson);
 		resp.getWriter().flush();

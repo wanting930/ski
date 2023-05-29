@@ -3,6 +3,7 @@ package member.dao.impl;
 import java.util.List;
 
 import org.hibernate.Session;
+import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
 
 import member.dao.MemberDao;
@@ -16,8 +17,8 @@ public class MemberDaoImpl implements MemberDao {
 			getSession().persist(member);
 			return 1;
 		} catch (Exception e) {
-			e.printStackTrace();
 			System.out.println("insert方法發生錯誤：" + e.getMessage());
+			e.printStackTrace();
 		}
 		return -1;
 	}
@@ -30,8 +31,8 @@ public class MemberDaoImpl implements MemberDao {
 			session.remove(member);
 			return 1;
 		} catch (Exception e) {
-			e.printStackTrace();
 			System.out.println("deleteById方法發生錯誤：" + e.getMessage());
+			e.printStackTrace();
 		}
 		return -1;
 	}
@@ -104,6 +105,27 @@ public class MemberDaoImpl implements MemberDao {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public Member selectForLogin(String email, String password) {
+		final String sql = "SELECT * FROM Member WHERE email = :email AND password = :password";
+			Session session = getSession();
+			NativeQuery<Member> nativeQuery = session.createNativeQuery(sql, Member.class);
+			nativeQuery.setParameter("email", email);
+			nativeQuery.setParameter("password", password);
+			Member member = nativeQuery.uniqueResult();
+			return member;
+	}
+
+	@Override
+	public Member selectByEmail(String email) {
+		final String sql = "SELECT * FROM Member WHERE email = :email";
+			Session session = getSession();
+			NativeQuery<Member> nativeQuery = session.createNativeQuery(sql, Member.class);
+			nativeQuery.setParameter("email", email);
+			Member member = nativeQuery.uniqueResult();
+			return member;
 	}
 
 }

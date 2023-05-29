@@ -1,9 +1,20 @@
 package course.controller;
 
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 import course.dao.impl.CourseDaoImpl;
 import course.entity.Course;
@@ -11,104 +22,100 @@ import course.entity.Course;
 
 
 @WebServlet("/course_UD")
+@MultipartConfig
 public class UpdateCourseServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) {
 			
-			CourseDaoImpl dao = new CourseDaoImpl();
-//			Integer productID = Integer.parseInt(readValue(request.getPart("productID")));
-//	        String productClass = readValue(request.getPart("productClass"));
-//	        String productName = readValue(request.getPart("productName"));
-//	        Integer productPrice = Integer.parseInt(readValue(request.getPart("productPrice")));
-//	        Integer productQuantity = Integer.parseInt(readValue(request.getPart("productQuantity")));
-//	        String productDetail = readValue(request.getPart("productDetail"));
-//	        String productStatus = readValue(request.getPart("productStatus"));
+		CourseDaoImpl dao = new CourseDaoImpl();
 			
-			Course course = new Course();
-			
-//			 System.out.println("courseID: " + request.getParameter("courseID"));
-//			 System.out.println("courseID: " + request.getParameter("courseId"));
-//			 protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//				  String parameter1 = null;
-//				  String parameter2 = null;
-//
-//				  Collection<Part> parts = request.getParts();
-//				  for (Part part : parts) {
-//				    String paramName = part.getName();
-//
-//				    if (paramName.equals("parameter1")) {
-//				      parameter1 = request.getParameter(paramName);
-//				    } else if (paramName.equals("parameter2")) {
-//				      parameter2 = request.getParameter(paramName);
-//				    }
-//				  }
-//
-//				  // Use the parameter values as needed
-//				}
-
-			 //			Integer courseID = Integer.valueOf(request.getParameter("courseID"));
-			
-	        // Use the retrieved data as needed
-	       
-//			course.setCourseID(3);
-//			course.setCourseID(courseID);
-			course.setCourseName("maticsud3");
-			course.setCourseIntroduce("Introduction to calculus");
-			course.setCourseMax(30);
-			course.setCourseMin(10);
-			course.setCoursePerson(15);
-			course.setCoursePrice(99.99);
-			course.setCoursePhoto(new byte[]{/* course photo byte data */});
-			course.setLevel("1");
-			course.setCoachID(101);
-			course.setSkill("0");
-			course.setPointID(123);
-			course.setCourseDate("2023-06-01");
-			course.setStartDate("2023-06-10");
-			course.setEndDate("2023-08-20");
-			course.setCourseStatus("Active");
-			
-//			int resultarg = dao.updateCourse(course);
-//			js轉物件後丟回，須個別屬性設定嗎?
-			return;
-			
-			
-		//		Member member = json2Pojo(request, Member.class);
-//		if (member == null) {
-//			member = new Member();
-//			member.setMessage("無會員資訊");
-//			member.setSuccessful(false);
-//			writePojo2Json(response, member);
-//			return;
-//		}
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		
-//		member = SERVICE.register(member);
-//		writePojo2Json(response, member);
+		Integer courseID =  Integer.valueOf(request.getParameter("courseID"));
+		Integer courseSkill =  Integer.valueOf(request.getParameter("courseSkill"));
+		Integer courseLevel =  Integer.valueOf(request.getParameter("courseLevel"));
+        String courseName = request.getParameter("courseName");
+        Integer courseLocation =  Integer.valueOf(request.getParameter("courseLocation"));
+        
+        Date courseDate = null;
+        Date startDate = null;
+        Date endDate = null;
+        
+		try {
+			courseDate = dateFormat.parse(request.getParameter("courseDate"));
+			startDate = dateFormat.parse(request.getParameter("startDate"));
+	        endDate = dateFormat.parse(request.getParameter("endDate"));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+        
+        Integer coursePrice = Integer.valueOf(request.getParameter("coursePrice"));
+        Integer courseMax =  Integer.valueOf(request.getParameter("courseMax"));
+        Integer courseMin =  Integer.valueOf(request.getParameter("courseMin"));
+        Integer courseStatus =  Integer.valueOf(request.getParameter("courseStatus"));       
 
-//	 @Override
-//	    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//	        // Retrieve request parameters
-//	        String parameter1 = request.getParameter("parameter1");
-//	        String parameter2 = request.getParameter("parameter2");
-//
-//	        // Process the request parameters
-//	        String result = processRequest(parameter1, parameter2);
-//
-//	        // Set the response content type
-//	        response.setContentType("text/plain");
-//
-//	        // Write the response content
-//	        response.getWriter().write(result);
-//	    }
-//
-//	    private String processRequest(String param1, String param2) {
-//	        // Process the request and generate a response
-//	        // This is just a placeholder implementation
-//	        return "Result: " + param1 + " - " + param2;
+        
+//        try {
+//        	Part filePart = request.getPart("coursePhoto");
+//			String test = setimage(filePart);
+//			System.out.println("test"+test);
+//		} catch (IOException | ServletException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 
+        
+        
+//        String coursePhoto = request.getParameter("coursePhoto");
+//        byte[] imageBytes = Base64.getDecoder().decode(coursePhoto);
+        
+        String courseIntroduce = request.getParameter("courseIntroduce");
+        
+        Course course = new Course();
+        
+//		course.setCourseID(courseID);
+//		course.setSkill(courseSkill);
+//		course.setLevel(courseLevel);
+//		course.setCourseName(courseName);
+//		course.setPointID(courseLocation);
+//		course.setCourseDate(courseDate);
+//		course.setStartDate(startDate);
+//		course.setEndDate(endDate);
+//		course.setCoursePrice(coursePrice);
+//		course.setCourseMax(courseMax);
+//		course.setCourseMin(courseMin);
+//		course.setCourseStatus(courseStatus);
+//		course.setCoursePhoto(coursePhoto);
+//		course.setCourseIntroduce(courseIntroduce);
+		
+//        dao.updateCourse(course);
+        
+       
+        }	
 	
-	}
+	private String setimage(Part part) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(part.getInputStream(), "UTF-8"));
+        StringBuilder value = new StringBuilder();
+        char[] buffer = new char[1024];
+        for (int length = 0; (length = reader.read(buffer)) > 0;) {
+            value.append(buffer, 0, length);
+        }
+        return value.toString();
+		
+		
+//	    String fileName = part.getSubmittedFileName();
+//        
+//        InputStream inputStream = part.getInputStream();
+//        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+//        byte[] buffer = new byte[4096];
+//        int bytesRead;
+//        while ((bytesRead = inputStream.read(buffer)) != -1) {
+//          outputStream.write(buffer, 0, bytesRead);
+//        }
+//      byte[] imageBytes = outputStream.toByteArray();
+//      return imageBytes;
+    }
 }
 
