@@ -13,12 +13,13 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 
 import product.dao.ProductDaoImpl;
+import product.service.product.ProductService;
 import product.vo.Product;
 
 @WebServlet("/productSelectByName")
 public class ProductSelectByProductName extends HttpServlet {
     private static final long serialVersionUID = 1L;
-
+    private ProductService productService = new ProductService();
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=utf-8");
@@ -27,9 +28,8 @@ public class ProductSelectByProductName extends HttpServlet {
 
         String productName = request.getParameter("productName");
 
-        ProductDaoImpl productDaoImpl = new ProductDaoImpl();
 
-        List<Product> productList = productDaoImpl.selectByProductName(productName);
+        List<Product> productList = productService.selectByProductName(productName);
 
         Gson gson = new Gson();
         String json = gson.toJson(productList);

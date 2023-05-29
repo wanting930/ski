@@ -18,6 +18,7 @@ import com.google.gson.Gson;
 import core.HibernateUtil;
 import product.dao.ProductDao;
 import product.dao.ProductDaoImpl;
+import product.service.product.ProductService;
 import product.vo.Product;
 
 
@@ -25,24 +26,24 @@ import product.vo.Product;
 @WebServlet("/getAll")
 public class ProGetAllServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	 private ProductService productService = new ProductService();
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        resp.setContentType("text/html; charset=utf-8");
-		ProductDao dao = new ProductDaoImpl();
-		List<Product> list = new ArrayList<Product>();
-		try {
-			list = dao.selectAll();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		Gson gson = new Gson();
-		String jsonStr = gson.toJson(list);
-		resp.getWriter().write(jsonStr);
-		System.out.println("success");
-		
-	}
+	    resp.setContentType("application/json;charset=utf-8");
+        List<Product> productList = new ArrayList<>();
 
+        try {
+            productList = productService.selectAll();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Gson gson = new Gson();
+        String jsonStr = gson.toJson(productList);
+        resp.getWriter().write(jsonStr);
+        System.out.println("success");
+    }
 }
+
+

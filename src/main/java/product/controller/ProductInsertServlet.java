@@ -12,94 +12,78 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-import core.HibernateUtil;
-import product.dao.ProductDao;
-import product.dao.ProductDaoImpl;
+import product.service.product.ProductService;
 import product.vo.Product;
 
 @WebServlet("/productAdd")
 @MultipartConfig
 public class ProductInsertServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
-    private ProductDao productDao = new ProductDaoImpl();
+	 private static final long serialVersionUID = 1L;
+	    private ProductService productService = new ProductService();
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("application/json;charset=utf-8");
-        request.setCharacterEncoding("UTF-8");
+	    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+	            throws ServletException, IOException {
+	        response.setContentType("application/json;charset=utf-8");
+	        request.setCharacterEncoding("UTF-8");
 
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+	        String productClass = request.getParameter("productClass");
+	        String productName = request.getParameter("productName");
+	        Integer productPrice = parseIntegerParameter(request.getParameter("productPrice"));
+	        Integer productQuantity = parseIntegerParameter(request.getParameter("productQuantity"));
+	        String productStatus = request.getParameter("productStatus");
+	        // 處理圖片上傳
+	        Part imagePart = request.getPart("productImage");
+	        byte[] productImage = null;
+	        if (imagePart != null) {
+	            InputStream imageInputStream = imagePart.getInputStream();
+	            productImage = convertInputStreamToByteArray(imageInputStream);
+	        }
+	        String productDetail = request.getParameter("productDetail");
 
-        String productClass = request.getParameter("productClass");
-        String productName = request.getParameter("productName");
-        Integer productPrice = parseIntegerParameter(request.getParameter("productPrice"));
-        Integer productQuantity = parseIntegerParameter(request.getParameter("productQuantity"));
-        String productStatus = request.getParameter("productStatus");
-        // 處理圖片上傳
-        Part imagePart = request.getPart("productImage");
-        byte[] productImage = null;
-        if (imagePart != null) {
-            InputStream imageInputStream = imagePart.getInputStream();
-            productImage = convertInputStreamToByteArray(imageInputStream);
-        }
-        String productDetail = request.getParameter("productDetail");
+	        Product product = productService.insert(productClass, productName, productPrice, productImage, productDetail, productStatus,productQuantity);
 
-      
+	        JsonObject jsonResponse = new JsonObject();
+	        if (product != null) {
+	            jsonResponse.addProperty("status", "success");
+	            jsonResponse.addProperty("message", "成功");
+	        } else {
+	            jsonResponse.addProperty("status", "failure");
+	            jsonResponse.addProperty("message", "失敗");
+	        }
 
-        Product product = new Product();
-        product.setProductClass(productClass);
-        product.setProductName(productName);
-        product.setProductPrice(productPrice);
-        product.setProductQuantity(productQuantity);
-        product.setProductStatus(productStatus);
-        product.setProductImage(productImage);
-        product.setProductDetail(productDetail);
+	        Gson gson = new Gson();
+	        String jsonString = gson.toJson(jsonResponse);
+	        response.getWriter().write(jsonString);
+	    }
 
-        JsonObject jsonResponse = new JsonObject();
-        if (productDao.insert(product) > 0) {
-            jsonResponse.addProperty("status", "success");
-            jsonResponse.addProperty("message", "成功");
-        } else {
-            jsonResponse.addProperty("status", "failure");
-            jsonResponse.addProperty("message", "失敗");
-        }
+	    private byte[] convertInputStreamToByteArray(InputStream inputStream) throws IOException {
+	        try (ByteArrayOutputStream buffer = new ByteArrayOutputStream()) {
+	            int nRead;
+	            byte[] data = new byte[5000000];
+	            while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
+	                buffer.write(data, 0, nRead);
+	            }
+	            buffer.flush();
+	            return buffer.toByteArray();
+	        }
+	    }
 
-        Gson gson = new Gson();
-        String jsonString = gson.toJson(jsonResponse);
-        response.getWriter().write(jsonString);
-    }
+	    private Integer parseIntegerParameter(String parameter) {
+	        if (parameter != null && !parameter.isEmpty()) {
+	            try {
+	                return Integer.parseInt(parameter);
+	            } catch (NumberFormatException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	        return null;
+	    }
 
-    private byte[] convertInputStreamToByteArray(InputStream inputStream) throws IOException {
-        try (ByteArrayOutputStream buffer = new ByteArrayOutputStream()) {
-            int nRead;
-            byte[] data = new byte[5000000];
-            while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
-                buffer.write(data, 0, nRead);
-            }
-            buffer.flush();
-            return buffer.toByteArray();
-        }
-    }
-
-    private Integer parseIntegerParameter(String parameter) {
-        if (parameter != null && !parameter.isEmpty()) {
-            try {
-                return Integer.parseInt(parameter);
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-            }
-        }
-        return null;
-    }
-
-    protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        doPost(req, res);
-    }
+	    protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+	        doPost(req, res);
+	    }
+	
 }

@@ -8,43 +8,44 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import product.dao.ProductDao;
-import product.dao.ProductDaoImpl;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+import product.service.product.ProductService;
 
 @WebServlet("/productDelete")
 public class ProductDeleteServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
+    private ProductService productService = new ProductService();
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		response.setContentType("text/html;charset=utf-8");
-		request.setCharacterEncoding("UTF-8");
-		// 獲取要刪除的產品ID
-		Integer productID = Integer.parseInt(request.getParameter("productID"));
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("application/json;charset=utf-8");
+        request.setCharacterEncoding("UTF-8");
 
-		// 創建ProductDaoImpl對象
-		ProductDao productDao = new ProductDaoImpl();
+        Integer productID = Integer.parseInt(request.getParameter("productID"));
 
-		// 調用ProductDaoImpl中的deleteByProductID方法刪除產品
-		int rowsDeleted = productDao.deleteByProductID(productID);
-		
-		String successResponse = "{ \"message\": \"刪除成功\" }";
-		response.setContentType("application/json");
-		response.setCharacterEncoding("UTF-8");
-		response.getWriter().write(successResponse);
+        boolean deleteSuccess = productService.deleteProduct(productID);
 
-	}
+        JsonObject jsonResponse = new JsonObject();
+        if (deleteSuccess) {
+            jsonResponse.addProperty("status", "success");
+            jsonResponse.addProperty("message", "刪除成功");
+        } else {
+            jsonResponse.addProperty("status", "failure");
+            jsonResponse.addProperty("message", "刪除失敗");
+        }
 
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(jsonResponse);
+        response.getWriter().write(jsonString);
+    }
 
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-
-		doGet(request, response);
-	}
-
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        doGet(request, response);
+    }
 }
-
 
 
 
