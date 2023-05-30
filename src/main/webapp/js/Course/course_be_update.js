@@ -45,27 +45,25 @@ $(document).ready(function () {
       const courseMax = document.getElementById("courseMax").value;
       const courseMin = document.getElementById("courseMin").value;
       const courseStatus = document.getElementById("courseStatus").value;
-      const coursePhoto = document.getElementById("coursePhoto").files[0];
       const courseIntroduce = document.getElementById("courseIntroduce").value;
 
-	console.log(courseSkill);
-	console.log(courseLevel);
-	console.log(courseName);
-	console.log(courseLocation);
-	console.log(courseDate);
-	console.log(startDate);
-	console.log(endDate);
-	console.log(courseMax);
-	console.log(courseMin);
-	console.log(courseStatus);
-	console.log(coursePhoto);
-	console.log("CP" + coursePhoto);
-	console.log("typeof" + typeof(coursePhoto));
-	console.log(courseIntroduce);
+	
+		let coursePhoto = document.getElementById('coursePhoto').files[0];
+		if (!coursePhoto) {
+	        const originalBase64 = document.getElementById("originalImage").dataset.originalImage; // 獲取 originalBase64 的值
+	        if (typeof originalBase64 === 'undefined') {
+	            console.error("原始圖片的URL格式不正確，無法提取base64數據。");
+	            return;
+	        }
+	        const cleanedBase64 = originalBase64.replace(/(\r\n|\n|\r)/gm, "");
+	        const blob = base64ToBlob(cleanedBase64, 'image/png');
+	        coursePhoto = new File([blob], 'coursePhoto.png', { type: blob.type });
+	    }
+	    
 
       // Create FormData object to store form data
       const formData = new FormData();
-      formData.append("courseID",courseId);
+      formData.append("courseID",courseID);
       formData.append("courseSkill", courseSkill);
       formData.append("courseLevel", courseLevel);
       formData.append("courseName", courseName);
@@ -77,9 +75,10 @@ $(document).ready(function () {
       formData.append("courseMax", courseMax);
       formData.append("courseMin", courseMin);
       formData.append("courseStatus", courseStatus);
-      formData.append("coursePhoto", coursePhoto);
+        formData.append("coursePhoto", coursePhoto);
       formData.append("courseIntroduce", courseIntroduce);
-
+	
+		
       
       
      $.ajax({
@@ -130,13 +129,11 @@ function getCourseInfo() {
       $("#courseMin").val(response.courseMin);
       $("#courseStatus").val(response.courseStatus);
 
+		const base64Image = btoa(new Uint8Array(response.coursePhoto).reduce((data, byte) => data + String.fromCharCode(byte), ''));
+	  const imageSrc = `data:image/png;base64,${base64Image}`;
 	document.getElementById('originalImage').src = imageSrc;
     document.getElementById('originalImage').dataset.originalImage = base64Image;
     
-	  const base64Image = btoa(new Uint8Array(response.coursePhoto).reduce((data, byte) => data + String.fromCharCode(byte), ''));
-	  const imageSrc = `data:image/png;base64,${base64Image}`;
-		
-      $("#coursePhoto").val(file)  ;
       
       
       $("#courseIntroduce").val(response.courseIntroduce);
