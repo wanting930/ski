@@ -1,6 +1,7 @@
-package ad.product.controller;
+package ad.course.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,16 +11,17 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
-import ad.product.service.ProductAdService;
-import ad.product.service.Impl.ProductAdServiceImpl;
-import core.util.GsonUtils;
+import ad.course.service.Impl.CourseAdServiceImpl;
+import course.entity.Course;
 
-@WebServlet("/productAdServlet")
-public class ProductAdlistServlet extends HttpServlet{
+@WebServlet("/courseAdsearch")
+public class SearchServlet extends HttpServlet{
+	 private static final long serialVersionUID = 1L;
+//	 public void init() {
+			CourseAdServiceImpl cAdService = new CourseAdServiceImpl();
 
-	private ProductAdService serv = new ProductAdServiceImpl();
-	
-	@Override
+//	}
+	 @Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		 // 設置跨域
 		 resp.setHeader("Access-Control-Allow-Origin", "*"); // 允許來自所有網域的請求
@@ -30,10 +32,28 @@ public class ProductAdlistServlet extends HttpServlet{
 		 req.setCharacterEncoding("UTF-8");
 		 resp.setContentType("application/json;charset=UTF-8");
 		 
-		 resp.getWriter().print(GsonUtils.toJson(serv.getProducts()));
+		 String input = req.getParameter("input");
+
+		 if (input != null && !input.isEmpty()) {
+		     // 呼叫查詢方法進行相應的處理
+		     List<Course> result = cAdService.search(input);
+
+		     resp.setContentType("application/json");
+		     Gson gson = new Gson();
+		     String json = gson.toJson(result);
+		     
+		     resp.getWriter().print(json);
+		     
+		 } else {
+		     // 輸入為空值，處理相應的錯誤情況或提示訊息
+		     resp.getWriter().print("請輸入關鍵字");
+		 }
+
+		 
 	}
-	@Override
+	 @Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		 doPost(req, resp);
+		// TODO Auto-generated method stub
+		super.doGet(req, resp);
 	}
 }

@@ -1,4 +1,4 @@
-package ad.product.controller;
+package ad.course.controller;
 
 import java.io.IOException;
 
@@ -8,18 +8,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
+import ad.course.service.CourseAdService;
+import ad.course.service.Impl.CourseAdServiceImpl;
 
-import ad.product.service.ProductAdService;
-import ad.product.service.Impl.ProductAdServiceImpl;
-import core.util.GsonUtils;
+@WebServlet("/courseAdDelete")
+public class DeleteServlet extends HttpServlet  {
 
-@WebServlet("/productAdServlet")
-public class ProductAdlistServlet extends HttpServlet{
-
-	private ProductAdService serv = new ProductAdServiceImpl();
-	
-	@Override
+	 private static final long serialVersionUID = 1L;
+//	 public void init() {
+			CourseAdService Service = new CourseAdServiceImpl();
+//	 }
+	 @Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		 // 設置跨域
 		 resp.setHeader("Access-Control-Allow-Origin", "*"); // 允許來自所有網域的請求
@@ -29,11 +28,14 @@ public class ProductAdlistServlet extends HttpServlet{
 		 // 設置返回格式
 		 req.setCharacterEncoding("UTF-8");
 		 resp.setContentType("application/json;charset=UTF-8");
+		
+		 Integer cAdid = Integer.parseInt(req.getParameter("cAdId"));
+		 Service.deleteAd(cAdid);
+		 int result = Service.deleteAd(cAdid);
+		 if(result < 0) {resp.getWriter().println("Take off Successfully.");}
 		 
-		 resp.getWriter().print(GsonUtils.toJson(serv.getProducts()));
 	}
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	 protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		 doPost(req, resp);
-	}
+	 }
 }

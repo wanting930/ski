@@ -8,17 +8,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
-
 import ad.product.service.ProductAdService;
 import ad.product.service.Impl.ProductAdServiceImpl;
-import core.util.GsonUtils;
 
-@WebServlet("/productAdServlet")
-public class ProductAdlistServlet extends HttpServlet{
-
-	private ProductAdService serv = new ProductAdServiceImpl();
+@WebServlet("/productAdinsert")
+public class InsertAdServlet extends HttpServlet{
 	
+	 private static final long serialVersionUID = 1L;
+
+	ProductAdService serv = new ProductAdServiceImpl();
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		 // 設置跨域
@@ -29,11 +27,13 @@ public class ProductAdlistServlet extends HttpServlet{
 		 // 設置返回格式
 		 req.setCharacterEncoding("UTF-8");
 		 resp.setContentType("application/json;charset=UTF-8");
-		 
-		 resp.getWriter().print(GsonUtils.toJson(serv.getProducts()));
+
+		 Integer pId = Integer.parseInt(req.getParameter("cId"));
+		 serv.insert(pId);
 	}
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		 doPost(req, resp);
+		// TODO Auto-generated method stub
+		doPost(req, resp);
 	}
 }
