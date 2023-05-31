@@ -1,6 +1,8 @@
-package ad.product.controller;
+package qa.controller;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.sql.Timestamp;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,16 +10,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
+import qa.service.QaService;
+import qa.service.Impl.QaServiceImpl;
+import qa.vo.Qa;
 
-import ad.product.service.ProductAdService;
-import ad.product.service.Impl.ProductAdServiceImpl;
-import core.util.GsonUtils;
-
-@WebServlet("/productAdServlet")
-public class ProductAdlistServlet extends HttpServlet{
-
-	private ProductAdService serv = new ProductAdServiceImpl();
+@WebServlet("/insertQa")
+public class InsertServlet extends HttpServlet{
+	private static final long serialVersionUID = 1L;
+	private QaService service = new QaServiceImpl();
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -30,7 +30,15 @@ public class ProductAdlistServlet extends HttpServlet{
 		 req.setCharacterEncoding("UTF-8");
 		 resp.setContentType("application/json;charset=UTF-8");
 		 
-		 resp.getWriter().print(GsonUtils.toJson(serv.getProducts()));
+		    // 獲取前端傳遞的資料
+		    Integer questionType = Integer.parseInt(req.getParameter("questionType"));
+		    String questionTitle = req.getParameter("questionTitle");
+		    String answerContent = req.getParameter("answerContent");
+		    Timestamp questionDate = new Timestamp(System.currentTimeMillis());
+
+		    // 呼叫 service 的 insert() 方法建立新的 qa 物件
+		    service.insert(questionType, questionTitle, answerContent, questionDate);
+
 	}
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
