@@ -24,6 +24,8 @@ public interface ArticleDao extends CoreDao{
 	List<Article> selectByArticleTitle(String articleTitle);
 	
 	List<Article> selectByArticleStatus(String articleTitle);
+	
+	int updateAllSelectArticleTypeToOne(Integer articleTypeID);
 	//複製select
 	//List袋子裝，只能裝Article
 	List<Article> selectAll() throws ClassNotFoundException;

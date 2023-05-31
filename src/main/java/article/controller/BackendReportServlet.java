@@ -29,9 +29,9 @@ public class BackendReportServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-
+		
 		String action=req.getParameter("action");
-//		System.out.println(action);
+		System.out.println(action);
 		String fowardPath="";
 		switch(action) {
 			case "showAll":
