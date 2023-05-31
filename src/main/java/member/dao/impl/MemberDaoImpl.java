@@ -1,5 +1,6 @@
 package member.dao.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -42,7 +43,11 @@ public class MemberDaoImpl implements MemberDao {
 		try {
 			Session session = getSession();
 			Member oMember = session.get(Member.class, nMember.getUserID());
-
+			
+			final String email = nMember.getEmail();
+			if (email != null && !email.isEmpty()) {
+				oMember.setEmail(email);
+			}
 			final String passowrd = nMember.getPassword();
 			if (passowrd != null && !passowrd.isEmpty()) {
 				oMember.setPassword(passowrd);
@@ -55,12 +60,24 @@ public class MemberDaoImpl implements MemberDao {
 			if (nickName != null && !nickName.isEmpty()) {
 				oMember.setNickName(nickName);
 			}
+			final String gender = nMember.getGender();
+			if (gender != null && !gender.isEmpty()) {
+				oMember.setGender(gender);
+			}
+			final Date birthDate = nMember.getBirthDate();
+			if (birthDate != null) {
+				oMember.setBirthDate(birthDate);
+			}
+			final String personID = nMember.getPersonID();
+			if (personID != null) {
+				oMember.setPersonID(personID);
+			}
 			final String phone = nMember.getPhone();
-			if (phone != null && !phone.isEmpty()) {
+			if (phone != null) {
 				oMember.setPhone(phone);
 			}
 			final String address = nMember.getAddress();
-			if (address != null && !address.isEmpty()) {
+			if (address != null) {
 				oMember.setAddress(address);
 			}
 			final String level = nMember.getLevel();
@@ -70,6 +87,10 @@ public class MemberDaoImpl implements MemberDao {
 			final byte[] photo = nMember.getPhoto();
 			if (photo != null && photo.length > 0) {
 				oMember.setPhoto(photo);
+			}
+			final String userStatus = nMember.getUserStatus();
+			if (userStatus != null && !userStatus.isEmpty()) {
+				oMember.setUserStatus(userStatus);
 			}
 			return true;
 		} catch (Exception e) {

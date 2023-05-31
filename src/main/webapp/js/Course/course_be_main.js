@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
+  const tableBody = document.getElementById("courseTableBody");
   // 獲取數據並渲染表格
   AllCrouseRequsest();
 
@@ -11,58 +12,76 @@ document.addEventListener("DOMContentLoaded", function () {
         deleteExc(courseID);
       } else if (event.target.classList.contains("btn-edit")) {
         const courseID = event.target.dataset.courseId;
-        // updateDirect(courseID); // 跳轉到修改頁面
       }
     });
-});
 
-function AllCrouseRequsest() {
-  $.ajax({
-    url: "http://localhost:8080/ski/course_GA",
-    type: "GET",
-    dataType: "json",
-    success: function (data) {
-      renderCourse(data);
-    },
-    error: function (error) {
-      console.error(error);
-    },
+  $("#serachbar").on("input", function () {
+    var keyWord = $(this).val();
+    $.ajax({
+      url: "http://localhost:8080/ski/course_GBK",
+      type: "POST",
+      dataType: "json",
+      data: { keyWord: keyWord },
+      success: function (data) {
+      	$("#courseTableBody").empty();
+        renderCourse(data);
+      },
+      error: function () {
+        console.log("error");
+      },
+    });
   });
-}
 
-// 渲染商品表格
-function renderCourse(Course) {
-  const tableBody = document.getElementById("courseTableBody");
-  // tableBody.innerHTML = '';
+  function AllCrouseRequsest() {
+    $.ajax({
+      url: "http://localhost:8080/ski/course_GA",
+      type: "POST",
+      dataType: "json",
+      success: function (data) {
+        renderCourse(data);
+      },
+      error: function () {
+        console.log("error");
+      },
+    });
+  }
 
-  Course.forEach((course) => {
-    const row = document.createElement("tr");
-    row.classList.add("align-middle");
+  // 渲染商品表格
+  function renderCourse(Course) {  
 
-    const editButton = document.createElement("button");
-	editButton.classList.add("btn", "btn-secondary", "btn-edit");
-	editButton.textContent = "修改";
-	const editlink = document.createElement("a");
-	//link.textContent = "修改";
-	editlink.href = "http://localhost:8080/ski/course/backend_courseUpdate.html?courseID="+course.courseID;
-	
-	editlink.appendChild(editButton);
+    Course.forEach((course) => {
+      const row = document.createElement("tr");
+      row.classList.add("align-middle");
 
-    const deleteButton = document.createElement("button");
-    deleteButton.classList.add("btn", "btn-secondary", "btn-delete");
-    deleteButton.textContent = "刪除";
+      const editButton = document.createElement("button");
+      editButton.classList.add("btn", "btn-secondary", "btn-edit");
+      editButton.textContent = "修改";
+      const editlink = document.createElement("a");
+      editlink.href =
+        "http://localhost:8080/ski/course/backend_courseUpdate.html?courseID=" +
+        course.courseID;
 
+      editlink.appendChild(editButton);
 
-    // 將日期格式轉換為 yyyy-MM-dd 格式
-    const date = new Date(course.courseDate);
-    const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1)
-      .toString()
-      .padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`;
+      const deleteButton = document.createElement("button");
+      deleteButton.classList.add("btn", "btn-secondary", "btn-delete");
+      deleteButton.textContent = "刪除";
 
-	const base64Image = btoa(new Uint8Array(course.coursePhoto).reduce((data, byte) => data + String.fromCharCode(byte), ''));
-    const imageSrc = `data:image/png;base64,${base64Image}`;
+      // 將日期格式轉換為 yyyy-MM-dd 格式
+      const date = new Date(course.courseDate);
+      const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1)
+        .toString()
+        .padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`;
 
-    row.innerHTML = `
+      const base64Image = btoa(
+        new Uint8Array(course.coursePhoto).reduce(
+          (data, byte) => data + String.fromCharCode(byte),
+          ""
+        )
+      );
+      const imageSrc = `data:image/png;base64,${base64Image}`;
+
+      row.innerHTML = `
       <th scope="row">${course.courseID}</th>
       <td><img src='${imageSrc}' style="max-width: 150px; max-height: 80px;"></img></td>
       <td>couchID</td>
@@ -77,30 +96,31 @@ function renderCourse(Course) {
       <td></td>
     `;
 
-    row.querySelector("td:nth-child(11)").appendChild(editlink);
-    row.querySelector("td:nth-child(12)").appendChild(deleteButton);
+      row.querySelector("td:nth-child(11)").appendChild(editlink);
+      row.querySelector("td:nth-child(12)").appendChild(deleteButton);
 
-    tableBody.appendChild(row);
-  });
-}
-
-function deleteExc(courseID) {
-  if (confirm("確認刪除此課程?")) {
-    $.ajax({
-      url: "http://localhost:8080/ski/course_DL",
-      type: "POST",
-      data: { CourseID: courseID },
-      dataType: "json",
-      success: function (data) {
-        console.success(data);
-      },
-      error: function (error) {
-        console.error(error);
-      },
+      tableBody.appendChild(row);
     });
-    alarm("刪除成功");
-    AllCrouseRequsest();
-  }else{
-  	alarm("刪除失敗");
   }
-}
+
+  function deleteExc(courseID) {
+    if (confirm("確認刪除此課程?")) {
+      $.ajax({
+        url: "http://localhost:8080/ski/course_DL",
+        type: "POST",
+        data: { CourseID: courseID },
+        dataType: "json",
+        success: function (data) {
+          console.success(data);
+        },
+        error: function (error) {
+          console.error(error);
+        },
+      });
+      alarm("刪除成功");
+      AllCrouseRequsest();
+    } else {
+      alarm("刪除失敗");
+    }
+  }
+});

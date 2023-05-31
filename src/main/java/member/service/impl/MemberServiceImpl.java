@@ -16,10 +16,38 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
+	public Member register(Member member) {
+		final String email = member.getEmail();
+		String emailPatt = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+
+		if (!(email.matches(emailPatt))) {
+			member.setMessage("信箱格式不正確，請重新輸入");
+			member.setSuccessful(false);
+			return member;
+		}
+
+		if (dao.selectByEmail(email) != null) {
+			member.setMessage("帳號重複，請重新輸入");
+			member.setSuccessful(false);
+			return member;
+		}
+
+		final int resultCount = dao.insert(member);
+		if (resultCount < 1) {
+			member.setMessage("註冊失敗，請聯絡管理員!");
+			member.setSuccessful(false);
+			return member;
+		}
+		member.setMessage("註冊成功");
+		member.setSuccessful(true);
+		return member;
+	}
+
+	@Override
 	public Member login(Member member) {
 		final String email = member.getEmail();
 		final String password = member.getPassword();
-	
+
 		member = dao.selectForLogin(email, password);
 
 		if (email == null || password == null) {
@@ -37,7 +65,7 @@ public class MemberServiceImpl implements MemberService {
 		member.setSuccessful(true);
 		return member;
 	}
-	
+
 	@Override
 	public String genAuthCode() {
 		char[] code = new char[8];
@@ -53,41 +81,28 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public Member register(Member member) {
-		final String email = member.getEmail();
-		String emailPatt = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+	public Member infoChange(Member member) {
+		Boolean isSuccess = dao.updateById(member);
 
-		if(!(email.matches(emailPatt))) {
-			member.setMessage("信箱格式不正確，請重新輸入");
+		if (isSuccess == false) {
+			member.setMessage("資訊變更失敗，請重新輸入");
 			member.setSuccessful(false);
 			return member;
 		}
-		
-		if (dao.selectByEmail(email) != null) {
-			member.setMessage("帳號重複，請重新輸入");
-			member.setSuccessful(false);
-			return member;
-		}
-		
-		final int resultCount = dao.insert(member);
-		if (resultCount < 1) {
-			member.setMessage("註冊失敗，請聯絡管理員!");
-			member.setSuccessful(false);
-			return member;
-		}
-		member.setMessage("註冊成功");
+
+		member.setMessage("資訊變更成功");
 		member.setSuccessful(true);
 		return member;
 	}
-	
+
 	@Override
 	public Member checkPassword(Member member) {
 		final Integer userID = member.getUserID();
 		final String passwordInput = member.getPassword();
-		
+
 		String password = dao.selectById(userID).getPassword();
-		
-		if(!(password.equals(passwordInput))) {
+
+		if (!(password.equals(passwordInput))) {
 			member.setMessage("原密碼輸入不正確");
 			member.setSuccessful(false);
 			return member;
@@ -97,35 +112,45 @@ public class MemberServiceImpl implements MemberService {
 		member.setSuccessful(true);
 		return member;
 	}
-	
+
 	@Override
 	public Member passwordChange(Member member) {
-		final Integer userID = member.getUserID();
-		final String password = member.getPassword();
-		System.out.println("userID = " + userID);
-		System.out.println("password = " + password);
-		
 		Boolean isSuccess = dao.updateById(member);
-		
-		if(isSuccess == false) {
+
+		if (isSuccess == false) {
 			member.setMessage("密碼變更失敗，請重新輸入");
 			member.setSuccessful(false);
 			return member;
 		}
-		
+
 		member.setMessage("密碼變更成功，請重新登入");
 		member.setSuccessful(true);
 		return member;
 	}
-	
+
 	@Override
 	public List<Member> findAll() {
 		return dao.selectAll();
 	}
-	
+
 	@Override
 	public Member findOne(Integer userID) {
 		return dao.selectById(userID);
+	}
+
+	@Override
+	public Member settings(Member member) {
+		Boolean isSuccess = dao.updateById(member);
+
+		if (isSuccess == false) {
+			member.setMessage("資訊變更失敗，請重新輸入");
+			member.setSuccessful(false);
+			return member;
+		}
+
+		member.setMessage("資訊變更成功");
+		member.setSuccessful(true);
+		return member;
 	}
 
 }

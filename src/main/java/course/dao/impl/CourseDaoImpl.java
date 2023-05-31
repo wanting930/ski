@@ -52,39 +52,66 @@ import course.entity.Course;
 	        }
 
 			@Override
-			public List<Course> getCourseByCourseName(String courseName) {
-				String hql = "FROM Course WHERE courseName LIKE :courseName";
+			public List<Course> getCourseByKeywordAndTag(String Keyword, Integer skill, Integer level) {
+				String hql = "FROM Course WHERE 1 = 1";
+				
+				Boolean input = false;
+				if ( Keyword != null || !Keyword.isEmpty()) {
+					input = true;
+			        hql += " AND courseName LIKE :courseName ";
+			    }
+				
+				if (skill >= 0) {
+			        hql += " AND skill = :skill";
+			    }
+
+			    if (level >= 0) {
+			        hql += " AND level = :level";
+			    }
 	        	Query<Course> query = getSession().createQuery(hql, Course.class);
-	        	query.setParameter("courseName", "%" + courseName + "%");
+	        	if(input) {
+	        		query.setParameter("courseName", "%" + Keyword + "%");
+	        	}
 	        	List<Course> resultList = query.getResultList();		        	
 	        	return resultList; 	        		    
 			}
 
+			
 			@Override
-			public List<Course> getCourseByTag(String skill, String level) {
-			    String hql = "FROM Course WHERE 1 = 1"; // Assuming the entity name is Course
-
-			    if (!skill.isEmpty()) {
-			        hql += " AND skill = :skill";
-			    }
-
-			    if (!level.isEmpty()) {
-			        hql += " AND level = :level";
-			    }
-
-			    Query<Course> query = getSession().createQuery(hql, Course.class);
-
-			    if (!skill.isEmpty()) {
-			        query.setParameter("skill", skill);
-			    }
+			public List<Course> getCourseByKeyword(String Keyword){
+				String hql = "FROM Course WHERE courseName LIKE :courseName";
 			    
-			    if (!level.isEmpty()) {
-			        query.setParameter("level", level);
-			    }
-
-			    List<Course> resultList = query.getResultList();
-			    return resultList;
+				Query<Course> query = getSession().createQuery(hql, Course.class);
+				query.setParameter("courseName", "%" + Keyword + "%");	     
+	        	List<Course> resultList = query.getResultList();		        	
+	        	return resultList; 	        	
 			}
+
+			//			@Override
+//			public List<Course> getCourseByTag(String skill, String level) {
+//			    String hql = "FROM Course WHERE 1 = 1"; // Assuming the entity name is Course
+//
+//			    if (!skill.isEmpty()) {
+//			        hql += " AND skill = :skill";
+//			    }
+//
+//			    if (!level.isEmpty()) {
+//			        hql += " AND level = :level";
+//			    }
+//
+//			    Query<Course> query = getSession().createQuery(hql, Course.class);
+//
+//			    if (!skill.isEmpty()) {
+//			        query.setParameter("skill", skill);
+//			    }
+//			    
+//			    if (!level.isEmpty()) {
+//			        query.setParameter("level", level);
+//			    }
+//
+//			    List<Course> resultList = query.getResultList();
+//			    return resultList;
+//			}
 
 //			@Override
 //			public int updateCourseValid(Integer courseId) {

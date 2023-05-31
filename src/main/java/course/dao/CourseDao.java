@@ -18,10 +18,11 @@ public interface CourseDao extends CoreDao{
 	
     Course getCourseByCourseId(Integer courseId) ;
     
-    List<Course> getCourseByCourseName(String courseName) ;
+    List<Course> getCourseByKeywordAndTag(String Keyword, Integer skill, Integer level) ;
     
-//    include level & skill
-    List<Course> getCourseByTag(String skill, String level);
+    List<Course> getCourseByKeyword(String Keyword) ;
+////    include level & skill
+//    List<Course> getCourseByTag(String skill, String level);
     
     List<Course> getAllCourses();
     
