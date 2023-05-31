@@ -17,7 +17,7 @@ $("#addButton").on("click", function (event) {
     )
     .each(function () {
       const input = $(this);
-     
+
       const value = input.val();
       if (value === null || value === "") {
         const errorMsg = input.parent().parent().siblings(".text-danger");
@@ -41,7 +41,7 @@ $("#addButton").on("click", function (event) {
     const courseStatus = document.getElementById("courseStatus").value;
     const coursePhoto = document.getElementById("coursePhoto").files[0];
     const courseIntroduce = document.getElementById("courseIntroduce").value;
-	
+
     // Create FormData object to store form data
     const formData = new FormData();
     console.log(courseSkill);

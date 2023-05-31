@@ -1,31 +1,40 @@
 package course.controller;
 
+import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+
 import course.dao.impl.CourseDaoImpl;
 import course.entity.Course;
 
 
-@WebServlet("/course_GBN")
-public class GetCourseByNameServlet extends HttpServlet {
+@WebServlet("/course_GBK")
+@MultipartConfig
+public class GetCourseByKeywordServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) {
 			
 			CourseDaoImpl dao = new CourseDaoImpl();
-//			PojoToJson(response, dao.getAllCourses());
-			List<Course> list = dao.getCourseByCourseName("z");
-			for (Course e : list) {
-				System.out.println(e.getCourseID());
-				System.out.println(e.getCourseName());
+			List<Course> list = dao.getCourseByKeyword(request.getParameter("keyWord"));				
+			
+			Gson gson = new Gson();
+			String jsonStr = gson.toJson(list);
+			try {
+				response.getWriter().write(jsonStr);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			return;
+			response.setContentType("application/json");
 			
 			
 		//		Member member = json2Pojo(request, Member.class);
