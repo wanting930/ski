@@ -6,8 +6,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 	<!-- 引入bootstrap套件CSS -->
-	<!-- <link rel="stylesheet" href="/ski/css/bootstrap.css" /> -->
 	<link rel="stylesheet" href="../css/bootstrap.css" />
+  	<link rel="stylesheet" href="../css/root.css" />
+  	<link rel="stylesheet" href="../css/frontend_public.css" />
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 	<title>課程</title>
@@ -71,45 +72,44 @@
 					<!-- 課程類型分類 -->
 					<div class="skillZone m-2">
 						<span>課程類型</span>
-						<input type="radio" class="skilloptions btn-check" name="skilloptions" id="skill-0"
-							autocomplete="off" checked>
-						<label class="btn btn-secondary" for="skill-0">全部</label>
-						<input type="radio" class="skilloptions btn-check" name="skilloptions" id="skill-1"
-							autocomplete="off">
-						<label class="btn btn-secondary" for="skill-1">單板</label>
-						<input type="radio" class="skilloptions btn-check" name="skilloptions" id="skill-2"
-							autocomplete="off">
-						<label class="btn btn-secondary" for="skill-2">雙板</label>
+						<input type="radio" class="skilloptions btn-check" name="skilloptions" id="skill_-1"
+							value="-1" autocomplete="off" checked>
+						<label class="btn btn-secondary" for="skill_-1">全部</label>
+						<input type="radio" class="skilloptions btn-check" name="skilloptions" id="skill_0"
+							value="0" autocomplete="off">
+						<label class="btn btn-secondary" for="skill_0">單板</label>
+						<input type="radio" class="skilloptions btn-check" name="skilloptions" id="skill_1"
+							value="1" autocomplete="off">
+						<label class="btn btn-secondary" for="skill_1">雙板</label>
 					</div>
 
 					<!-- 課程等級分類 -->
 					<div class="levelZone m-2">
 						<span>課程等級</span>
-						<input type="radio" class="leveloptions btn-check" name="leveloptions" id="level-0"
-							autocomplete="off" checked>
-						<label class="btn btn-secondary" for="level-0">全部</label>
-						<input type="radio" class="leveloptions btn-check" name="leveloptions" id="level-1"
-							autocomplete="off">
-						<label class="btn btn-secondary" for="level-1">初階</label>
-						<input type="radio" class="leveloptions btn-check" name="leveloptions" id="level-2"
-							autocomplete="off">
-						<label class="btn btn-secondary" for="level-2">中階</label>
-						<input type="radio" class="leveloptions btn-check" name="leveloptions" id="level-3"
-							autocomplete="off">
-						<label class="btn btn-secondary" for="level-3">高階</label>
+						<input type="radio" class="leveloptions btn-check" name="leveloptions" id="level_-1"
+							value="-1" autocomplete="off" value= checked>
+						<label class="btn btn-secondary" for="level_-1">全部</label>
+						<input type="radio" class="leveloptions btn-check" name="leveloptions" id="level_0"
+							value="0" autocomplete="off">
+						<label class="btn btn-secondary" for="level_0">初階</label>
+						<input type="radio" class="leveloptions btn-check" name="leveloptions" id="level_1"
+							value="1" autocomplete="off">
+						<label class="btn btn-secondary" for="level_1">中階</label>
+						<input type="radio" class="leveloptions btn-check" name="leveloptions" id="level_2"
+							value="2" autocomplete="off">
+						<label class="btn btn-secondary" for="level_2">高階</label>
 					</div>
 				</div>
 
 			</div>
 			<!-- 搜尋欄 -->
 			<div class="searchZone mb-3 d-flex justify-content-center">
-				<input type="text" class="searchBar col-10" placeholder="請輸入課程關鍵字..." />
-				<button class="search">搜尋</button>
+				<input type="text" id = "searchbar"; class="col-10" placeholder="請輸入課程關鍵字..." />
 			</div>
 
-			<!-- 商品展示 -->
-			<div class="container ">
-				<div class="overflow-auto " id="courseContent" style="height: 500px;">
+			<!-- 課程展示 -->
+			<div id="courseContainer ">
+				<div class="overflow-auto" id="courseContent" style="height: 500px;">
 				</div>
 			</div>
 		</div>
@@ -164,8 +164,6 @@
 </body>
 
 <!-- 引入bootstrap套件JS -->
-<!-- <script src="/ski/js/frontend_public.js"></script>
-<script src="/ski/js/bootstrap.bundle.js"></script> -->
 <script src="../js/frontend_public.js"></script>
 <script src="../js/bootstrap.bundle.js"></script>
 <script src="../js/Course/course_fe_main.js"></script>

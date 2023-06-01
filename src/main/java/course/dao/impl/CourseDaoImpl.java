@@ -57,7 +57,6 @@ import course.entity.Course;
 				
 				Boolean input = false;
 				if ( Keyword != null || !Keyword.isEmpty()) {
-					input = true;
 			        hql += " AND courseName LIKE :courseName ";
 			    }
 				
@@ -68,10 +67,20 @@ import course.entity.Course;
 			    if (level >= 0) {
 			        hql += " AND level = :level";
 			    }
+			    
 	        	Query<Course> query = getSession().createQuery(hql, Course.class);
-	        	if(input) {
+	   
+	        	if ( Keyword != null || !Keyword.isEmpty()) {
 	        		query.setParameter("courseName", "%" + Keyword + "%");
-	        	}
+			    }
+				
+				if (skill >= 0) {
+					query.setParameter("skill", skill);
+			    }
+
+			    if (level >= 0) {
+			    	query.setParameter("level", level);
+			    }
 	        	List<Course> resultList = query.getResultList();		        	
 	        	return resultList; 	        		    
 			}

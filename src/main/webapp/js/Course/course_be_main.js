@@ -23,7 +23,6 @@ document.addEventListener("DOMContentLoaded", function () {
       dataType: "json",
       data: { keyWord: keyWord },
       success: function (data) {
-      	$("#courseTableBody").empty();
         renderCourse(data);
       },
       error: function () {
@@ -48,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // 渲染商品表格
   function renderCourse(Course) {  
-
+	$("#courseTableBody").empty();
     Course.forEach((course) => {
       const row = document.createElement("tr");
       row.classList.add("align-middle");

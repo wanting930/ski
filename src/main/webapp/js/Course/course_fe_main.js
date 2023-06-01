@@ -1,6 +1,6 @@
 $(document).ready(function () {
-  // getAllCourse();
-  renderCourse();
+  getAllCourse();
+
 
   $(".skilloptions").on("change", function () {
     getCourseByKeywordAndTag();
@@ -10,7 +10,9 @@ $(document).ready(function () {
     getCourseByKeywordAndTag();
   });
 
-  $("#searchBar").on("change", function () {});
+  $("#searchbar").on("input", function () {
+  	 getCourseByKeywordAndTag();
+  });
 });
 
 function getAllCourse() {
@@ -27,21 +29,65 @@ function getAllCourse() {
   });
 }
 
-function getCourseByKeywordAndTag() {}
+function getCourseByKeywordAndTag() {
+   
+    var keyWord = $("#searchbar").val();
+    var courseLevel = $("input[name='leveloptions']:checked").val();
+    var courseSkill = $("input[name='skilloptions']:checked").val();
+    
+    if(!keyWord){
+   		keyWord = "";
+   	}
+   	if(!courseLevel){
+   		courseLevel = "-1";
+   	}
+   	if(!courseSkill){
+   		courseSkill = "-1";
+   	}
+   	
+   console.log("keyWord "+ keyWord);
+  
+   console.log("courseLevel "+ courseLevel);
+    console.log("courseSkill "+ courseSkill);
 
-function renderCourse() {
-  for (i = 0; i < 5; i++) {
+ $.ajax({
+      url: "http://localhost:8080/ski/course_GBKAT",
+      type: "POST",
+      dataType: "json",
+      data: { 
+	      keyWord: keyWord, 
+	      courseLevel: courseLevel, 
+	      courseSkill: courseSkill
+      },
+      success: function (data) {
+        renderCourse(data);
+      },
+      error: function () {
+        console.log("error");
+      },
+  });
+}
+
+function renderCourse(Course) {
+	$("#courseContent").empty();
+  Course.forEach((course) =>{
+   // 子頁導向連結生成
+  	subDirectLink = $("<a>")
+      .attr(
+         "href",
+         "http://localhost:8080/ski/course/frontend_courseDetail.html?courseID=" +
+           course.courseID
+       )
+       .text("詳細資訊")
+       .css({
+    	'text-decoration': 'none',
+    	'color': 'white'
+  		});
     // 子頁導向按鈕生成
     const subDirectButton = $("<button>")
       .addClass("btn btn-secondary m-2 subDirect")
-      .text("詳細資訊");
-    // subDirectLink = $("<a>")
-    //   .attr(
-    //     "href",
-    //     "http://localhost:8080/ski/course/backend_courseUpdate.html?courseID=" +
-    //       course.courseID
-    //   )
-    //   .append(subDirectButton);
+      .append(subDirectLink);
+       
     //購物車按鈕生成
     addCartButton = $("<button>")
       .addClass("btn btn-secondary m-2 addCart")
@@ -49,77 +95,55 @@ function renderCourse() {
 
     //加入購物車功能綁定
     $(".addCart").on("click", function () {
-      // $.ajax({
-      //   url: "http://localhost:8080/ski/",
-      //   type: "POST",
-      //   dataType: "json",
-      //   data: { keyWord: keyWord },
-      //   success: function (data) {
-      //     alert("加入購物車成功");
-      //   },
-      //   error: function () {
-      //     console.log("error");
-      //   },
-      // });
+       $.ajax({
+         url: "http://localhost:8080/ski/",
+         type: "POST",
+         dataType: "json",
+         data: { keyWord: keyWord },
+        success: function (data) {
+           alert("加入購物車成功");
+         },
+         error: function () {
+           console.log("error");
+         },
+       });
     });
 
-    // const base64Image = btoa(
-    //   new Uint8Array(course.coursePhoto).reduce(
-    //     (data, byte) => data + String.fromCharCode(byte),
-    //     ""
-    //   )
-    // );
-    // const imageSrc = `data:image/png;base64,${base64Image}`;
+     const base64Image = btoa(
+       new Uint8Array(course.coursePhoto).reduce(
+         (data, byte) => data + String.fromCharCode(byte),
+        ""
+       )
+     );
+     const imageSrc = `data:image/png;base64,${base64Image}`;
 
-    // cardStr = `
-    //   <div class="courseCard my-3 p-2 d-flex align-items-center position-relative">
+     cardStr = `
+       <div class="courseCard border-top my-3 p-2 d-flex align-items-center position-relative">
 
-    //       <div class="imgZone mx-2 ">
-    //         <img class="crousePhoto" src='${imageSrc}' style="height: 180px; width: 250px; color: gray;">
-    //       </div>
+           <div class="imgZone mx-2 ">
+             <img class="crousePhoto" src='${imageSrc}' style="max-height: 180px; max-width: 250px; color: gray;">
 
-    //       <div class="textZone mb-3">
-    //         <div id="titleGroup" class="d-flex ">
-    //           <h1>${course.courseName}</h1>
-    //         </div>
-    //         <p class="p-2">
-    //           ${course.courseIntroduce}
-    //         </p>
-    //       </div>
+           </div>
 
-    //       <div class="btnGroup m-2 position-absolute bottom-0 end-0">
-    //       </div>
-    // 		</div>
-    // `;
-
-    cardStr = `
-      <div class="courseCard  p-2 d-flex align-items-center position-relative">
-
-          <div class="imgZone mx-2 ">
-            <img class="crousePhoto" style="height: 180px; width: 250px; color: gray;">
-          </div>
-
-          <div class="textZone mb-3">
+           <div class="textZone mb-3">
             <div id="titleGroup" class="d-flex ">
-              <h1>課程名稱</h1>
-            </div>
-            <p class="p-2">
-              課程介紹課程介紹課程介紹課程介紹課程介紹課程介紹課程介紹
-              課程介紹課程介紹課程介紹課程介紹課程介紹課程介紹課程介紹
-              課程介紹課程介紹課程介紹課程介紹課程介紹課程介紹課程介紹
-              課程介紹課程介紹課程介紹課程介紹課程介紹課程介紹課程介紹
-            </p>
-          </div>
+               <h1>${course.courseName}</h1>
+             </div>
+             <p class="p-2">
+               ${course.courseIntroduce}
+             </p>
+           </div>
 
-          <div class="btnGroup m-2 position-absolute bottom-0 end-0">
-          </div>
-        </div>
-    `;
+           <div class="btnGroup m-2 position-absolute bottom-0 end-0">
+           </div>
+     		</div>
+     `;
+
 
     $("#courseContent").append(cardStr);
     $(".courseCard").each(function () {
       const btnGroup = $(this).find(".btnGroup");
       btnGroup.append(subDirectButton, addCartButton);
     });
-  }
+  });
 }
