@@ -22,6 +22,7 @@ public class GetCourseByCrouseIDServlet extends HttpServlet {
 	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) {
+       System.out.println("courseID" + request.getParameter("courseID"));
 			Integer courseID =  Integer.valueOf(request.getParameter("courseID"));
 			CourseDaoImpl dao = new CourseDaoImpl();
 //			PojoToJson(response, dao.getAllCourses());

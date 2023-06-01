@@ -1,6 +1,6 @@
 // Usage example: Call the function with the course ID to retrieve the information
 const urlParams = new URLSearchParams(window.location.search);
-const courseID = urlParams.get("courseID"); //
+const courseID = urlParams.get("courseID");
 
 $(document).ready(function () {
   getCourseInfo();
