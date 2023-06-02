@@ -2,19 +2,19 @@ package ad.course.service.Impl;
 
 import java.util.List;
 
-import ad.course.Dao.courseAdHistoryDao;
-import ad.course.Dao.Impl.courseAdDaoImpl;
-import ad.course.Dao.Impl.courseAdHistoryDaoImpl;
-import ad.course.service.courseAdHistoryService;
-import ad.course.vo.courseAdHistory;
+import ad.course.Dao.CourseAdHistoryDao;
+import ad.course.Dao.Impl.CourseAdDaoImpl;
+import ad.course.Dao.Impl.CourseAdHistoryDaoImpl;
+import ad.course.service.CourseAdHistoryService;
+import ad.course.vo.CourseAdHistory;
 
-public class courseAdHistoryServiceImpl implements courseAdHistoryService {
+public class CourseAdHistoryServiceImpl implements CourseAdHistoryService {
 
-	private courseAdHistoryDao dao = new courseAdHistoryDaoImpl();
+	private CourseAdHistoryDao dao = new CourseAdHistoryDaoImpl();
 	
 	@Override
-	public courseAdHistory insert(Integer courseId) {
-		courseAdHistory cAdHistory = new courseAdHistory();
+	public CourseAdHistory insert(Integer courseId) {
+		CourseAdHistory cAdHistory = new CourseAdHistory();
 		cAdHistory.setCourseID(courseId);
 		return cAdHistory;
 	}

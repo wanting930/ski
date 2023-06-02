@@ -2,23 +2,23 @@ package ad.product.service.Impl;
 
 import java.util.List;
 
-import ad.product.Dao.productAdHistoryDao;
-import ad.product.Dao.productDao;
-import ad.product.Dao.Impl.productADHistoryDaoImpl;
-import ad.product.Dao.Impl.productAdDaoImpl;
-import ad.product.service.productAdService;
-import ad.product.vo.productADHistory;
-import ad.product.vo.productAd;
+import ad.product.Dao.ProductAdHistoryDao;
+import ad.product.Dao.ProductDao;
+import ad.product.Dao.Impl.ProductAdHistoryDaoImpl;
+import ad.product.Dao.Impl.ProductAdDaoImpl;
+import ad.product.service.ProductAdService;
+import ad.product.vo.ProductAdHistory;
+import ad.product.vo.ProductAd;
 import product.vo.Product;
 
-public class productAdServiceImpl implements productAdService {
-	private productDao dao = new productAdDaoImpl();
-	private productAdHistoryDao Hdao = new productADHistoryDaoImpl();
+public class ProductAdServiceImpl implements ProductAdService {
+	private ProductDao dao = new ProductAdDaoImpl();
+	private ProductAdHistoryDao Hdao = new ProductAdHistoryDaoImpl();
 	
 	//新增
 	@Override
-	public productAd insert(Integer productId) {
-		productAd pAd = new productAd();
+	public ProductAd insert(Integer productId) {
+		ProductAd pAd = new ProductAd();
 		pAd.setProductID(productId);
 		dao.insert(pAd);
 		return pAd;
@@ -26,7 +26,7 @@ public class productAdServiceImpl implements productAdService {
 	//刪除
 	@Override
 	public int delete(Integer productId) {
-		productADHistory pAd = new productADHistory();
+		ProductAdHistory pAd = new ProductAdHistory();
 		pAd.setProductID(productId);
 		Hdao.insert(pAd);
 		dao.delete(productId);

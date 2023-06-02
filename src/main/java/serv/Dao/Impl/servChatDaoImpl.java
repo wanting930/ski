@@ -3,39 +3,39 @@ package serv.Dao.Impl;
 import java.util.List;
 
 
-import serv.vo.servChat;
-import serv.Dao.servChatDao;
+import serv.vo.ServChat;
+import serv.Dao.ServChatDao;
 
-public class servChatDaoImpl implements servChatDao {
+public class ServChatDaoImpl implements ServChatDao {
 //	private getSession() getSession();
 	
 	
 	@Override
-	public int insert(servChat servChat) {
+	public int insert(ServChat servChat) {
 		getSession().persist(servChat);
 		return 1;
 	}
 
 	@Override
 	public int delete(Integer id) {
-		servChat servChat = getSession().load(servChat.class, id);
+		ServChat servChat = getSession().load(ServChat.class, id);
 		getSession().remove(servChat);
 		return 1;
 	}
 	@Override
-	public int update(servChat sChat) {
-		servChat servChat = getSession().load(servChat.class, sChat.getServChatID());
+	public int update(ServChat sChat) {
+		ServChat servChat = getSession().load(ServChat.class, sChat.getServChatID());
 		servChat.setManagerID(sChat.getManagerID());
 		servChat.setMessage(sChat.getMessage());
 		servChat.setSendTime(sChat.getSendTime());
 		return 1;
 	}
 	@Override
-	public servChat select(Integer id) {
-		return getSession().get(servChat.class, id);
+	public ServChat select(Integer id) {
+		return getSession().get(ServChat.class, id);
 	}
 	@Override
-	public List<servChat> selectAll(){
-		return getSession().createQuery("from servChat",servChat.class).list();
+	public List<ServChat> selectAll(){
+		return getSession().createQuery("FROM ServChat",ServChat.class).list();
 	}
 }

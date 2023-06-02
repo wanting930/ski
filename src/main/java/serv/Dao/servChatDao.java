@@ -3,18 +3,18 @@ package serv.Dao;
 import java.util.List;
 
 import core.CoreDao;
-import serv.vo.servChat;
+import serv.vo.ServChat;
 
-public interface servChatDao extends CoreDao{
+public interface ServChatDao extends CoreDao{
 
-	int insert(servChat servChat);
+	int insert(ServChat servChat);
 
 	int delete(Integer id);
 
-	int update(servChat sChat);
+	int update(ServChat sChat);
 
-	servChat select(Integer id);
+	ServChat select(Integer id);
 
-	List<servChat> selectAll();
+	List<ServChat> selectAll();
 
 }
