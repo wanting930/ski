@@ -130,13 +130,31 @@ $("#type").on("click", "button.btn_update", function () {
             dataType: "json",
             success: function (data) {
                 alert("檢舉處理成功");
-                window.location.href = "http://localhost:8080/ski/article/backend_Report.html";
             },
             error: function (err) {
                 console.log("後端檢舉處理修改失敗");
                 console.log(err);
             }
         })
+        $.ajax({
+            url: "http://localhost:8080/ski/SendEmailServlet",
+            type: "Post",
+            data: {
+                "email":"masterAreYouSureStart",
+                "subject":"test",
+                "message":"師傅你確定要拍嗎?"
+            },
+            dataType: "json",
+            success: function (data) {
+                alert("Email傳送成功");
+                window.location.href = "http://localhost:8080/ski/article/backend_Report.html";
+            },
+            error: function (err) {
+                console.log("Email傳送失敗");
+                console.log(err);
+            }
+        })
+        
     }else if(task_text == ""){
         alert("檢舉回覆不可為空白");
     }
