@@ -82,6 +82,21 @@ function renderCourse(Course) {
       .append(subDirectLink);
 
     //購物車按鈕生成
+    // 取得會員程度資訊
+    const userID = sessionStorage.getItem("userID");
+    $.ajax({
+      url: "http://localhost:8080/ski/member/",
+      type: "POST",
+      dataType: "json",
+      data: { keyWord: keyWord },
+      success: function (data) {
+        alert("加入購物車成功");
+      },
+      error: function () {
+        console.log("error");
+      },
+    });
+
     register_allow = true;
     valid_result = "";
 

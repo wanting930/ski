@@ -105,13 +105,13 @@ document.addEventListener("DOMContentLoaded", function () {
       row.innerHTML = `
       <th scope="row">${course.courseID}</th>
       <td><img src='${imageSrc}' style="max-width: 150px; max-height: 80px;"></img></td>
-      <td>couchID</td>
+      <td>${course.couchID}</td>
       <td>${courseSkill}</td>
       <td>${courseLevel}</td>
       <td>${course.courseName}</td>
-      <td>授課地點</td>
+      <td>${course.coursepointID}</td>
       <td>${formattedDate}</td>
-      <td>headcount/${course.courseMax}</td>
+      <td>${course.coursePerson}/${course.courseMax}</td>
       <td>${courseStatus}</td>
       <td></td>
       <td></td>
