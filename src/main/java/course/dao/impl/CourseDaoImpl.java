@@ -53,11 +53,10 @@ import course.entity.Course;
 
 			@Override
 			public List<Course> getCourseByKeywordAndTag(String Keyword, Integer skill, Integer level) {
-				String hql = "FROM Course WHERE 1 = 1";
+				String hql = "FROM Course WHERE courseStatus = 0";
 				
 				Boolean input = false;
 				if ( Keyword != null || !Keyword.isEmpty()) {
-					input = true;
 			        hql += " AND courseName LIKE :courseName ";
 			    }
 				
@@ -68,10 +67,20 @@ import course.entity.Course;
 			    if (level >= 0) {
 			        hql += " AND level = :level";
 			    }
+			    
 	        	Query<Course> query = getSession().createQuery(hql, Course.class);
-	        	if(input) {
+	   
+	        	if ( Keyword != null || !Keyword.isEmpty()) {
 	        		query.setParameter("courseName", "%" + Keyword + "%");
-	        	}
+			    }
+				
+				if (skill >= 0) {
+					query.setParameter("skill", skill);
+			    }
+
+			    if (level >= 0) {
+			    	query.setParameter("level", level);
+			    }
 	        	List<Course> resultList = query.getResultList();		        	
 	        	return resultList; 	        		    
 			}
@@ -86,38 +95,16 @@ import course.entity.Course;
 	        	List<Course> resultList = query.getResultList();		        	
 	        	return resultList; 	        	
 			}
+			
+			@Override
+			public List<Course> getRuningCourse(){
+				String hql = "FROM Course WHERE courseStatus = 0 ";			    
+				Query<Course> query = getSession().createQuery(hql, Course.class);   
+	        	List<Course> resultList = query.getResultList();		        	
+	        	return resultList; 	
+			}
 
-			//			@Override
-//			public List<Course> getCourseByTag(String skill, String level) {
-//			    String hql = "FROM Course WHERE 1 = 1"; // Assuming the entity name is Course
-//
-//			    if (!skill.isEmpty()) {
-//			        hql += " AND skill = :skill";
-//			    }
-//
-//			    if (!level.isEmpty()) {
-//			        hql += " AND level = :level";
-//			    }
-//
-//			    Query<Course> query = getSession().createQuery(hql, Course.class);
-//
-//			    if (!skill.isEmpty()) {
-//			        query.setParameter("skill", skill);
-//			    }
-//			    
-//			    if (!level.isEmpty()) {
-//			        query.setParameter("level", level);
-//			    }
-//
-//			    List<Course> resultList = query.getResultList();
-//			    return resultList;
-//			}
-
-//			@Override
-//			public int updateCourseValid(Integer courseId) {
-//				// TODO Auto-generated method stub
-//				return 0;
-//			}
+			
 
 	        
 	    }
