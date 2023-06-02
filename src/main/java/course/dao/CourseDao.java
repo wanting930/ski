@@ -21,8 +21,8 @@ public interface CourseDao extends CoreDao{
     List<Course> getCourseByKeywordAndTag(String Keyword, Integer skill, Integer level) ;
     
     List<Course> getCourseByKeyword(String Keyword) ;
-////    include level & skill
-//    List<Course> getCourseByTag(String skill, String level);
+
+    List<Course> getRuningCourse();
     
     List<Course> getAllCourses();
     

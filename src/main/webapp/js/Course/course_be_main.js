@@ -46,8 +46,8 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // 渲染商品表格
-  function renderCourse(Course) {  
-	$("#courseTableBody").empty();
+  function renderCourse(Course) {
+    $("#courseTableBody").empty();
     Course.forEach((course) => {
       const row = document.createElement("tr");
       row.classList.add("align-middle");
@@ -66,22 +66,21 @@ document.addEventListener("DOMContentLoaded", function () {
       deleteButton.classList.add("btn", "btn-secondary", "btn-delete");
       deleteButton.textContent = "刪除";
 
+      var courseSkill = "";
+      if (course.skill == 0) {
+        courseSkill = "單板";
+      } else if (course.skill == 1) {
+        courseSkill = "雙版";
+      }
 
-		var courseSkill ="";
-		if(course.skill == 0){
-			courseSkill = "單板";
-		}else if (course.skill == 1){
-			courseSkill = "雙版";
-		}
-		
-		var courseLevel ="";
-		if(course.level == 0){
-			courseLevel = "初階";
-		}else if (course.skill == 1){
-			courseLevel = "中階";
-		}else if(course.skill == 2){
-			courseLevel = "高階";
-		}
+      var courseLevel = "";
+      if (course.level == 0) {
+        courseLevel = "初階";
+      } else if (course.level == 1) {
+        courseLevel = "中階";
+      } else if (course.level == 2) {
+        courseLevel = "高階";
+      }
 
       // 將日期格式轉換為 yyyy-MM-dd 格式
       const date = new Date(course.courseDate);
@@ -96,13 +95,13 @@ document.addEventListener("DOMContentLoaded", function () {
         )
       );
       const imageSrc = `data:image/png;base64,${base64Image}`;
-		var courseStatus ="";
-		if(course.courseStatus == 0){
-			courseStatus = "已下架";
-		}else if (course.courseStatus == 1){
-			courseStatus = "已上架";
-		}
-		
+      var courseStatus = "";
+      if (course.courseStatus == 0) {
+        courseStatus = "已下架";
+      } else if (course.courseStatus == 1) {
+        courseStatus = "已上架";
+      }
+
       row.innerHTML = `
       <th scope="row">${course.courseID}</th>
       <td><img src='${imageSrc}' style="max-width: 150px; max-height: 80px;"></img></td>

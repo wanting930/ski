@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  getAllCourse();
+  getRunungCourse();
 
   $(".skilloptions").on("change", function () {
     getCourseByKeywordAndTag();
@@ -14,9 +14,9 @@ $(document).ready(function () {
   });
 });
 
-function getAllCourse() {
+function getRunungCourse() {
   $.ajax({
-    url: "http://localhost:8080/ski/course_GA",
+    url: "http://localhost:8080/ski/course_GRC",
     type: "POST",
     dataType: "json",
     success: function (data) {
@@ -82,9 +82,21 @@ function renderCourse(Course) {
       .append(subDirectLink);
 
     //購物車按鈕生成
+    register_allow = true;
+    valid_result = "";
+
+    if (register_allow) {
+      valid_result = "加入購物車";
+    } else {
+      valid_result = "會員層級不符";
+    }
+
     addCartButton = $("<button>")
       .addClass("btn btn-secondary m-2 addCart")
-      .text("加入購物車");
+      .text(valid_result);
+    if (register_allow) {
+      addCartButton.addClass("disable");
+    }
 
     //加入購物車功能綁定
     $(".addCart").on("click", function () {
