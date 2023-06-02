@@ -2,19 +2,19 @@ package ad.course.Dao;
 
 import java.util.List;
 
-import ad.course.vo.*;
+import ad.course.vo.CourseAdHistory;
 import core.CoreDao;
 
-public interface courseAdHistoryDao extends CoreDao {
+public interface CourseAdHistoryDao extends CoreDao {
 
-	int insert(courseAdHistory courseAdHistory);
+	int insert(CourseAdHistory courseAdHistory);
 
 	int delete(Integer id);
 
-	int update(courseAdHistory nCourseAdHistory);
+	int update(CourseAdHistory nCourseAdHistory);
 
-	courseAdHistory selectById(Integer id);
+	CourseAdHistory selectById(Integer id);
 
-	List<courseAdHistory> selectAll();
+	List<CourseAdHistory> selectAll();
 
 }

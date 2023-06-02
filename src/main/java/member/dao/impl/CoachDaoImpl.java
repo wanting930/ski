@@ -3,6 +3,7 @@ package member.dao.impl;
 import java.util.List;
 
 import org.hibernate.Session;
+import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
 
 import member.dao.CoachDao;
@@ -58,6 +59,10 @@ public class CoachDaoImpl implements CoachDao {
 			if (license != null && license.length > 0) {
 				oCoach.setLicense(license);
 			}
+			final String applyStatus = nCoach.getApplyStatus();
+			if (applyStatus != null && !applyStatus.isEmpty()) {
+				oCoach.setApplyStatus(applyStatus);
+			}
 			return true;
 		} catch (Exception e) {
 			System.out.println("updateById方法發生錯誤：" + e.getMessage());
@@ -92,6 +97,16 @@ public class CoachDaoImpl implements CoachDao {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	@Override
+	public Coach selectByUserId(Integer userID) {
+		final String sql = "SELECT * FROM Coach WHERE userID = :userID";
+			Session session = getSession();
+			NativeQuery<Coach> nativeQuery = session.createNativeQuery(sql, Coach.class);
+			nativeQuery.setParameter("userID", userID);
+			Coach coach = nativeQuery.uniqueResult();
+			return coach;
 	}
 
 }

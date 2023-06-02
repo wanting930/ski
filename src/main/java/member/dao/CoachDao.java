@@ -16,4 +16,6 @@ public interface CoachDao extends CoreDao {
 
 	List<Coach> selectAll();
 
+	Coach selectByUserId(Integer userID);
+
 }

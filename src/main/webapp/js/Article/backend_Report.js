@@ -1,9 +1,9 @@
 var reportID = 1;
 var articleID = 1;
 var userID = 1;
-var articleContent = "";
-var articleStatus = "";
-var articleResponse = "";
+var reportContent = "";
+var reportStatus = "";
+var reportResponse = "";
 var number = 0;
 var repeat = 0;
 var buttonPage = 0;
@@ -18,33 +18,119 @@ $(document).ready(function init() {
         type: "Post",
         data: {
             "reportID": reportID,
+            "articleID": articleID,
+            "userID": userID,
             "reportContent": reportContent,
+            "reportStatus": reportStatus,
+            "reportResponse": reportResponse,
             "action": "showAll"
         },
-        data: "json",
+        dataType: "json",
         success: function (data) {
-            // console.log(data.length);
-            console.log("後端文章分類載入成功");
-            // for (let i = 0; i < data.length; i++) {
-            for (let i = 0; i < 10; i++) {
-                let list_html = "";
-                let reportID = data[i].reportID;
-                let reportContent = data[i].reportContent;
-
-                list_html += `<tr class="tr">`;
-                list_html += `<td><p class="id">${reportID}</p></td>`;
-                list_html += `<td> <p>${articleID}</p></td>`;
-                list_html += `<td> <p>${reportContent}</p></td>`;
-                list_html += `<td> <p class="red">未處理</p>
-                            		 <p class="green -none">已處理</p></td>`;
-                list_html += `<td> <p>${reportResponse}</p></td>`;
-                list_html += `<td> <button class="nextPageBtn">檢舉處理</button></td>`;
-                list_html += "</tr>";
-
-                $("#type > table > tbody").append(list_html); // append順序由上往下
-                                                                // prepend順序由下往上
-                number = articleID; // 紀錄目前分類編號最後一碼
+            // console.log(data);
+            console.log("後端檢舉處理載入成功");
+            if (data.length <= 10) {
+                for (let i = 0; i < data.length; i++) {
+                    if (data[i].reportStatus == "0") {
+                        let list_html = "";
+                        let reportID = data[i].reportID;
+                        let articleID = data[i].articleID;
+                        let userID = data[i].userID;
+                        let reportContent = data[i].reportContent;
+                        let reportStatus = data[i].reportStatus;
+                        let reportResponse = data[i].reportResponse;
+    
+                        list_html += `<tr class="tr">`;
+                        list_html += `<td><p class="id">${reportID}</p></td>`;
+                        list_html += `<td> <p>${articleID}</p></td>`;
+                        list_html += `<td> <p>${reportContent}</p></td>`;
+                        list_html += `<td> <p class="red">未處理</p>
+                                <p class="green -none">已處理</p></td>`;
+                        list_html += `<td> <p>${reportResponse}</p></td>`;
+                        list_html += `<td> <button class="nextPageBtn">檢舉處理</button></td>`;
+                        list_html += "</tr>";
+    
+                        // console.log(list_html);
+                        $("#type > table > tbody").append(list_html); // append順序由上往下
+                        // prepend順序由下往上
+                    } else if (data[i].reportStatus == "1") {
+    
+                            let list_html = "";
+                            let reportID = data[i].reportID;
+                            let articleID = data[i].articleID;
+                            let userID = data[i].userID;
+                            let reportContent = data[i].reportContent;
+                            let reportStatus = data[i].reportStatus;
+                            let reportResponse = data[i].reportResponse;
+    
+                            list_html += `<tr class="tr">`;
+                            list_html += `<td><p class="id">${reportID}</p></td>`;
+                            list_html += `<td> <p>${articleID}</p></td>`;
+                            list_html += `<td> <p>${reportContent}</p></td>`;
+                            list_html += `<td> <p class="red -none">未處理</p>
+                                    <p class="green">已處理</p></td>`;
+                            list_html += `<td> <p>${reportResponse}</p></td>`;
+                            list_html += `<td> <button class="nextPageBtn">檢舉處理</button></td>`;
+                            list_html += "</tr>";
+    
+                            // console.log(list_html);
+                            $("#type > table > tbody").append(list_html); // append順序由上往下
+                            // prepend順序由下往上
+                    }
+                    number = reportID; // 紀錄目前檢舉編號最後一碼
+                }
+            }else if (data.length > 10){
+                for (let i = 0; i < 10; i++) {
+                    if (data[i].reportStatus == "0") {
+                        let list_html = "";
+                        let reportID = data[i].reportID;
+                        let articleID = data[i].articleID;
+                        let userID = data[i].userID;
+                        let reportContent = data[i].reportContent;
+                        let reportStatus = data[i].reportStatus;
+                        let reportResponse = data[i].reportResponse;
+    
+                        list_html += `<tr class="tr">`;
+                        list_html += `<td><p class="id">${reportID}</p></td>`;
+                        list_html += `<td> <p>${articleID}</p></td>`;
+                        list_html += `<td> <p>${reportContent}</p></td>`;
+                        list_html += `<td> <p class="red">未處理</p>
+                                <p class="green -none">已處理</p></td>`;
+                        list_html += `<td> <p>${reportResponse}</p></td>`;
+                        list_html += `<td> <button class="nextPageBtn">檢舉處理</button></td>`;
+                        list_html += "</tr>";
+    
+                        // console.log(list_html);
+                        $("#type > table > tbody").append(list_html); // append順序由上往下
+                        // prepend順序由下往上
+                    } else if (data[i].reportStatus == "1") {
+    
+                            let list_html = "";
+                            let reportID = data[i].reportID;
+                            let articleID = data[i].articleID;
+                            let userID = data[i].userID;
+                            let reportContent = data[i].reportContent;
+                            let reportStatus = data[i].reportStatus;
+                            let reportResponse = data[i].reportResponse;
+    
+                            list_html += `<tr class="tr">`;
+                            list_html += `<td><p class="id">${reportID}</p></td>`;
+                            list_html += `<td> <p>${articleID}</p></td>`;
+                            list_html += `<td> <p>${reportContent}</p></td>`;
+                            list_html += `<td> <p class="red -none">未處理</p>
+                                    <p class="green">已處理</p></td>`;
+                            list_html += `<td> <p>${reportResponse}</p></td>`;
+                            list_html += `<td> <button class="nextPageBtn">檢舉處理</button></td>`;
+                            list_html += "</tr>";
+    
+                            // console.log(list_html);
+                            $("#type > table > tbody").append(list_html); // append順序由上往下
+                            // prepend順序由下往上
+                    }
+                    number = reportID; // 紀錄目前檢舉編號最後一碼
+                }
             }
+            
             if (data.length > 10) {
                 var pagination = $("#pagination");
                 buttonPage = (data.length / 10) + 1;
@@ -68,7 +154,7 @@ $(document).ready(function init() {
 
         },
         error: function (err) {
-            console.log("後端文章分類載入失敗")
+            console.log("後端檢舉處理載入失敗")
         }
 
     })
@@ -104,9 +190,9 @@ $("#pagination").on("click", "button.btn_limit", function () {// 點擊任何分
             if (clickButtonNumber == 1) { // 當按到第一頁按鈕，只顯示10筆資料
                 limit = 10;
             } else { // 因為我是每10筆資料分頁，所以第二頁之後就乘10，ex:第二頁最後一筆資料要為20
-                limit = 10*clickButtonNumber;
+                limit = 10 * clickButtonNumber;
             }
-            for (let i = 0 + (10 * (clickButtonNumber - 1)); i < limit ; i++) {
+            for (let i = 0 + (10 * (clickButtonNumber - 1)); i < limit; i++) {
                 // 0 + (10 * (clickButtonNumber - 1)) 這算式可以得出每個分頁的
                 // 第一筆資料要從0 + (10 * (clickButtonNumber - 1))筆資料開始印出
                 // 因為第一筆資料是從data[0]開始算，所以1~10筆資料是data[0]~data[9]
@@ -115,12 +201,13 @@ $("#pagination").on("click", "button.btn_limit", function () {// 點擊任何分
                 let articleContent = data[i].articleContent;
 
                 list_html += `<tr class="tr">`;
-                list_html += `<td><p class="id">${articleID}</p></td>`;
-                list_html += `<td> <p class="para">${articleContent}</p> <input type="text" class="task_name_update -none" value="${articleContent}"></td>`;
-                list_html += `<td> <button class="btn_update">修改</button>
-                					<button class="btn_delete -none">刪除</button>
-									<button class="btn_cancel -none">取消</button>
-								</td>`;
+                list_html += `<td><p class="id">${reportID}</p></td>`;
+                list_html += `<td> <p>${articleID}</p></td>`;
+                list_html += `<td> <p>${reportContent}</p></td>`;
+                list_html += `<td> <p class="red">未處理</p>
+                            	    <p class="green -none">已處理</p></td>`;
+                list_html += `<td> <p>${reportResponse}</p></td>`;
+                list_html += `<td> <button class="nextPageBtn">檢舉處理</button></td>`;
                 list_html += "</tr>";
 
                 $("#type > table > tbody").append(list_html); // 加入網頁表格中
@@ -136,8 +223,8 @@ $("#pagination").on("click", "button.btn_limit", function () {// 點擊任何分
 
 //點檢舉處理
 $("#reportTableBody").on("click", "button.nextPageBtn", function () {
-    saveArticleID = $(this).closest("tr").find("p.id").text();
-    console.log(saveReportID);
+    saveReportID = $(this).closest("tr").find("p.id").text();
+    // console.log(saveReportID);
     sessionStorage.setItem("saveReportID", saveReportID); // 存下ID
-    window.location.href = "http://localhost:8080/ski/article/backend_Article_ChangeStatus.html"; // 將存下來的ID丟到此網址
+    window.location.href = "http://localhost:8080/ski/article/backend_Report_ChangeStatus.html"; // 將存下來的ID丟到此網址
 });

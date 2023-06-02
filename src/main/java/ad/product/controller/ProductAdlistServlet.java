@@ -8,16 +8,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
-
-import ad.product.service.productAdService;
-import ad.product.service.Impl.productAdServiceImpl;
+import ad.product.service.ProductAdService;
+import ad.product.service.Impl.ProductAdServiceImpl;
 import core.util.GsonUtils;
 
 @WebServlet("/productAdServlet")
 public class ProductAdlistServlet extends HttpServlet{
 
-	private productAdService serv = new productAdServiceImpl();
+	private ProductAdService serv = new ProductAdServiceImpl();
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

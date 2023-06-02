@@ -38,7 +38,5 @@ public class Member extends Core {
 	private String address;
 	private String level;
 	private byte[] photo;
-	private String role;
 	private String userStatus;
-
 }

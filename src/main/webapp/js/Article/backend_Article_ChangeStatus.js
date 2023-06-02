@@ -1,4 +1,5 @@
 var saveArticleID = sessionStorage.getItem("saveArticleID");
+var saveArticleTypeContent = sessionStorage.getItem("saveArticleTypeContent");
 // var saveArticleID = 2;
 var articleID1 = 1;
 var userID1 = 1;
@@ -15,7 +16,7 @@ var articleStatus1 = "";
 $(document).ready(function init() {
 
     console.log("js載入成功");
-    console.log(saveArticleID);
+    // console.log(saveArticleTypeContent);
     $.ajax({
         url: "http://localhost:8080/ski/BackendArticle",
         type: "Post",
@@ -34,7 +35,7 @@ $(document).ready(function init() {
         dataType: "json",
         success: function (data) {
             // console.log(data.length);
-            console.log(data);
+            // console.log(data);
             console.log("後端文章載入成功");
             let list_html = "";
             var articleID = data[saveArticleID - 1].articleID;
@@ -50,7 +51,7 @@ $(document).ready(function init() {
             if (articleStatus2 == "1") {
                 list_html += `<p class="datetime">發表時間:${articleDateTime2} by ${userID2}, 修改時間時間:${articleModified2}</p>
                                 <h1 class="title">${articleTitle2}</h1>
-                                <h5 class="type">${articleTypeID2}</h5>
+                                <h5 class="type">#${saveArticleTypeContent}</h5>
                                 <div class="content_section">
                                 <p class="content">${articleContent2}</p>
                                 <button class="changeStatus1">下架文章</button>
@@ -60,7 +61,7 @@ $(document).ready(function init() {
             } else if (articleStatus2 == "0") {
                 list_html += `<p class="datetime">發表時間:${articleDateTime2} by ${userID2}, 修改時間時間:${articleModified2}</p>
                                 <h1 class="title">${articleTitle2}</h1>
-                                <h5 class="type">${articleTypeID2}</h5>
+                                <h5 class="type">#${saveArticleTypeContent}</h5>
                                 <div class="content_section">
                                 <p class="content">${articleContent2}</p>
                                 <button class="changeStatus1 -none">下架文章</button>

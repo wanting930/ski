@@ -195,13 +195,23 @@ public class ArticleDaoImpl implements ArticleDao{
 		List<Article> list = query.getResultList();
 		return list;
 	}
-	
+	@Override
 	public List<Article> selectByArticleStatus(String articleStatus) {
 		String hqlQuery = "FROM Article WHERE articleStatus LIKE :status";
 		Query<Article> query = getSession().createQuery(hqlQuery, Article.class);
 		query.setParameter("status", articleStatus);
 		List<Article> list = query.getResultList();
 		return list;
+	}
+	@Override
+	public int updateAllSelectArticleTypeToOne(Integer articleTypeID) {
+//		String hqlQuery = "FROM Article WHERE articleType = :articleType";
+		String hqlQuery = "UPDATE Article SET articleTypeID = 1 WHERE articleTypeID = :articleTypeID";
+		Query query = getSession().createQuery(hqlQuery);
+		query.setParameter("articleTypeID", articleTypeID);
+		int rowCount = query.executeUpdate();
+//		List<Article> list = query.getResultList();
+		return rowCount;
 	}
 
 	// 複製select

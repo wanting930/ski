@@ -16,9 +16,12 @@ import javax.swing.Action;
 
 import com.google.gson.Gson;
 
+import article.dao.ArticleDao;
 //import core.HibernateUtil;
 import article.dao.ArticleTypeDao;
+import article.dao.impl.ArticleDaoImpl;
 import article.dao.impl.ArticleTypeDaoImpl;
+import article.vo.Article;
 import article.vo.ArticleType;
 
 
@@ -135,7 +138,9 @@ public class BackendArticleTypeServlet extends HttpServlet{
 	private String deleteContent(HttpServletRequest req,HttpServletResponse res) throws IOException {
 		res.setContentType("text/html; charset=utf-8");
 		ArticleTypeDao dao = new ArticleTypeDaoImpl();
+		ArticleDao dao1 = new ArticleDaoImpl();
 		try {
+			dao1.updateAllSelectArticleTypeToOne(Integer.parseInt(req.getParameter("articleTypeID")));
 			Integer articleType3 = Integer.parseInt(req.getParameter("articleTypeID"));
 			dao.deleteByArticleTypeID(articleType3);
 		} catch (Exception e) {

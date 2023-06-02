@@ -30,38 +30,5 @@ public class Coach extends Core{
 	private String background;
 	private String introduce;
 	private byte[] license;
-//	@OneToOne(cascade = CascadeType.ALL)
-//	@JoinColumn(name = "userID", insertable = false, updatable = false)
-//	private Member member;
-
-	public Coach(Integer userID, String skill, String background, String introduce, byte[] license) {
-		this.userID = userID;
-		this.skill = skill;
-		this.background = background;
-		this.introduce = introduce;
-		this.license = license;
-	}
-
-//	public Coach(String skill, String background, String introduce, byte[] license, Member member) {
-//		this.skill = skill;
-//		this.background = background;
-//		this.introduce = introduce;
-//		this.license = license;
-//		this.member = member;
-//	}
-
-//	public Coach(Integer userID, String skill, String background, String introduce, byte[] license, Member member) {
-//		this.userID = userID;
-//		this.skill = skill;
-//		this.background = background;
-//		this.introduce = introduce;
-//		this.license = license;
-//		this.member = member;
-//	}
-
-
-	
-
-	
-	
+	private String applyStatus;
 }
