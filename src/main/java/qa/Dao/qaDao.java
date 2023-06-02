@@ -2,18 +2,18 @@ package qa.Dao;
 
 import antlr.collections.List;
 import core.CoreDao;
-import qa.vo.qa;
+import qa.vo.Qa;
 
-public interface qaDao extends CoreDao{
+public interface QaDao extends CoreDao{
 
-	int insert(qa qa);
+	int insert(Qa qa);
 
 	int deleteById(Integer id);
 
-	int updata(qa qa);
+	int updata(Qa qa);
 
-	qa selectByID(Integer id);
+	Qa selectByID(Integer id);
 
-	java.util.List<qa> selectAll();
+	java.util.List<Qa> selectAll();
 
 }

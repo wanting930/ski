@@ -2,19 +2,19 @@ package ad.product.Dao;
 
 import java.util.List;
 
-import ad.product.vo.productADHistory;
+import ad.product.vo.ProductAdHistory;
 import core.CoreDao;
 
-public interface productAdHistoryDao extends CoreDao{
+public interface ProductAdHistoryDao extends CoreDao{
 
-	int insert(productADHistory productADHistory);
+	int insert(ProductAdHistory ProductAdHistory);
 
 	int delete(Integer id);
 
-	int update(productADHistory productADHistory);
+	int update(ProductAdHistory ProductAdHistory);
 
-	productADHistory selectById(Integer id);
+	ProductAdHistory selectById(Integer id);
 
-	List<productADHistory> selectAll();
+	List<ProductAdHistory> selectAll();
 
 }

@@ -3,39 +3,39 @@ package ad.product.Dao.Impl;
 import java.util.List;
 
 
-import ad.product.Dao.productAdHistoryDao;
-import ad.product.vo.productADHistory;
+import ad.product.Dao.ProductAdHistoryDao;
+import ad.product.vo.ProductAdHistory;
 
-public class productADHistoryDaoImpl implements productAdHistoryDao {
+public class ProductAdHistoryDaoImpl implements ProductAdHistoryDao {
 //	getSession() getSession() = HibernateUtil.getgetSession()Factory().getCurrentgetSession()();
 
 	@Override
-	public int insert(productADHistory productADHistory) {
-		getSession().persist(productADHistory);
+	public int insert(ProductAdHistory ProductAdHistory) {
+		getSession().persist(ProductAdHistory);
 		return -1;
 	}
 
 	@Override
 	public int delete(Integer id) {
-		productADHistory pAdHistory = getSession().load(productADHistory.class, id);
+		ProductAdHistory pAdHistory = getSession().load(ProductAdHistory.class, id);
 		getSession().remove(pAdHistory);
 		return 1;
 	}
 
 	@Override
-	public int update(productADHistory productADHistory) {
-		getSession().update(productADHistory);
+	public int update(ProductAdHistory ProductAdHistory) {
+		getSession().update(ProductAdHistory);
 		return 1;
 	}
 
 	@Override
-	public productADHistory selectById(Integer id) {
-		return getSession().get(productADHistory.class, id);
+	public ProductAdHistory selectById(Integer id) {
+		return getSession().get(ProductAdHistory.class, id);
 	}
 
 	@Override
-	public List<productADHistory> selectAll() {
-		return getSession().createQuery("from productAdHistory", productADHistory.class).list();
+	public List<ProductAdHistory> selectAll() {
+		return getSession().createQuery("from ProductAdHistory", ProductAdHistory.class).list();
 	}
 
 }

@@ -1,9 +1,9 @@
 package ad.course.service;
 
-import ad.course.vo.courseAdHistory;
+import ad.course.vo.CourseAdHistory;
 
-public interface courseAdHistoryService {
+public interface CourseAdHistoryService {
 
-	courseAdHistory insert(Integer courseId);
+	CourseAdHistory insert(Integer courseId);
 
 }

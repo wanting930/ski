@@ -1,13 +1,13 @@
 package serv.service;
 
-import serv.Dao.servChatDao;
-import serv.Dao.Impl.servChatDaoImpl;
+import serv.Dao.ServChatDao;
+import serv.Dao.Impl.ServChatDaoImpl;
 
-public class servChatServiceImpl {
-	private servChatDao dao;
+public class ServChatServiceImpl {
+	private ServChatDao dao;
 
-	public servChatServiceImpl() {
-			dao = new servChatDaoImpl();
+	public ServChatServiceImpl() {
+			dao = new ServChatDaoImpl();
 	}
 	
 	
