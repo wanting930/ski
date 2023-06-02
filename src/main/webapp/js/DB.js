@@ -1,17 +1,27 @@
 function init() {
-        $.ajax({
-            url: "courseAdList",           // 資料請求的網址
-            type: "POST",                 // GET | POST | PUT | DELETE | PATCH
-            dataType: "json",             // 預期會接收到回傳資料的格式： json | xml | html
-            success: function(){      // request 成功取得回應後執行
-            console.log(data);
-            },
-            error: function () {
-                console.log("bad");
-           }
-        });
-    }
-
+    $.ajax({
+        url: "courseAdList",
+        type: "GET",
+        dataType: "json",
+        success: function(data) {
+            // 將回應資料顯示在HTML上
+            var adListDiv = $("#adList");
+            adListDiv.html(""); // 清空內容
+            data.forEach(function(course) {
+                adListDiv.append("<p>" + course.name + "</p>");
+                
+            });
+           	console.log(data);
+            
+        },
+        error: function() {
+            console.log("Request failed");
+        }
+    });
+}
+$(document).ready(function() {
+    init();
+});
 (() => {
 
     fetch('courseAdList')
