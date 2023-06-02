@@ -54,9 +54,9 @@
 
 		<!-- <mapping class="product.vo.Product" /> -->
 
-		<!-- <mapping class="Qa.vo.qa"/> -->
+		<!-- <mapping class="qa.vo.Qa"/> -->
 
-		<!-- <mapping class="Serv.vo.servChat"/> -->
+		<!-- <mapping class="serv.vo.ServChat"/> -->
 
 	</session-factory>
 </hibernate-configuration>
