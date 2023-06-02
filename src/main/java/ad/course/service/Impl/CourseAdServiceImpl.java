@@ -1,9 +1,6 @@
 package ad.course.service.Impl;
 
-import java.time.LocalDateTime;
 import java.util.List;
-
-import javax.persistence.TypedQuery;
 
 import ad.course.Dao.CourseAdDao;
 import ad.course.Dao.CourseAdHistoryDao;

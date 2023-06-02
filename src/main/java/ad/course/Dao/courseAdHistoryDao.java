@@ -2,7 +2,7 @@ package ad.course.Dao;
 
 import java.util.List;
 
-import ad.course.vo.*;
+import ad.course.vo.CourseAdHistory;
 import core.CoreDao;
 
 public interface CourseAdHistoryDao extends CoreDao {

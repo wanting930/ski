@@ -2,7 +2,6 @@ package ad.course.service;
 
 import java.util.List;
 
-import ad.course.Dao.Impl.CourseAdDaoImpl;
 import ad.course.vo.CourseAd;
 import course.entity.Course;
 
