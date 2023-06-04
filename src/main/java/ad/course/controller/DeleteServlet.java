@@ -36,7 +36,8 @@ public class DeleteServlet extends HttpServlet  {
 		 resp.setContentType("application/json;charset=UTF-8");
 		 
 		 Integer cAdid = Integer.valueOf(req.getParameter("cAdId"));
-//		 Service.deleteAd(cAdid);
+		 System.out.println(cAdid);
+		 Service.deleteAd(cAdid);
 //		 int result = Service.deleteAd(cAdid);
 //		 if(result < 0) {resp.getWriter().println("Take off Successfully.");}
 	 }

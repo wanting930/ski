@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import ad.course.service.CourseAdService;
 import ad.course.service.Impl.CourseAdServiceImpl;
-@WebServlet("/courseAdinsert")
+@WebServlet("/ad/courseAdinsert")
 public class InsertServlet extends HttpServlet{
 //	courseAdService cAdService;
 //	public void init() throws ServletException {
@@ -30,6 +30,7 @@ public class InsertServlet extends HttpServlet{
 
 		 Integer cId = Integer.parseInt(req.getParameter("cId"));
 		 Serv.insertAd(cId);
+		 resp.getWriter().print(333);
 	}
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
