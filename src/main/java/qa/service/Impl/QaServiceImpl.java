@@ -3,19 +3,19 @@ package qa.service.Impl;
 import java.sql.Timestamp;
 import java.util.List;
 
-import qa.Dao.QaDao;
 import qa.Dao.Impl.QaDaoImpl;
 import qa.service.QaService;
 import qa.vo.Qa;
 
 public class QaServiceImpl implements QaService {
 
-	private QaDao dao;
+	private QaDaoImpl dao;
+
 	public QaServiceImpl() {
 		dao = new QaDaoImpl();
 	}
-	
-	//new
+
+	// new
 	@Override
 	public Qa insert(Integer questionType, String questionTitle, String answerContent, Timestamp questionDate) {
 		Qa qa = new Qa();
@@ -25,12 +25,14 @@ public class QaServiceImpl implements QaService {
 		qa.setQuestionDate(questionDate);
 		return qa;
 	}
-	//delete
+
+	// delete
 	@Override
 	public boolean remove(Integer id) {
 		return dao.deleteById(id) > 0;
 	}
-	//update
+
+	// update
 	@Override
 	public Qa edit(Qa qz) {
 		Qa qa = dao.selectByID(qz.getQaID());
@@ -41,8 +43,8 @@ public class QaServiceImpl implements QaService {
 		dao.updata(qa);
 		return qa;
 	}
-	
-	//getAll
+
+	// getAll
 	public List<Qa> qalist() {
 		return dao.selectAll();
 	}

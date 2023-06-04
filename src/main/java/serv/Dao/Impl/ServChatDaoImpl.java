@@ -2,11 +2,10 @@ package serv.Dao.Impl;
 
 import java.util.List;
 
-
-import serv.vo.ServChat;
 import serv.Dao.ServChatDao;
+import serv.vo.ServChat;
 
-public class ervChatDaoImpl implements ServChatDao {
+public class ServChatDaoImpl implements ServChatDao {
 //	private getSession() getSession();
 	
 	

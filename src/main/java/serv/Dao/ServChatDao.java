@@ -5,7 +5,7 @@ import java.util.List;
 import core.CoreDao;
 import serv.vo.ServChat;
 
-public interface ervChatDao extends CoreDao{
+public interface ServChatDao extends CoreDao{
 
 	int insert(ServChat servChat);
 

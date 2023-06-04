@@ -7,11 +7,16 @@ import ad.course.vo.CourseDTO;
 import course.entity.Course;
 
 public interface CourseAdService {
-	
-//		public courseAd selectAd(Integer id);
-		public CourseAd insertAd(Integer courseId);
-		public int deleteAd(Integer id);
-		public List<Course> getCourse();
-		public List<Course> search(String keyword);
-		List<CourseDTO> courseAdlist();
-		}
+
+//	public courseAd selectAd(Integer id);
+
+	public CourseAd insertAd(Integer courseId);
+
+	public int deleteAd(Integer id);
+
+	public List<Course> getCourse();
+
+	public List<Course> search(String keyword);
+
+	List<CourseDTO> courseAdlist();
+}

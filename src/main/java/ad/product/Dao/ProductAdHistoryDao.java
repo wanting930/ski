@@ -5,7 +5,7 @@ import java.util.List;
 import ad.product.vo.ProductAdHistory;
 import core.CoreDao;
 
-public interface roductAdHistoryDao extends CoreDao{
+public interface ProductAdHistoryDao extends CoreDao{
 
 	int insert(ProductAdHistory ProductAdHistory);
 

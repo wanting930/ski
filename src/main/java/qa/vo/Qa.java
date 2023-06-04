@@ -22,20 +22,16 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Qa {
 
-	private static final long serialVersionUID = 1L;
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer qaID;
 	@Column
-	private Integer questionType ;
+	private Integer questionType;
 	@Column
 	private String questionTitle;
 	@Column
 	private String answerContent;
 	@Column
 	private Timestamp questionDate;
-	
-		
-	
+
 }

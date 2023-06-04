@@ -7,13 +7,13 @@ import qa.vo.Qa;
 
 public interface QaService {
 
-	//new
+	// new
 	Qa insert(Integer questionType, String questionTitle, String answerContent, Timestamp questionDate);
 
-	//delete
+	// delete
 	boolean remove(Integer id);
 
-	//update
+	// update
 	Qa edit(Qa qz);
 
 	List<Qa> qalist();

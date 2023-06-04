@@ -8,7 +8,7 @@ import ad.course.vo.CourseAdHistory;
 public class CourseAdHistoryServiceImpl implements CourseAdHistoryService {
 
 	private CourseAdHistoryDao dao = new CourseAdHistoryDaoImpl();
-	
+
 	@Override
 	public CourseAdHistory insert(Integer courseId) {
 		CourseAdHistory cAdHistory = new CourseAdHistory();

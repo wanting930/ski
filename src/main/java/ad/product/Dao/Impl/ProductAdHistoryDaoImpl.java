@@ -2,7 +2,6 @@ package ad.product.Dao.Impl;
 
 import java.util.List;
 
-
 import ad.product.Dao.ProductAdHistoryDao;
 import ad.product.vo.ProductAdHistory;
 

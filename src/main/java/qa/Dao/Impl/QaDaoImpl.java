@@ -1,13 +1,7 @@
 package qa.Dao.Impl;
 
-import javax.persistence.PersistenceContext;
-
-
-import java.util.*;
-
-import antlr.collections.List;
-import qa.vo.Qa;
 import qa.Dao.QaDao;
+import qa.vo.Qa;
 
 public class QaDaoImpl implements QaDao {
 
@@ -42,5 +36,5 @@ public class QaDaoImpl implements QaDao {
 		return getSession().createQuery("FROM Qa", Qa.class).list();
 
 	}
-	
+
 }

@@ -2,7 +2,6 @@ package ad.course.vo;
 
 import java.util.Date;
 
-import course.entity.Course;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,7 +19,4 @@ public class CourseDTO {
     private Date startDate;
     private Date endDate;
 
-	
-	
-	
 }

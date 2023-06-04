@@ -4,15 +4,14 @@ import java.util.List;
 
 import ad.product.Dao.ProductAdHistoryDao;
 import ad.product.Dao.ProductDao;
-import ad.product.Dao.Impl.ProductAdHistoryDaoImpl;
 import ad.product.Dao.Impl.ProductAdDaoImpl;
+import ad.product.Dao.Impl.ProductAdHistoryDaoImpl;
 import ad.product.service.ProductAdService;
-import ad.product.service.roductAdService;
-import ad.product.vo.ProductAdHistory;
 import ad.product.vo.ProductAd;
+import ad.product.vo.ProductAdHistory;
 import product.vo.Product;
 
-public class roductAdServiceImpl implements roductAdService {
+public class ProductAdServiceImpl implements ProductAdService {
 	private ProductDao dao = new ProductAdDaoImpl();
 	private ProductAdHistoryDao Hdao = new ProductAdHistoryDaoImpl();
 	

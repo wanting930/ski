@@ -12,7 +12,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 @Entity
 @Table
 @Getter
@@ -21,13 +20,10 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CourseAd {
 
-	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer courseAD;
 	@Column(insertable = false)
 	private Integer courseID;
-	
-	
-	
+
 }

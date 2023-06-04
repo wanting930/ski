@@ -1,10 +1,9 @@
 package qa.Dao;
 
-import antlr.collections.List;
 import core.CoreDao;
 import qa.vo.Qa;
 
-public interface aDao extends CoreDao{
+public interface QaDao extends CoreDao{
 
 	int insert(Qa qa);
 
