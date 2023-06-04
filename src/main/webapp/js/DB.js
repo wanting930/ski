@@ -95,9 +95,9 @@
             src: 'back_Insert.html',
             opts: {
               modal: true,
-              afterShow: function (instance, current) {
-                callBackFunction();
-              }
+              // afterShow: function (instance, current) {
+              //   callBackFunction();
+              // }
             }
           });
     });
