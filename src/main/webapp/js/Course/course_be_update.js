@@ -101,6 +101,13 @@ function getCourseInfo() {
     data: { courseID: courseID },
     type: "POST",
     success: function (response) {
+      // 地點選單建立
+      option = $("<option>", {
+        value: response.skiLocation.pointID,
+        text: response.skiLocation.pointName,
+      });
+
+      $("#courseLocation").append(option);
       const courseDate = moment(response.courseDate).format("YYYY-MM-DD");
       const startDate = moment(response.startDate).format("YYYY-MM-DD");
       const endDate = moment(response.endDate).format("YYYY-MM-DD");
@@ -108,7 +115,7 @@ function getCourseInfo() {
       $("#courseSkill").val(response.skill);
       $("#courseLevel").val(response.level);
       $("#courseName").val(response.courseName);
-      $("#courseLocation").val(response.pointID);
+      $("#courseLocation").val(response.skiLocation.pointID);
       $("#courseDate").val(courseDate);
       $("#startDate").val(startDate);
       $("#endDate").val(endDate);
@@ -127,8 +134,6 @@ function getCourseInfo() {
       document.getElementById("originalImage").src = imageSrc;
       document.getElementById("originalImage").dataset.originalImage =
         base64Image;
-
-      $("#courseIntroduce").val(response.courseIntroduce);
 
       // Additional handling or UI updates can be done here if needed
     },

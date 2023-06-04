@@ -6,7 +6,6 @@ import member.dao.CoachDao;
 import member.dao.impl.CoachDaoImpl;
 import member.service.CoachService;
 import member.vo.Coach;
-import member.vo.Member;
 
 public class CoachServiceImpl implements CoachService {
 
@@ -25,6 +24,11 @@ public class CoachServiceImpl implements CoachService {
 	public Coach apply(Coach coach) {
 		if (dao.selectByUserId(coach.getUserID()) != null) {
 			coach.setMessage("您已申請過，等待審核中");
+			coach.setSuccessful(false);
+			return coach;
+		}
+		if ("請選擇".equals(coach.getSkill())) {
+			coach.setMessage("請選擇技能");
 			coach.setSuccessful(false);
 			return coach;
 		}

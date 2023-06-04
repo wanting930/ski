@@ -1,6 +1,27 @@
 // Get form element by ID
 const form = $("#courseForm");
 
+$(document).ready(function () {
+  $.ajax({
+    url: "http://localhost:8080/ski//loc/backend_selectmap",
+    type: "POST",
+    data: formData,
+    processData: false,
+    contentType: false,
+    success: function (response) {
+      option = $("<option>", {
+        value: response.skiLocation.pointID,
+        text: response.skiLocation.pointName,
+      });
+
+      $("#courseLocation").append(option);
+    },
+    error: function () {
+      alert("新增失敗");
+    },
+  });
+});
+
 // Add event listener for form submission
 $("#addButton").on("click", function (event) {
   event.preventDefault(); // Prevent form from being submitted
@@ -72,11 +93,6 @@ $("#addButton").on("click", function (event) {
       error: function () {
         alert("新增失敗");
       },
-
-      //   function (status, error) {
-      //     console.error("Request failed. Status:", status, "Error:", error);
-
-      //     }
     });
   }
 });
