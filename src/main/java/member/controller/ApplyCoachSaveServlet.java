@@ -16,7 +16,6 @@ import com.google.gson.Gson;
 import member.service.CoachService;
 import member.service.impl.CoachServiceImpl;
 import member.vo.Coach;
-import member.vo.Member;
 
 @WebServlet("/member/applyCoachSave") // http://localhost:8080/ski/member/applyCoachSave
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 5 * 1024 * 1024, maxRequestSize = 5 * 5 * 1024 * 1024)

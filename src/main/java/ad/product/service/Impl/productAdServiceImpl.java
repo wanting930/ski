@@ -2,13 +2,13 @@ package ad.product.service.Impl;
 
 import java.util.List;
 
-import ad.product.Dao.ProductAdHistoryDao;
-import ad.product.Dao.ProductDao;
-import ad.product.Dao.Impl.ProductAdHistoryDaoImpl;
-import ad.product.Dao.Impl.ProductAdDaoImpl;
+import ad.product.dao.ProductAdHistoryDao;
+import ad.product.dao.ProductDao;
+import ad.product.dao.Impl.ProductAdDaoImpl;
+import ad.product.dao.Impl.ProductAdHistoryDaoImpl;
 import ad.product.service.ProductAdService;
-import ad.product.vo.ProductAdHistory;
 import ad.product.vo.ProductAd;
+import ad.product.vo.ProductAdHistory;
 import product.vo.Product;
 
 public class ProductAdServiceImpl implements ProductAdService {

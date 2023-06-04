@@ -1,9 +1,8 @@
-package ad.product.Dao.Impl;
+package ad.product.dao.Impl;
 
 import java.util.List;
 
-
-import ad.product.Dao.ProductAdHistoryDao;
+import ad.product.dao.ProductAdHistoryDao;
 import ad.product.vo.ProductAdHistory;
 
 public class ProductAdHistoryDaoImpl implements ProductAdHistoryDao {
@@ -35,7 +34,7 @@ public class ProductAdHistoryDaoImpl implements ProductAdHistoryDao {
 
 	@Override
 	public List<ProductAdHistory> selectAll() {
-		return getSession().createQuery("from ProductAdHistory", ProductAdHistory.class).list();
+		return getSession().createQuery("FROM ProductAdHistory", ProductAdHistory.class).list();
 	}
 
 }

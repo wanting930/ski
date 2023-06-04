@@ -1,6 +1,5 @@
-package qa.Dao;
+package qa.dao;
 
-import antlr.collections.List;
 import core.CoreDao;
 import qa.vo.Qa;
 

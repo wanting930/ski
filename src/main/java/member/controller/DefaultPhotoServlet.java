@@ -1,9 +1,10 @@
 package member.controller;
 
-import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,18 +16,19 @@ import member.service.MemberService;
 import member.service.impl.MemberServiceImpl;
 import member.vo.Member;
 
-@WebServlet("/member/passwordChange") // http://localhost:8080/ski/member/passwordChange
-public class PasswordChangeServlet extends HttpServlet {
-	private static final long serialVersionUID = 8519975859728374186L;
+@WebServlet("/member/defaultPhoto") // http://localhost:8080/ski/member/defaultPhoto
+@MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 5 * 1024 * 1024, maxRequestSize = 5 * 5 * 1024 * 1024)
+public class DefaultPhotoServlet extends HttpServlet {
+	private static final long serialVersionUID = -1291314635170915203L;
 	private MemberService service;
 	private Gson gson;
-	
+
 	@Override
 	public void init() throws ServletException {
 		service = new MemberServiceImpl();
 		gson = new Gson();
 	}
-	
+
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setHeader("Access-Control-Allow-Origin", "*"); // 允許來自所有網域的請求
@@ -38,25 +40,29 @@ public class PasswordChangeServlet extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		resp.setContentType("application/json;charset=UTF-8");
 
-		// 從 HttpServletRequest 中取得 JSON 字串
-		BufferedReader br = req.getReader();
-		Member member = gson.fromJson(br, Member.class);
+		String userID = req.getParameter("userID");
+
+		Member member = new Member();
+		member.setUserID(Integer.valueOf(userID));
 		
-		member = service.passwordChange(member);
+//		String realPath = getServletContext().getRealPath("\\img\\default_photo.png");
+//
+//		System.out.println("realPath = " + realPath);
 		
-		if (member == null) {
-			member = new Member();
-			member.setMessage("無會員資訊");
-			member.setSuccessful(false);
-			String memberJson = gson.toJson(member);
-			resp.getWriter().write(memberJson);
-			resp.getWriter().flush();
-			return;
-		}
+		
+
+		FileInputStream fis = new FileInputStream("C:\\Hibernate_Workspace\\ski\\src\\main\\webapp\\img\\default_photo.png");
+		byte[] buf = new byte[fis.available()];
+		fis.read(buf);
+		member.setPhoto(buf);
+		fis.close();
+
+		member = service.infoChange(member);
 
 		String memberJson = gson.toJson(member);
 		resp.getWriter().write(memberJson);
 		resp.getWriter().flush();
 		
 	}
+
 }

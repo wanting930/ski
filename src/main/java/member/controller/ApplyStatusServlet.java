@@ -11,8 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
-import member.dao.CoachDao;
-import member.dao.impl.CoachDaoImpl;
 import member.service.CoachService;
 import member.service.impl.CoachServiceImpl;
 import member.vo.Coach;
@@ -21,13 +19,11 @@ import member.vo.Coach;
 public class ApplyStatusServlet extends HttpServlet {
 	private static final long serialVersionUID = 6520269965940159418L;
 	private CoachService service;
-	private CoachDao dao;
 	private Gson gson;
 
 	@Override
 	public void init() throws ServletException {
 		service = new CoachServiceImpl();
-		dao = new CoachDaoImpl();
 		gson = new Gson();
 	}
 
