@@ -128,7 +128,7 @@
 				<ol class="breadcrumb mt-1 px-2">
 					<li class="breadcrumb-item">後臺系統</li>
 					<!-- 路徑追加方式範例 -->
-					<li class="breadcrumb-item"><a href="/ski/course/backend_coursePut.html">課程管理</a></li>
+					<li class="breadcrumb-item"><a href="./backend_courseMain.html">課程管理</a></li>
 					<li class="breadcrumb-item"><a href="#">課程更新</a></li>
 				</ol>
 			</nav>
@@ -179,9 +179,12 @@
 					<div class="row mb-3">
 						<div class="col-8 align-self-center">
 							<div class="input-group">
-								<label class="input-group-text" for="courseLocation">授課地點</label>
-								<input type="text" id="courseLocation" class="form-control"
-									aria-label="Sizing example input" aria-describedby="coursePrice">
+								<div class="input-group">
+									<label class="input-group-text" for="courseLocation">授課地點</label>
+									<select class="form-select" id="courseLocation">
+										<option disabled selected>請選擇課程類型</option>
+									</select>
+								</div>
 							</div>
 						</div>
 						<div class="col-4 align-self-center text-danger d-none">請輸入授課地點</div>
