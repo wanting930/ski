@@ -38,6 +38,25 @@
     text-decoration: none;
 }
 
-.-none {
-    display: none;
+.like-icon {
+    color: blue;
+}
+
+
+
+p{
+    display:inline-block;
+}
+
+/* .no-wrap {
+    white-space: nowrap;
+} */
+
+span {
+    display: inline-block;
+    text-align: right;
+}
+
+.right-align {
+    text-align: right;
 }

@@ -4,11 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <!-- 引入bootstrap套件CSS -->
     <link rel="stylesheet" href="/ski/css/bootstrap.css" />
     <link rel="stylesheet" href="/ski/css/root.css" />
-    <link rel="stylesheet" href="/ski/css/Article/frontend_Article.css" />
-    <title>前臺討論區</title>
+    <link rel="stylesheet" href="/ski/css/Article/frontend_Article_Show.css" />
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
+    <title>前臺討論區_顯示文章</title>
   </head>
 
   <body>
@@ -67,22 +70,11 @@
     <div class="main_section position-relative d-flex justify-content-center mb-0">
       <!-- 頁面內容置於此 -->
       <div class="container-main container text-center fw-bold h-100">
-        <h1>討論區</h1>
         <div id="type">
-          <button class="btn_addArticle">發表文章</button> <input class="text_search" placeholder="搜尋文章標題"><button class="search">搜尋</button>
-          <br>
-          <button class="searchArticleType">#揪團</button>
-          <button class="searchArticleType">#新手請教</button>
-          <button class="searchArticleType">#心得分享</button>
-          <table class="table">
-            <tbody>
-              <!-- <tr class="tr">
-                <td>
-                  <a href="#"><p class="-none">2</p><p class="article text-start">讚數:0 &ensp;&ensp;留言:0 &ensp;&ensp;#心得分享</p><p class="article text-center">分享好東C</p><p class="article text-end">2023-06-03 03:26 張文杰</p></a>
-                </td>
-              </tr> -->
-            </tbody>
-          </table>
+          <!-- <p class="articleType text-start">#新手指教&ensp;&ensp;還敢下來阿冰鳥&ensp;&ensp;(發文時間:2023-04-30 00:00)(修改時間:2023-04-30 01:00)&ensp;&ensp;by張文杰</p>
+          <hr>
+          <p>2拿著，照我，師傅確定要拍嗎，確定要拍嗎，我中了兩槍，希望大家，如果我這一次不幸死的話，請大家一定要傳承我的精神，一定要傳承我的精神，啊啊啊啊啊啊啊</p>
+          <p class="right-align"><i onclick="myFunction(this)" class="fa fa-thumbs-up">5</i><span><i class="fa fa-commenting"></i></span><span>3</span><i class="fa fa-exclamation-triangle"></i></p> -->
         </div>
       </div>
 
@@ -133,9 +125,10 @@
     </footer>
   </body>
   <!-- 引入bootstrap套件JS -->
+  <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
   <script src="/ski/js/jQuery v3.7.0.js"></script>
   <script src="/ski/js/bootstrap.bundle.js"></script>
-  <script src="/ski/js/Article/frontend_Article.js"></script>
+  <script src="/ski/js/Article/frontend_Article_Show.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
   <script src="/ski/js/Article/navbar.js"></script>
   

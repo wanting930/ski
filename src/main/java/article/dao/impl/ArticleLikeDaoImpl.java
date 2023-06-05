@@ -2,9 +2,11 @@ package article.dao.impl;
 
 import java.util.List;
 
+import org.hibernate.query.Query;
 
 import article.dao.ArticleLikeDao;
 import article.vo.ArticleLike;
+import article.vo.ArticleType;
 
 public class ArticleLikeDaoImpl implements ArticleLikeDao{
 	
@@ -109,6 +111,16 @@ public class ArticleLikeDaoImpl implements ArticleLikeDao{
 //			e.printStackTrace();
 //		}
 //		return null; // 失敗回傳null給我
+	}
+	
+	@Override
+	public ArticleLike selectByArticleID(Integer articleID) {
+		//Hibernate
+		String hqlQuery = "FROM ArticleLike WHERE articleID = :articleID";
+	    Query<ArticleLike> query = getSession().createQuery(hqlQuery, ArticleLike.class);
+	    query.setParameter("articleID", articleID);
+	    ArticleLike articleLike = query.getSingleResult();
+	    return articleLike;
 	}
 	
 	@Override
