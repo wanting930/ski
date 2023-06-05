@@ -44,6 +44,15 @@ public class DefaultPhotoServlet extends HttpServlet {
 
 		Member member = new Member();
 		member.setUserID(Integer.valueOf(userID));
+<<<<<<< HEAD
+=======
+		
+//		String realPath = getServletContext().getRealPath("\\img\\default_photo.png");
+//
+//		System.out.println("realPath = " + realPath);
+		
+		
+>>>>>>> e6638a84f6a961976edf1a7acf72d24bfb983847
 
 		FileInputStream fis = new FileInputStream("C:\\Hibernate_Workspace\\ski\\src\\main\\webapp\\img\\default_photo.png");
 		byte[] buf = new byte[fis.available()];

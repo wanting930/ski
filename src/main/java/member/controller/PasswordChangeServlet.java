@@ -42,8 +42,6 @@ public class PasswordChangeServlet extends HttpServlet {
 		BufferedReader br = req.getReader();
 		Member member = gson.fromJson(br, Member.class);
 		
-		System.out.println(member);
-		
 		member = service.passwordChange(member);
 		
 		if (member == null) {

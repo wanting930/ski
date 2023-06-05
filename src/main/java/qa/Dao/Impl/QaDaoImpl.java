@@ -1,6 +1,10 @@
-package qa.Dao.Impl;
+package qa.dao.Impl;
 
+<<<<<<< HEAD
 import qa.Dao.QaDao;
+=======
+import qa.dao.QaDao;
+>>>>>>> e6638a84f6a961976edf1a7acf72d24bfb983847
 import qa.vo.Qa;
 
 public class QaDaoImpl implements QaDao {

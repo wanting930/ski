@@ -1,4 +1,4 @@
-package qa.Dao;
+package qa.dao;
 
 import core.CoreDao;
 import qa.vo.Qa;

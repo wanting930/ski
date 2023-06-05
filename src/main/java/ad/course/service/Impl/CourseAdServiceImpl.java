@@ -4,10 +4,10 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import ad.course.Dao.CourseAdDao;
-import ad.course.Dao.CourseAdHistoryDao;
-import ad.course.Dao.Impl.CourseAdDaoImpl;
-import ad.course.Dao.Impl.CourseAdHistoryDaoImpl;
+import ad.course.dao.CourseAdDao;
+import ad.course.dao.CourseAdHistoryDao;
+import ad.course.dao.Impl.CourseAdDaoImpl;
+import ad.course.dao.Impl.CourseAdHistoryDaoImpl;
 import ad.course.service.CourseAdService;
 import ad.course.vo.CourseAd;
 import ad.course.vo.CourseAdHistory;

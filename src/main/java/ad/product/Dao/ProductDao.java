@@ -1,4 +1,4 @@
-package ad.product.Dao;
+package ad.product.dao;
 
 import java.util.List;
 

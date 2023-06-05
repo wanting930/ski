@@ -3,7 +3,11 @@ package qa.service.Impl;
 import java.sql.Timestamp;
 import java.util.List;
 
+<<<<<<< HEAD
 import qa.Dao.Impl.QaDaoImpl;
+=======
+import qa.dao.Impl.QaDaoImpl;
+>>>>>>> e6638a84f6a961976edf1a7acf72d24bfb983847
 import qa.service.QaService;
 import qa.vo.Qa;
 

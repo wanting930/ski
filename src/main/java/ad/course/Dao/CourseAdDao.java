@@ -1,4 +1,4 @@
-package ad.course.Dao;
+package ad.course.dao;
 
 import java.util.List;
 
