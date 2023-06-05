@@ -1,12 +1,12 @@
-package serv.dao.Impl;
+package serv.Dao.Impl;
 
 import java.util.List;
 
-<<<<<<< HEAD:src/main/java/serv/Dao/Impl/ServChatDaoImpl.java
+//<<<<<<< HEAD:src/main/java/serv/Dao/Impl/ServChatDaoImpl.java
 import serv.Dao.ServChatDao;
-=======
-import serv.dao.ServChatDao;
->>>>>>> e6638a84f6a961976edf1a7acf72d24bfb983847:src/main/java/serv/Dao/Impl/servChatDaoImpl.java
+//=======
+import serv.Dao.ServChatDao;
+//>>>>>>> e6638a84f6a961976edf1a7acf72d24bfb983847:src/main/java/serv/Dao/Impl/servChatDaoImpl.java
 import serv.vo.ServChat;
 
 public class ServChatDaoImpl implements ServChatDao {

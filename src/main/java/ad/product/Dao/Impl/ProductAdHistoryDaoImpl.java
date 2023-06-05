@@ -1,12 +1,12 @@
-package ad.product.dao.Impl;
+package ad.product.Dao.Impl;
 
 import java.util.List;
 
-<<<<<<< HEAD:src/main/java/ad/product/Dao/Impl/ProductAdHistoryDaoImpl.java
+//<<<<<<< HEAD:src/main/java/ad/product/Dao/Impl/ProductAdHistoryDaoImpl.java
 import ad.product.Dao.ProductAdHistoryDao;
-=======
-import ad.product.dao.ProductAdHistoryDao;
->>>>>>> e6638a84f6a961976edf1a7acf72d24bfb983847:src/main/java/ad/product/Dao/Impl/productADHistoryDaoImpl.java
+//=======
+import ad.product.Dao.ProductAdHistoryDao;
+//>>>>>>> e6638a84f6a961976edf1a7acf72d24bfb983847:src/main/java/ad/product/Dao/Impl/productADHistoryDaoImpl.java
 import ad.product.vo.ProductAdHistory;
 
 public class ProductAdHistoryDaoImpl implements ProductAdHistoryDao {

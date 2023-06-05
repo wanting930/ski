@@ -1,14 +1,14 @@
-package ad.product.dao.Impl;
+package ad.product.Dao.Impl;
 
 import java.util.List;
 
 import org.hibernate.query.Query;
 
-<<<<<<< HEAD
+//<<<<<<< HEAD
 import ad.product.Dao.ProductDao;
-=======
-import ad.product.dao.ProductDao;
->>>>>>> e6638a84f6a961976edf1a7acf72d24bfb983847
+//=======
+import ad.product.Dao.ProductDao;
+//>>>>>>> e6638a84f6a961976edf1a7acf72d24bfb983847
 import ad.product.vo.ProductAd;
 import product.vo.Product;
 

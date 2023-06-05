@@ -1,14 +1,13 @@
-package ad.course.dao.Impl;
+package ad.course.Daos.impl;
 
 import java.util.List;
 
 import org.hibernate.query.Query;
 
-<<<<<<< HEAD
-import ad.course.Dao.CourseAdDao;
-=======
-import ad.course.dao.CourseAdDao;
->>>>>>> e6638a84f6a961976edf1a7acf72d24bfb983847
+import ad.course.Daos.CourseAdDao;
+//=======
+//import ad.course.dao.CourseAdDao;
+//>>>>>>> e6638a84f6a961976edf1a7acf72d24bfb983847
 //import core.CoreDao;
 //import core.util.HibernateUtil;
 import ad.course.vo.CourseAd;
