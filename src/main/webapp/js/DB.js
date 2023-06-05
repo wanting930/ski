@@ -36,7 +36,7 @@
             <td>${ad.courseName}</td>
             <td>${ad.startDate}</td>
             <td>${ad.endDate}</td>
-            <td><button class="btn btn-outline-danger btn-delete" data-id="${ad.courseAD}">刪除</button></td></tr>`;
+            <td><button class="btn btn-outline-danger btn-delete" data-id="${ad.courseAD}"">刪除</button></td></tr>`;
             tableBody.append(html);
         });
     })
@@ -45,27 +45,8 @@
     });
     
     // 監聽刪除按鈕的點擊事件
-    $('.btn-delete').click(function() {
+    $(document).on("click",".btn-delete",function deleteAD() {
         let courseAD = $(this).data('id');
-        // 使用 Fetch API 發送 POST 請求將要刪除的資料傳送至後端
-        // fetch('http://localhost:8080/ski/ad/courseAdDelete?cAdId=${courseAD}', {
-        //     method: 'GET',
-        //     body: JSON.stringify({ cAdId : courseAD }),
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     }
-        // })
-        // .then(response => {
-        //     if (response.ok) {
-        //         console.log('資料已刪除');
-        //         // 可以重新載入或更新資料列表
-        //     } else {
-        //         console.log('刪除資料失敗');
-        //     }
-        // })
-        // .catch(error => {
-        //     console.log('刪除資料失敗:', error);
-        // });
 
         $.ajax({
             url: "courseAdDelete",
@@ -73,19 +54,14 @@
             data: { cAdId: courseAD },
             dataType: "json",
             success: function (data) {
-                console.success(data);
                 console.log("a");
                 location.reload();
             },
             error: function (error) {
-              console.error(error);
+              console.log(error);
             },
           });
-        //   alarm("刪除成功");
     });
-    // $("#insrtbutton").on("click", () => {
-
-    // })
 
 
     //新增事件

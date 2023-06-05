@@ -21,10 +21,10 @@
 		<!-- 在Spring的環境底下，不可以用thread，要用Spring提供的方法 -->
 		<property name="hibernate.current_session_context_class">thread</property>
 
-		<!-- <mapping class="ad.course.vo.CourseAd" /> -->
-		<!-- <mapping class="ad.course.vo.CourseAdHistory" /> -->
-		<!-- <mapping class="ad.product.vo.ProductAd" /> -->
-		<!-- <mapping class="ad.product.vo.ProductAdHistory" /> -->
+		<mapping class="ad.course.vo.CourseAd" />
+		<mapping class="ad.course.vo.CourseAdHistory" />
+		<mapping class="ad.product.vo.ProductAd" />
+		<mapping class="ad.product.vo.ProductAdHistory" />
 
 		<!-- <mapping class="article.vo.Article" /> -->
 		<!-- <mapping class="article.vo.ArticleImage" /> -->
@@ -37,7 +37,7 @@
 		<!-- <mapping class="chat.model.OneChat" /> -->
 		<!-- <mapping class="chat.model.AllChat" /> -->
 
-		<!-- <mapping class="course.entity.Course" /> -->
+		<mapping class="course.entity.Course" />
 
 		<!-- <mapping class="loc.model.SkiLocation" /> -->
 		<!-- <mapping class="loc.model.SkiLocationHistory" /> -->
@@ -52,11 +52,11 @@
 		<!-- <mapping class="order.productOrder.model.ProductOrder" /> -->
 		<!-- <mapping class="order.productOrderDetail.model.ProductOrderDetail" /> -->
 
-		<!-- <mapping class="product.vo.Product" /> -->
+		<mapping class="product.vo.Product" />
 
-		<!-- <mapping class="qa.vo.Qa"/> -->
+		<mapping class="qa.vo.Qa"/>
 
-		<!-- <mapping class="serv.vo.ServChat"/> -->
+		<mapping class="serv.vo.ServChat"/>
 
 	</session-factory>
 </hibernate-configuration>

@@ -5,11 +5,6 @@ import java.util.List;
 import org.hibernate.query.Query;
 
 import ad.course.dao.CourseAdDao;
-//=======
-//import ad.course.dao.CourseAdDao;
-//>>>>>>> e6638a84f6a961976edf1a7acf72d24bfb983847
-//import core.CoreDao;
-//import core.util.HibernateUtil;
 import ad.course.vo.CourseAd;
 import course.entity.Course;
 
@@ -30,7 +25,12 @@ public class CourseAdDaoImpl implements CourseAdDao {
 
 	@Override
 	public int delete(Integer id) {
-		CourseAd cAd = getSession().get(CourseAd.class, id);
+		System.out.println(id);
+		CourseAd cAd = getSession().get(CourseAd.class,id);
+//		String hql = "FROM CourseAd WHERE courseAD = :id";
+//		CourseAd cAd = getSession().createQuery(hql,CourseAd.class).setParameter("id", id).uniqueResult();
+		
+		System.out.println(cAd);
 		getSession().remove(cAd);
 		return 1;
 	}
@@ -79,5 +79,7 @@ public class CourseAdDaoImpl implements CourseAdDao {
 		query.setParameter("courseID", courseID);
 		return query.getSingleResult();
 	}
+
+
 
 }

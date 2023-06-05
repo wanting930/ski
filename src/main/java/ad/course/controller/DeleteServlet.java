@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.JsonObject;
+
 import ad.course.service.CourseAdService;
 import ad.course.service.Impl.CourseAdServiceImpl;
 
@@ -39,8 +41,10 @@ public class DeleteServlet extends HttpServlet {
 
 		Integer cAdid = Integer.valueOf(req.getParameter("cAdId"));
 		System.out.println(cAdid);
-		Service.deleteAd(cAdid);
-//		 int result = Service.deleteAd(cAdid);
-//		 if(result < 0) {resp.getWriter().println("Take off Successfully.");}
+//		Service.deleteAd(cAdid);
+		 int result = Service.deleteAd(cAdid);
+		 JsonObject jsonObject = new JsonObject();
+		 jsonObject.addProperty("status", "success");
+		 if(result < 0) {resp.getWriter().println(jsonObject.toString());}
 	}
 }
