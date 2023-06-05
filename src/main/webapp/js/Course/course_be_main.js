@@ -102,7 +102,7 @@ document.addEventListener("DOMContentLoaded", function () {
         courseStatus = "已上架";
       }
 
-      console.log(course.skiLocation);
+		console.log("course.coachID" + course.coachID);
       row.innerHTML = `
       <th scope="row">${course.courseID}</th>
       <td><img src='${imageSrc}' style="max-width: 150px; max-height: 80px;"></img></td>
