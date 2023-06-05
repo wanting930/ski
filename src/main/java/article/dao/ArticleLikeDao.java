@@ -14,6 +14,8 @@ public interface ArticleLikeDao extends CoreDao{
 	int updateByArticleLikeID(ArticleLike articleLike);
 
 	ArticleLike selectByArticleLikeID(Integer articleLikeID);
+	
+	ArticleLike selectByArticleID(Integer articleLikeID);
 
 	List<ArticleLike> selectAll() throws ClassNotFoundException;
 
