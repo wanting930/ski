@@ -4,9 +4,9 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import ad.course.Daos.*;
-import ad.course.Daos.impl.CourseAdDaoImpl;
-import ad.course.Daos.impl.CourseAdHistoryDaoImpl;
+import ad.course.dao.*;
+import ad.course.dao.impl.CourseAdDaoImpl;
+import ad.course.dao.impl.CourseAdHistoryDaoImpl;
 import ad.course.service.CourseAdService;
 import ad.course.vo.CourseAd;
 import ad.course.vo.CourseAdHistory;

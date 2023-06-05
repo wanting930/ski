@@ -1,7 +1,7 @@
 package serv.service;
 
-import serv.Dao.ServChatDao;
-import serv.Dao.Impl.ServChatDaoImpl;
+import serv.dao.ServChatDao;
+import serv.dao.Impl.ServChatDaoImpl;
 
 public class ServChatServiceImpl {
 	private ServChatDao dao;

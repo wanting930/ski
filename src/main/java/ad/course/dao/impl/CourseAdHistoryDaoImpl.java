@@ -1,11 +1,8 @@
-//<<<<<<< HEAD
-package ad.course.Daos.impl;
+package ad.course.dao.impl;
 
 import java.util.List;
 
-import ad.course.Daos.CourseAdHistoryDao;
-//=======
-//>>>>>>> e6638a84f6a961976edf1a7acf72d24bfb983847
+import ad.course.dao.CourseAdHistoryDao;
 import ad.course.vo.CourseAdHistory;
 
 public class CourseAdHistoryDaoImpl implements CourseAdHistoryDao {

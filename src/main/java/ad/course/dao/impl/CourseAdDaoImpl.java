@@ -1,10 +1,10 @@
-package ad.course.Daos.impl;
+package ad.course.dao.impl;
 
 import java.util.List;
 
 import org.hibernate.query.Query;
 
-import ad.course.Daos.CourseAdDao;
+import ad.course.dao.CourseAdDao;
 //=======
 //import ad.course.dao.CourseAdDao;
 //>>>>>>> e6638a84f6a961976edf1a7acf72d24bfb983847
