@@ -91,7 +91,7 @@ $(document).ready(function() {
 
 
 			// Use Fetch API to send a POST request
-			fetch('http://localhost:8080/ski/productAdd', {
+			fetch('/ski/productAdd', {
 				method: 'POST',
 				body: formData
 			})
@@ -104,7 +104,7 @@ $(document).ready(function() {
 					if (data.status === "success") {
 						console.log("Success:", data.message);
 						
-						window.location.href = "http://localhost:8080/ski/product/backend_productPut.html";
+						window.location.href = "/ski/product/backend_productPut.html";
 					} else if (data.status === "failure") {
 						console.error("Failure:", data.message);
 					}

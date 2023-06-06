@@ -1,3 +1,4 @@
+var userID=sessionStorage.getItem("userID");
 function createAndAttachModal(productDiv, uniqueModalId) {
     const uniqueModalLabel = 'staticBackdropLabel' + uniqueModalId.replace('staticBackdrop', '');
 
@@ -27,7 +28,7 @@ function createAndAttachModal(productDiv, uniqueModalId) {
 
 // Helper function to create product element
 function createProductElement(product) {
-    return fetch(`http://localhost:8080/ski/loadImage?productID=${product.productID}`)
+    return fetch(`/ski/loadImage?productID=${product.productID}`)
         .then(response => response.json())
         .then(imageData => {
             const productDiv = document.createElement('div');
@@ -43,7 +44,7 @@ function createProductElement(product) {
 
             const productHtml = `
       	<div class="card text-center">
-        <a href="http://localhost:8080/ski/product/frontend_productDetail.html?productID=${product.productID}">
+        <a href="/ski/product/frontend_productDetail.html?productID=${product.productID}">
         <img src="data:image/png;base64,${imageData.imageData}" alt="商品圖片" style="height: 100px">
          
           <div class="card-body">
@@ -53,14 +54,14 @@ function createProductElement(product) {
           </div>
           <div class="card text-center">
             <!-- ...其他程式碼... -->
-    			 <button class="btn btn-info add-to-cart" data-bs-toggle="modal" data-bs-target="#${uniqueModalId}">加入購物車</button>
+    			 <button class="btn btn-info add-to-cart" data-bs-toggle="modal" data-bs-target="#${uniqueModalId}" product=`+product.productID+`>加入購物車</button>
           </div>
 	  </div>
       `;
 
             productDiv.innerHTML = productHtml;
 
-            createAndAttachModal(productDiv, uniqueModalId);
+            // createAndAttachModal(productDiv, uniqueModalId);
 
             return productDiv;
         });
@@ -69,7 +70,7 @@ function createProductElement(product) {
 
 
 function displayAllProducts() {
-	fetch('http://localhost:8080/ski/getAll')
+	fetch('/ski/getAll')
 		.then(response => response.json())
 		.then(data => {
 			const productContainer = document.getElementById('productContent');
@@ -89,7 +90,7 @@ function displayAllProducts() {
 }
 
 function searchProduct(searchTerm) {
-	var url = "http://localhost:8080/ski/productSelectByName?productName=" + searchTerm;
+	var url = "/ski/productSelectByName?productName=" + searchTerm;
 
 	fetch(url)
 		.then(response => response.json())
@@ -132,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		button.addEventListener('click', () => {
 			const productClass = button.innerText.trim();
 
-			fetch(`http://localhost:8080/ski/productSelectByClass?productClass=${productClass}`)
+			fetch(`/ski/productSelectByClass?productClass=${productClass}`)
 				.then(response => response.json())
 				.then(data => {
 					const productContainer = document.getElementById('productContent');
@@ -164,3 +165,37 @@ document.addEventListener('keyup', function(event) {
 		searchProduct(searchTerm);
 	}
 });
+
+$("#productContent").on("click","button[class*='btn btn-info add-to-cart']",function(){
+	let id=$(this).attr("productID");
+	console.log(id);
+		if(userID!=null){
+			var check=confirm("確定新增商品至購物車?")
+			if(check){
+				var url = "/ski/addCar?userID="+userID+"&productID=" + id + "&quantity=1";
+			
+				fetch(url)
+				.then(response => response.json())
+					.then(data => {
+						let status=data.status;
+						if(status){
+							alert("購物車新增成功")
+						}else{
+							alert("購物車已有同一商品")
+						}
+						
+					})
+					.catch(error => {
+						console.log(error);
+						alert("購物車新增失敗")
+					});
+			}else{
+		
+			}
+		}else{
+			alert("請先登入")
+		}
+
+	
+})
+
