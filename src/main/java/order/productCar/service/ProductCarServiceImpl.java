@@ -64,12 +64,14 @@ public class ProductCarServiceImpl implements ProductCarService{
 	}
 
 	@Override
-	public void addCar(ProductCar productCar) {
+	public boolean addCar(ProductCar productCar) {
 		if(dao.selectByID(productCar.getId())==null) {
 			dao.insert(productCar);
+			return true;
 
 		}else {
 			System.out.println("購物車已有同一商品");
+			return false;
 		}
 		
 	}

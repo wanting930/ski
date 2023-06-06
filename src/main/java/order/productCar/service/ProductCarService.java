@@ -15,7 +15,7 @@ public interface ProductCarService {
 	//回傳購物車頁面的商品資料
 	JSONArray listProductCar(Integer userID);
 	//加入購物車
-	void addCar(ProductCar productCar);
+	boolean addCar(ProductCar productCar);
 	//從購物車移除
 	JSONObject removeCar(Integer userID,Integer productID);
 	//清空購物車

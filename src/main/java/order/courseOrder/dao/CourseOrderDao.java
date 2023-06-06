@@ -43,6 +43,7 @@ public interface CourseOrderDao extends CoreDao{
 	void updateDetailStatus(Integer courseOrderDetailID);
 	Member selectMember(Integer userID);
 	List<Member> selectMemberByName(String userName);
+	void updatePerson(Integer courseID);
 
 	
 
