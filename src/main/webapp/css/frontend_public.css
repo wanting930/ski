@@ -1,4 +1,4 @@
-	.navbar{
+.navbar{
     background-color: #073642 !important
 } 
 
@@ -21,6 +21,17 @@
     margin: 0;
     width: 20px;
     height: 20px;
+}
+
+/* 會員中心sidebar下拉選單 */
+.dropdown-toggle-no-caret::after {
+    display: none;
+}
+
+.dropdown-item {
+    color: #007BFF; /* 替換為您想要的文字顏色 */
+    text-align: center;
+    font-weight: bold;
 }
 
 .container{

@@ -13,7 +13,7 @@ if (sessionStorage.getItem("userName") != null) {
       `<a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">` 
       + userName + `<i class="fa fa-angle-down"></i></a>
       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-        <a class="dropdown-item" href="../member/memberInfo.html">會員中心</a>
+        <a class="dropdown-item" href="/ski/member/memberInfo.html">會員中心</a>
         <div class="dropdown-divider"></div>
         <a id="logout" class="dropdown-item">登出</a>
       </div>`;
@@ -26,13 +26,13 @@ if (sessionStorage.getItem("userName") != null) {
 
 var logoutReq = function () {
   $.ajax({
-    url: "http://localhost:8080/ski/member/logout",
+    url: "/ski/member/logout",
     type: "POST",
     dataType: "json", //指定回傳的資料格式
     success: function (resp) {
       sessionStorage.clear();
       alert(resp);
-      location = "../index.html";
+      location = "/ski/index.html";
     },
     error: function (xhr, status, error) {
       console.log("xhr=" + xhr);

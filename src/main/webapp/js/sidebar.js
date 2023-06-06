@@ -6,7 +6,7 @@ var jsonData = JSON.stringify(data);
 // console.log(jsonData); // debug
 
 $.ajax({
-url: "http://localhost:8080/ski/member/coachInfo",
+url: "/ski/member/coachInfo",
 type: "POST",
 dataType: "json", //指定回傳的資料格式
 data: jsonData,
@@ -23,7 +23,7 @@ success: function (resp) {
     .append(
       $("<a></a>")
     .addClass("nav-link")
-    .attr("href", "../course/coachCourse.html")
+    .attr("href", "/ski/course/coachCourse.html")
     .text("教練課程管理")
     );
     $(".nav.flex-column").append(newNavItem);
