@@ -34,6 +34,11 @@ public class GetAllCoachServlet extends HttpServlet {
 		resp.setHeader("Access-Control-Allow-Headers", "Content-Type"); // 允許的請求頭
 		resp.setHeader("Access-Control-Allow-Credentials", "true"); // 是否允許帶有憑證的請求
 
+		// 避免快取
+		resp.setHeader("Cache-Control", "no-store");
+		resp.setHeader("Pragma", "no-cache");
+		resp.setDateHeader("Expires", 0);
+
 		// 設置中文編碼
 		req.setCharacterEncoding("UTF-8");
 		resp.setContentType("application/json;charset=UTF-8");

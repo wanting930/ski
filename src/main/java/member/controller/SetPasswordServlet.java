@@ -1,6 +1,5 @@
 package member.controller;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -11,22 +10,23 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
-import member.service.CoachService;
-import member.service.impl.CoachServiceImpl;
-import member.vo.Coach;
+import core.Base64Util;
+import member.service.MemberService;
+import member.service.impl.MemberServiceImpl;
+import member.vo.Member;
 
-@WebServlet("/member/coachInfo") // http://localhost:8080/ski/member/coachInfo
-public class CoachInfoServlet extends HttpServlet {
-	private static final long serialVersionUID = 1986650499856082940L;
-	private CoachService service;
+@WebServlet("/member/setPassword") // http://localhost:8080/ski/member/setPassword
+public class SetPasswordServlet extends HttpServlet {
+	private static final long serialVersionUID = -2642181847346797888L;
+	private MemberService service;
 	private Gson gson;
-
+	
 	@Override
 	public void init() throws ServletException {
-		service = new CoachServiceImpl();
+		service = new MemberServiceImpl();
 		gson = new Gson();
 	}
-
+	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setHeader("Access-Control-Allow-Origin", "*"); // 允許來自所有網域的請求
@@ -42,17 +42,30 @@ public class CoachInfoServlet extends HttpServlet {
 		// 設置中文編碼
 		req.setCharacterEncoding("UTF-8");
 		resp.setContentType("application/json;charset=UTF-8");
-
-		// 從 HttpServletRequest 中取得 JSON 字串
-		BufferedReader br = req.getReader();
-		Coach coach = gson.fromJson(br, Coach.class);
 		
-		coach = service.coachInfo(coach.getUserID());
-
-		String coachJson = gson.toJson(coach);
-		resp.getWriter().write(coachJson);
+		String userID = req.getParameter("userID");
+		String password = req.getParameter("password");
+		String decodedUserID = Base64Util.decode(userID);
+		
+		Member member = new Member();
+		member.setUserID(Integer.valueOf(decodedUserID));
+		member.setPassword(password);
+		
+		member = service.passwordChange(member);
+		
+		if (member == null) {
+			member = new Member();
+			member.setMessage("無會員資訊");
+			member.setSuccessful(false);
+			String memberJson = gson.toJson(member);
+			resp.getWriter().write(memberJson);
+			resp.getWriter().flush();
+			return;
+		}
+		System.out.println(member);
+		String memberJson = gson.toJson(member);
+		resp.getWriter().write(memberJson);
 		resp.getWriter().flush();
-
+	
 	}
-
 }

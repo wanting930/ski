@@ -36,6 +36,11 @@ public class DefaultPhotoServlet extends HttpServlet {
 		resp.setHeader("Access-Control-Allow-Headers", "Content-Type"); // 允許的請求頭
 		resp.setHeader("Access-Control-Allow-Credentials", "true"); // 是否允許帶有憑證的請求
 
+		// 避免快取
+		resp.setHeader("Cache-Control", "no-store");
+		resp.setHeader("Pragma", "no-cache");
+		resp.setDateHeader("Expires", 0);
+		
 		// 設置中文編碼
 		req.setCharacterEncoding("UTF-8");
 		resp.setContentType("application/json;charset=UTF-8");
@@ -44,17 +49,10 @@ public class DefaultPhotoServlet extends HttpServlet {
 
 		Member member = new Member();
 		member.setUserID(Integer.valueOf(userID));
-<<<<<<< HEAD
-=======
 		
-//		String realPath = getServletContext().getRealPath("\\img\\default_photo.png");
-//
-//		System.out.println("realPath = " + realPath);
-		
-		
->>>>>>> e6638a84f6a961976edf1a7acf72d24bfb983847
+		String realPath = getServletContext().getRealPath("\\img\\default_photo.png");
 
-		FileInputStream fis = new FileInputStream("C:\\Hibernate_Workspace\\ski\\src\\main\\webapp\\img\\default_photo.png");
+		FileInputStream fis = new FileInputStream(realPath);
 		byte[] buf = new byte[fis.available()];
 		fis.read(buf);
 		member.setPhoto(buf);

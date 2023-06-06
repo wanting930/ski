@@ -1,5 +1,6 @@
 package member.service;
 
+import java.io.IOException;
 import java.util.List;
 
 import member.vo.Member;
@@ -11,6 +12,12 @@ public interface MemberService {
 	Member login(Member member);
 	
 	String genAuthCode();
+	
+	Member forgotPassword(Member member);
+	
+	void sendMail(String to, String subject, String messageText);
+	
+	String getHtmlContent(String filePath) throws IOException;
 
 	Member infoChange(Member member);
 	
@@ -23,5 +30,5 @@ public interface MemberService {
 	Member findOne(Integer userID);
 	
 	Member settings(Member member);
-
+	
 }
