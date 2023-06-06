@@ -26,19 +26,19 @@
         <div class="vh-100 coach-form-container">
           <div class="title_zone text-center fw-bold " style="border: 2px solid blue">
             <h1>教練課程管理</h1>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#merge"
+            <button type="button" id="insert_btn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#merge"
               data-bs-whatever="@mdo">新增課程</button>
           </div>
-          <div class="card_zone">
-            <div class="courseCard border-top my-3 p-2 d-flex align-items-center position-relative">
+          <div class="card_zone  overflow-scroll">
+            <!-- <div class="courseCard border-top my-3 p-2 d-flex align-items-center position-relative">
               <div class="imgZone mx-2 ">
                 <img class="crousePhoto" src=''
-                  style="max-height: 120px; max-width: 180px; color: gray; height: 120px; width: 180px;">
+                  style="max-height: 120px; max-width: 180px; height: 120px; width: 180px;">
               </div>
 
               <div class="textZone fw-bold mb-3">
                 <div id="titleGroup " class="d-flex align-items-center">
-                  <input type="text" class="d-none" id="courseID">
+                  <input type="text" class="d-none courseID">
                   <p class="mx-2 my-0 fs-3">課程名</p>
                   <p class="my-0">開課日期 </p>
                 </div>
@@ -49,14 +49,14 @@
 
               <div class="btnGroup m-2 position-absolute bottom-0 end-0">
 
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#delete"
-                  data-bs-whatever="@mdo">刪除課程</button>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                  data-bs-target="#delete">刪除課程</button>
 
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#merge"
-                  data-bs-whatever="@fat">更改課程資訊</button>
+                <button type="button" id="update_btn" class="btn btn-primary" data-bs-toggle="modal"
+                  data-bs-target="#merge">更改課程資訊</button>
 
               </div>
-            </div>
+            </div> -->
 
             <!-- 新增/更新表單 -->
             <div class="modal fade" id="merge" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -73,7 +73,7 @@
                         <div class="input-group">
                           <label class="input-group-text bold-text" for="courseSkill">課程類型</label>
                           <select class="form-select" id="courseSkill">
-                            <option selected disabled></option>
+                            <option value="-1" selected disabled></option>
                             <option value="0">單板</option>
                             <option value="1">雙版</option>
                           </select>
@@ -86,7 +86,7 @@
                         <div class="input-group">
                           <label class="input-group-text bold-text" for="courseLevel">課程程度</label>
                           <select class="form-select" id="courseLevel">
-                            <option selected disabled></option>
+                            <option value="-1" selected disabled></option>
                             <option value="0">初階</option>
                             <option value="1">中階</option>
                             <option value="2">高階</option>
@@ -112,10 +112,7 @@
                         <div class="input-group">
                           <label class="input-group-text bold-text" for="courseLocation">授課地點</label>
                           <select class="form-select" id="courseLocation">
-                            <option selected disabled></option>
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
+                            <option value="-1" selected disabled></option>
                           </select>
                           <div class="invalid-feedback">必填</div>
                           <div class="valid-feedback">通過 !</div>
@@ -194,7 +191,7 @@
                         <div class="input-group">
                           <label class="input-group-text" for="courseStatus">課程狀態</label>
                           <select class="form-select" id="courseStatus">
-                            <option selected disabled></option>
+                            <option value="-1" selected disabled></option>
                             <option value="0">上架中</option>
                             <option value="1">下架中</option>
                           </select>
@@ -324,9 +321,8 @@
 <script src="../js/bootstrap.bundle.js"></script>
 <script src="../js/frontend_public.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-<script src="../js/embed.js"></script>
+<!-- <script src="../js/embed.js"></script> -->
 <script src="../js/Course/course_fe_Maintain.js"></script>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
 <script>
   // window.onload = function () {

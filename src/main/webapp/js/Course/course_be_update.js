@@ -130,12 +130,13 @@ function getCourseInfo() {
           ""
         )
       );
+
       const imageSrc = `data:image/png;base64,${base64Image}`;
       document.getElementById("originalImage").src = imageSrc;
       document.getElementById("originalImage").dataset.originalImage =
         base64Image;
 
-      // Additional handling or UI updates can be done here if needed
+      $("#courseIntroduce").val(response.courseIntroduce);
     },
     error: function (status, error) {
       console.error("Request failed. Status:", status, "Error:", error);

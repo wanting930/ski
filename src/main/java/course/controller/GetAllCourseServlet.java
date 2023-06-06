@@ -27,16 +27,17 @@ public class GetAllCourseServlet extends HttpServlet {
 			CourseDaoImpl dao = new CourseDaoImpl();
 
 			List<Course> list = dao.getAllCourses();				
-			
+			response.setContentType("application/json");
 			Gson gson = new Gson();
 			String jsonStr = gson.toJson(list);
+			
 			try {
 				response.getWriter().write(jsonStr);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			response.setContentType("application/json");
+			
 	
 	}
 }
