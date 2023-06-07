@@ -103,7 +103,6 @@ document.addEventListener("DOMContentLoaded", function () {
         courseStatus = "上架中";
       }
 
-      console.log("course.coachID" + course.coachID);
       row.innerHTML = `
       <th scope="row">${course.courseID}</th>
       <td><img src='${imageSrc}' style="max-width: 150px; max-height: 80px;"></img></td>

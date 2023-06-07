@@ -3,18 +3,19 @@ const form = $("#courseForm");
 
 $(document).ready(function () {
   $.ajax({
-    url: "http://localhost:8080/ski//loc/backend_selectmap",
-    type: "POST",
-    data: formData,
+    url: "/ski/loc/backend_selectmap",
+    type: "GET",
     processData: false,
     contentType: false,
     success: function (response) {
+      response.forEach(function(Data) {
       option = $("<option>", {
-        value: response.skiLocation.pointID,
-        text: response.skiLocation.pointName,
+        value: Data.pointID,
+        text: Data.pointName,
       });
-
+		
       $("#courseLocation").append(option);
+      })
     },
     error: function () {
       alert("新增失敗");
@@ -52,7 +53,7 @@ $("#addButton").on("click", function (event) {
     const courseSkill = document.getElementById("courseSkill").value;
     const courseLevel = document.getElementById("courseLevel").value;
     const courseName = document.getElementById("courseName").value;
-    const courseLocation = document.getElementById("coursePrice").value;
+    const courseLocation = document.getElementById("courseLocation").value;
     const courseDate = document.getElementById("courseDate").value;
     const startDate = document.getElementById("startDate").value;
     const endDate = document.getElementById("endDate").value;
@@ -65,7 +66,7 @@ $("#addButton").on("click", function (event) {
 
     // Create FormData object to store form data
     const formData = new FormData();
-    console.log(courseSkill);
+
     formData.append("courseSkill", courseSkill);
 
     formData.append("courseLevel", courseLevel);

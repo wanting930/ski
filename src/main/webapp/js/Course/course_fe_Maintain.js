@@ -1,39 +1,84 @@
 $(document).ready(function () {
+  var courseID;
+
   getAllCourse();
   resetInputState();
 
   // 綁定欄位輸入事件
   $(
     "#courseSkill, #courseLevel, #courseName, #courseLocation, #courseDate, #startDate, #endDate,#coursePrice,#courseMax,#courseMin,#courseStatus,#skiImage,#courseIntroduce"
-  ).on("input", function () {
+  ).on("input change", function () {
     validateInputField($(this));
   });
 
   $("#insert_btn").on("click", function (event) {
     resetForm();
+    courseID;
     merge(courseID);
   });
 
   //更新事件綁定
   $(".card_zone").on("click", ".update_btn", function (event) {
-    resetForm();
-    var courseID = $(this)
+    courseID = $(this)
       .closest(".btnGroup")
       .siblings(".textZone")
       .find(".courseID")
       .val();
-    console.log("ID: " + courseID);
     getCourseInfo(courseID);
+    bringInfoState();
     merge(courseID);
   });
+
+  $(".card_zone").on("click", ".deleteEntrace", function (event) {
+    courseID = $(this)
+      .closest(".btnGroup")
+      .siblings(".textZone")
+      .find(".courseID")
+      .val();
+  });
+
+  $(".card_zone").on("click", "#delete_btn", function (event) {
+    deleteCourse(courseID);
+  });
+
+  //表單依輸入圖片更新預覽圖
+  document
+    .getElementById("coursePhoto")
+    .addEventListener("change", handleImageChange);
 });
+
+function getCoachID(memberId) {
+  $.ajax({
+    url: "http://localhost:8080/ski/",
+    type: "POST",
+    data: { memberId: memberId },
+    success: function (response) {
+      coach = response.coachId;
+    },
+    error: function () {
+      console.log("error");
+    },
+  });
+}
 
 function getAllCourse() {
   $.ajax({
     url: "http://localhost:8080/ski/course_GA",
+    // url:　"http://localhost:8080/ski/course_GCC",
+    //data:{coachID : coachID},
     type: "POST",
     dataType: "json",
     success: function (response) {
+      // 地點選單生成
+      if (response) {
+        option = $("<option>", {
+          value: response[0].skiLocation.pointID,
+          text: response[0].skiLocation.pointName,
+        });
+      }
+
+      $("#courseLocation").append(option);
+
       renderCourse(response);
     },
     error: function () {
@@ -46,7 +91,7 @@ function renderCourse(Course) {
   Course.forEach((course) => {
     //刪除按鈕生成
     const deleteButton = $("<button>")
-      .addClass("btn mx-1 btn-primary delete_btn")
+      .addClass("btn mx-1 btn-primary deleteEntrace")
       .attr("type", "button")
       .attr("data-bs-toggle", "modal")
       .attr("data-bs-target", "#delete")
@@ -86,13 +131,13 @@ function renderCourse(Course) {
     }
 
     var courseStatus = "";
-    var textDec="";
+    var textDec = "";
     if (course.courseStatus == 0) {
-      courseStatus = "下架中";
-      textDec = "text-danger";
-    } else if (course.courseStatus == 1) {
       courseStatus = "上架中";
       textDec = "text-success";
+    } else if (course.courseStatus == 1) {
+      courseStatus = "下架中";
+      textDec = "text-danger";
     }
 
     cardStr = `
@@ -131,10 +176,33 @@ function renderCourse(Course) {
   });
 }
 
+function validateInputField(field) {
+  var value = field.val().trim();
+
+  if (value === "") {
+    field.removeClass("is-valid");
+    field.addClass("is-invalid");
+    field.next(".invalid-feedback");
+  } else {
+    value = field.val().trim();
+    field.removeClass("is-invalid");
+    field.addClass("is-valid");
+    field.next(".invalid-feedback");
+  }
+}
+
+function bringInfoState() {
+  $(
+    "#courseSkill, #courseLevel, #courseName, #courseLocation, #courseDate, #startDate, #endDate,#coursePrice,#courseMax,#courseMin,#courseStatus,#skiImage,#courseIntroduce"
+  ).addClass("is-valid");
+  $(
+    "#courseSkill, #courseLevel, #courseName, #courseLocation, #courseDate, #startDate, #endDate,#coursePrice,#courseMax,#courseMin,#courseStatus,#skiImage,#courseIntroduce"
+  ).removeClass("is-invalid");
+}
+
 function merge(courseID) {
   $("#submit_btn").on("click", function (event) {
     event.preventDefault();
-    console.log("treger");
 
     if ($(".is-invalid").length > 0) {
       alert("請填寫完整資料！");
@@ -156,7 +224,7 @@ function merge(courseID) {
       var courseMax = $("#courseMax").val();
       var courseMin = $("#courseMin").val();
       var courseStatus = $("#courseStatus").val();
-      var coursePhoto = $("#skiImage")[0].files[0];
+      var coursePhoto = $("#coursePhoto")[0].files[0];
       var courseIntroduce = $("#courseIntroduce").val();
 
       var formData = new FormData();
@@ -182,15 +250,13 @@ function merge(courseID) {
       console.log("method" + method);
 
       $.ajax({
-        url: "course_" + method,
+        url: "http://localhost:8080/ski/course_" + method,
         type: "POST",
         data: formData,
         contentType: false,
         processData: false,
         success: function (response) {
-          // console.log("資料傳送成功");
-          // console.log(response);
-          alert("執行成功！請到雪點列表點擊上架顯示到滑雪地圖");
+          alert("執行成功！");
           location.reload();
         },
         error: function (xhr, status, error) {
@@ -199,6 +265,20 @@ function merge(courseID) {
         },
       });
     }
+  });
+}
+
+function deleteCourse(courseID) {
+  $.ajax({
+    url: "http://localhost:8080/ski/course_DL",
+    type: "POST",
+    data: { CourseID: courseID },
+    success: function (response) {
+      alert("刪除成功!");
+    },
+    error: function () {
+      console.log("error");
+    },
   });
 }
 
@@ -213,39 +293,19 @@ function resetInputState() {
 
 function resetForm() {
   resetInputState();
+
+  resetVal($(".form-control"));
+  resetOption($(".form-select"));
+
   function resetVal(field) {
     field.val("");
   }
+
   function resetOption(field) {
     field.prop("selectedIndex", -1);
   }
 
-  $(
-    "#courseName, #courseDate, #startDate, #endDate,#coursePrice,#courseMax,#courseMin,#skiImage,#courseIntroduce"
-  ).blur(function () {
-    resetVal($(this));
-  });
-
-  $("#courseSkill, #courseLevel,#courseLocation,#courseStatus").blur(
-    function () {
-      resetOption($(this));
-    }
-  );
-}
-
-function validateInputField(field) {
-  var value;
-
-  if (value === "") {
-    field.removeClass("is-valid");
-    field.addClass("is-invalid");
-    field.next(".invalid-feedback");
-  } else {
-    value = field.val().trim();
-    field.removeClass("is-invalid");
-    field.addClass("is-valid");
-    field.next(".invalid-feedback");
-  }
+  $("#originalImage").attr("src", "");
 }
 
 function getCourseInfo(courseID) {
@@ -255,20 +315,12 @@ function getCourseInfo(courseID) {
     type: "POST",
     dataType: "json",
     success: function (response) {
-      // 地點選單生成
-      option = $("<option>", {
-        value: response.skiLocation.pointID,
-        text: response.skiLocation.pointName,
-      });
-
-      $("#courseLocation").append(option);
-
       const courseDate = moment(response.courseDate).format("YYYY-MM-DD");
       const startDate = moment(response.startDate).format("YYYY-MM-DD");
       const endDate = moment(response.endDate).format("YYYY-MM-DD");
 
-      $("#courseSkill").val(courseSkill);
-      $("#courseLevel").val(courseLevel);
+      $("#courseSkill").val(response.skill);
+      $("#courseLevel").val(response.level);
       $("#courseName").val(response.courseName);
       $("#courseLocation").val(response.skiLocation.pointID);
       $("#courseDate").val(courseDate);
@@ -281,17 +333,17 @@ function getCourseInfo(courseID) {
 
       // $("#skiImage")[0].files[0];
 
-      // const base64Image = btoa(
-      //   new Uint8Array(response.coursePhoto).reduce(
-      //     (data, byte) => data + String.fromCharCode(byte),
-      //     ""
-      //   )
-      // );
+      const base64Image = btoa(
+        new Uint8Array(response.coursePhoto).reduce(
+          (data, byte) => data + String.fromCharCode(byte),
+          ""
+        )
+      );
 
-      // const imageSrc = `data:image/png;base64,${base64Image}`;
-      // document.getElementById("originalImage").src = imageSrc;
-      // document.getElementById("originalImage").dataset.originalImage =
-      //   base64Image;
+      const imageSrc = `data:image/png;base64,${base64Image}`;
+      document.getElementById("originalImage").src = imageSrc;
+      document.getElementById("originalImage").dataset.originalImage =
+        base64Image;
 
       $("#courseIntroduce").val(response.courseIntroduce);
     },
@@ -301,31 +353,28 @@ function getCourseInfo(courseID) {
   });
 }
 
-// function dateValidate(field) {
-//   var value = field.val().trim();
+function base64ToBlob(base64) {
+  var binary = atob(base64);
+  var bytes = new Uint8Array(binary.length);
+  for (var i = 0; i < binary.length; i++) {
+    bytes[i] = binary.charCodeAt(i);
+  }
+  return new Blob([bytes], { type: "image/png" });
+}
 
-//   if (value === "") {
-//     field.removeClass("is-valid");
-//     field.addClass("is-invalid");
-//     field.next(".invalid-feedback");
-//   } else {
-//     field.removeClass("is-invalid");
-//     field.addClass("is-valid");
-//     field.next(".invalid-feedback");
-//   }
-
-//   // 檢查經度和緯度格式
-//   if (field.attr("id") === "latInput") {
-//     if (!isValidLatitude(value)) {
-//       field.removeClass("is-valid");
-//       field.addClass("is-invalid");
-//       field.next(".invalid-feedback").text("請符合緯度格式(必填)");
-//     }
-//   } else if (field.attr("id") === "lngInput") {
-//     if (!isValidLongitude(value)) {
-//       field.removeClass("is-valid");
-//       field.addClass("is-invalid");
-//       field.next(".invalid-feedback").text("請符合經度格式(必填)");
-//     }
-//   }
-// }
+function handleImageChange() {
+  const selectedImage = document.getElementById("coursePhoto").files[0];
+  if (selectedImage) {
+    const reader = new FileReader();
+    reader.onload = function (event) {
+      document.getElementById("originalImage").src = event.target.result;
+      document.getElementById("originalImage").dataset.originalImage =
+        event.target.result;
+    };
+    reader.readAsDataURL(selectedImage);
+  } else {
+    const originalImageURL =
+      document.getElementById("originalImage").dataset.originalImage;
+    document.getElementById("originalImage").src = originalImageURL;
+  }
+}
