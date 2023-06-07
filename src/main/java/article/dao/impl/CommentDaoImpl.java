@@ -1,19 +1,27 @@
 package article.dao.impl;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import article.dao.CommentDao;
+import article.vo.ArticleType;
 import article.vo.Comment;
+import core.util.HibernateUtil;
 
 public class CommentDaoImpl implements CommentDao {
-	
+
 	@Override
 	public int insert(Comment comment) {
-		//Hibernate
+		// Hibernate
 		getSession().persist(comment);
 		return comment.getCommentID();
-		
+
 //		String sql = "insert into Comment values(?,?,?,?,?,?,?)";
 //		try (Connection conn = DriverManager.getConnection("jdbc:mysql:///team6", "root", "password");
 //				PreparedStatement ps = conn.prepareStatement(sql);) {
@@ -33,14 +41,14 @@ public class CommentDaoImpl implements CommentDao {
 //		}
 //		return -1;
 	}
-	
+
 	@Override
 	public int deleteByCommentID(Integer commentID) {
-		//Hibernate
+		// Hibernate
 		Comment comment = getSession().get(Comment.class, commentID);
 		getSession().remove(comment);
 		return commentID;
-		
+
 //		String sql = "delete from Comment where commentID = ?";
 //		try (Connection conn = DriverManager.getConnection("jdbc:mysql:///team6", "root", "password");
 //				PreparedStatement ps = conn.prepareStatement(sql);) {
@@ -53,13 +61,13 @@ public class CommentDaoImpl implements CommentDao {
 //		}
 //		return -1;
 	}
-	
+
 	@Override
 	public int updateByCommentID(Comment comment) {
-		//Hibernate
+		// Hibernate
 		getSession().update(comment);
 		return comment.getArticleID();
-		
+
 		// 後面沒逗號都可以刪掉\r\n
 //		String sql = "UPDATE team6.Comment\r\n"
 //				+ "SET\r\n"
@@ -91,13 +99,13 @@ public class CommentDaoImpl implements CommentDao {
 //		}
 //		return -1;
 	}
-	
+
 	@Override
 	public Comment selectByCommentID(Integer commentID) {
-		//Hibernate
+		// Hibernate
 		Comment comment = getSession().get(Comment.class, commentID);
 		return comment;
-		
+
 //		String sql = "select * from Comment where commentID = ?";
 //		try (Connection conn = DriverManager.getConnection("jdbc:mysql:///team6", "root", "password");
 //				PreparedStatement ps = conn.prepareStatement(sql);) {
@@ -121,12 +129,21 @@ public class CommentDaoImpl implements CommentDao {
 //		}
 //		return null; // 失敗回傳null給我
 	}
-	
+
+	@Override
+	public List<Comment> selectByComment(Integer articleID) {
+		String hqlQuery = "FROM Comment WHERE articleID LIKE :articleID";
+		Query<Comment> query = getSession().createQuery(hqlQuery, Comment.class);
+		query.setParameter("articleID", articleID);
+		List<Comment> list = query.getResultList();
+		return list;
+	}
+
 	@Override
 	public List<Comment> selectAll() throws ClassNotFoundException {
-		//Hibernate
+		// Hibernate
 		return getSession().createQuery("FROM Comment", Comment.class).list();
-		
+
 //		Class.forName("com.mysql.cj.jdbc.Driver");
 //		String sql = "select * from Comment";
 //		try (
@@ -154,7 +171,7 @@ public class CommentDaoImpl implements CommentDao {
 //		}
 //		return null;
 	}
-	
+
 //	public static void main(String[] args) throws ClassNotFoundException {
 //
 //		SessionFactory sf=HibernateUtil.getSessionFactory();
@@ -165,8 +182,13 @@ public class CommentDaoImpl implements CommentDao {
 //			tr.begin();
 //			
 //			//新增
-////			Comment comment1 = new Comment(2, 2, 2, "c", Timestamp.valueOf("2023-04-30 00:00:00"), Timestamp.valueOf("2023-04-30 00:00:00"), 4);
-////			dao.insert(comment1);
+//			SimpleDateFormat df = new SimpleDateFormat("YYYY.MM.dd HH:mm:ss");
+//			Timestamp tsDateTime = Timestamp.valueOf("2023-04-30 00:00:00");
+//			Timestamp tsModified = Timestamp.valueOf("2023-04-30 00:00:00");
+//			String sDateTime = df.format(tsDateTime);
+//			String sModified = df.format(tsModified);
+//			Comment comment1 = new Comment(2, 2, 2, "c", sDateTime, sModified, 4);
+//			dao.insert(comment1);
 //			
 //			//刪除ID
 ////			dao.deleteByCommentID(2);
@@ -176,7 +198,7 @@ public class CommentDaoImpl implements CommentDao {
 ////			dao.updateByCommentID(comment2);
 //			
 //			//查詢ID
-//			System.out.println(dao.selectByCommentID(1));
+////			System.out.println(dao.selectByCommentID(1));
 //			
 //			//查詢全部
 ////			System.out.println(dao.selectAll());

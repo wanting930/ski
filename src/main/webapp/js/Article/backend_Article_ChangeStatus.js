@@ -10,6 +10,7 @@ var articleDateTime1 = "";
 var articleModified1 = "";
 var articleLike1 = 1;
 var articleStatus1 = "";
+var saveUserName = "";
 
 
 //顯示全部
@@ -47,9 +48,19 @@ $(document).ready(function init() {
             var articleModified2 = data[articleID - 1].articleModified;
             var articleLike2 = data[articleID - 1].articleLike;
             var articleStatus2 = data[articleID - 1].articleStatus;
-
-            if (articleStatus2 == "1") {
-                list_html += `<p class="datetime">發表時間:${articleDateTime2} by ${userID2}, 修改時間時間:${articleModified2}</p>
+            $.ajax({
+                url: "http://localhost:8080/ski/FrontendArticle",
+                type: "Post",
+                data: {
+                    "userID": userID2,
+                    "action": "getMemberUserName"
+                },
+                dataType: "json",
+                success: function (data) {
+                    saveUserName = data.userName;
+                    if (articleStatus2 == "0") {
+                        if (articleModified2 == undefined) {
+                            list_html += `<p class="datetime">發表時間:${articleDateTime2} by ${saveUserName}, 修改時間時間:無</p>
                                 <h1 class="title">${articleTitle2}</h1>
                                 <h5 class="type">#${saveArticleTypeContent}</h5>
                                 <div class="content_section">
@@ -58,8 +69,20 @@ $(document).ready(function init() {
                                 <button class="changeStatus0 -none">重新上架文章</button>
                                 </div>
                                 `;
-            } else if (articleStatus2 == "0") {
-                list_html += `<p class="datetime">發表時間:${articleDateTime2} by ${userID2}, 修改時間時間:${articleModified2}</p>
+                        } else if (articleModified2 != undefined) {
+                            list_html += `<p class="datetime">發表時間:${articleDateTime2} by ${saveUserName}, 修改時間時間:${articleModified2}</p>
+                                <h1 class="title">${articleTitle2}</h1>
+                                <h5 class="type">#${saveArticleTypeContent}</h5>
+                                <div class="content_section">
+                                <p class="content">${articleContent2}</p>
+                                <button class="changeStatus1">下架文章</button>
+                                <button class="changeStatus0 -none">重新上架文章</button>
+                                </div>
+                                `;
+                        }
+                    } else if (articleStatus2 == "1") {
+                        if (articleModified2 == undefined) {
+                            list_html += `<p class="datetime">發表時間:${articleDateTime2} by ${saveUserName}, 修改時間時間:無</p>
                                 <h1 class="title">${articleTitle2}</h1>
                                 <h5 class="type">#${saveArticleTypeContent}</h5>
                                 <div class="content_section">
@@ -68,20 +91,34 @@ $(document).ready(function init() {
                                 <button class="changeStatus0">重新上架文章</button>
                                 </div>
                                 `;
-            }
+                        } else if (articleModified2 != undefined) {
+                            list_html += `<p class="datetime">發表時間:${articleDateTime2} by ${saveUserName}, 修改時間時間:${articleModified2}</p>
+                                <h1 class="title">${articleTitle2}</h1>
+                                <h5 class="type">#${saveArticleTypeContent}</h5>
+                                <div class="content_section">
+                                <p class="content">${articleContent2}</p>
+                                <button class="changeStatus1 -none">下架文章</button>
+                                <button class="changeStatus0">重新上架文章</button>
+                                </div>
+                                `;
+                        }
+                    }
 
-            $("#type").append(list_html); // 加入網頁表格中
-            number = articleID; // 紀錄目前分類編號最後一碼
+                    $("#type").append(list_html); // 加入網頁表格中
+                    number = articleID; // 紀錄目前分類編號最後一碼
 
-            articleID1 = articleID;
-            userID1 = userID2;
-            articleTypeID1 = articleTypeID2;
-            articleTitle1 = articleTitle2;
-            articleContent1 = articleContent2;
-            articleDateTime1 = articleDateTime2;
-            articleModified1 = articleModified2;
-            articleLike1 = articleLike2;
-            articleStatus1 = articleStatus2;
+                    articleID1 = articleID;
+                    userID1 = userID2;
+                    articleTypeID1 = articleTypeID2;
+                    articleTitle1 = articleTitle2;
+                    articleContent1 = articleContent2;
+                    articleDateTime1 = articleDateTime2;
+                    articleModified1 = articleModified2;
+                    articleLike1 = articleLike2;
+                    articleStatus1 = articleStatus2;
+                }
+            });
+
 
         },
         error: function (err) {
@@ -91,7 +128,7 @@ $(document).ready(function init() {
 
     })
 });
-//修改狀態1(下架文章)
+//修改狀態為1(下架文章)
 $("#type").on("click", "button.changeStatus1", function () {
     console.log("下架文章囉!");
     articleStatus1 = "1";
@@ -125,7 +162,7 @@ $("#type").on("click", "button.changeStatus1", function () {
 
 });
 
-//修改狀態0(重新上架文章)
+//修改狀態為0(重新上架文章)
 $("#type").on("click", "button.changeStatus0", function () {
     console.log("重新上架文章囉!");
     articleStatus1 = "0";

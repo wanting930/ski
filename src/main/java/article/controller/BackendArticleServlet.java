@@ -120,7 +120,7 @@ public class BackendArticleServlet extends HttpServlet {
         return jsonStr;
     }
     
- // 搜尋內容
+ // 搜尋狀態
     private String searchStatus(HttpServletRequest req,HttpServletResponse res ,String type) throws IOException {
         res.setContentType("text/html; charset=utf-8");
         ArticleDao dao = new ArticleDaoImpl();
@@ -138,14 +138,14 @@ public class BackendArticleServlet extends HttpServlet {
         return jsonStr;
     }
 
-    // 修改狀態(下架文章)
+    // 修改狀態為1(下架文章)
     private String updateStatus1(HttpServletRequest req,HttpServletResponse res) throws IOException {
         res.setContentType("text/html; charset=utf-8");
         ArticleDao dao = new ArticleDaoImpl();
         List<Article> list1 = new ArrayList<Article>();
         try {
 
-            Article article2 = new Article(Integer.parseInt(req.getParameter("articleID")),Integer.parseInt(req.getParameter("userID")), Integer.parseInt(req.getParameter("articleTypeID")),req.getParameter("articleTitle"),req.getParameter("articleContent"), req.getParameter("articleDateTime"),req.getParameter("articleModified"),Integer.parseInt(req.getParameter("articleLike")),"0");
+            Article article2 = new Article(Integer.parseInt(req.getParameter("articleID")),Integer.parseInt(req.getParameter("userID")), Integer.parseInt(req.getParameter("articleTypeID")),req.getParameter("articleTitle"),req.getParameter("articleContent"), req.getParameter("articleDateTime"),req.getParameter("articleModified"),Integer.parseInt(req.getParameter("articleLike")),"1");
             dao.updateByArticleID(article2);
             list1 = dao.selectAll();
         } catch (Exception e) {
@@ -158,7 +158,7 @@ public class BackendArticleServlet extends HttpServlet {
         return jsonStr;
     }
 
-    // 修改狀態(重新上架文章)
+    // 修改狀態為0(重新上架文章)
     private String updateStatus0(HttpServletRequest req,HttpServletResponse res) throws IOException {
         res.setContentType("text/html; charset=utf-8");
 //        Date date = new Date();
@@ -184,7 +184,7 @@ public class BackendArticleServlet extends HttpServlet {
             Article article2 = new Article(Integer.parseInt(req.getParameter("articleID")),Integer.parseInt(req.getParameter("userID")),
             		Integer.parseInt(req.getParameter("articleTypeID")), req.getParameter("articleTitle"),req.getParameter("articleContent"),
             		req.getParameter("articleDateTime"), req.getParameter("articleModified"),
-            		Integer.parseInt(req.getParameter("articleLike")),"1");
+            		Integer.parseInt(req.getParameter("articleLike")),"0");
             dao.updateByArticleID(article2);
             list1 = dao.selectAll();
         } catch (Exception e) {

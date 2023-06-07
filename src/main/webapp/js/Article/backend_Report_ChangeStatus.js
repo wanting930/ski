@@ -136,7 +136,7 @@ $("#type").on("click", "button.btn_update", function () {
                 console.log(err);
             }
         })
-        $.ajax({
+        $.ajax({ //傳email(還沒寫好)
             url: "http://localhost:8080/ski/SendEmailServlet",
             type: "Post",
             data: {

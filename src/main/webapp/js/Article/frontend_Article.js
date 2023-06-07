@@ -1,14 +1,14 @@
-var articleID = 1;
-var userID = 1;
-var articleTypeID = 1;
-var articleTitle = "";
-var articleContent = "";
-var articleDateTime = "";
-var articleModified = "";
-var articleLike = 1;
-var articleStatus = "";
-var saveUserName = "";
-var saveArticleTypeContent = "";
+var articleID1 = 1;
+var userID1 = 1;
+var articleTypeID1 = 1;
+var articleTitle1 = "";
+var articleContent1 = "";
+var articleDateTime1 = "";
+var articleModified1 = "";
+var articleLike1 = 1;
+var articleStatus1 = "";
+var saveUserName1 = "";
+var saveArticleTypeContent1 = "";
 var savearticleTitle = sessionStorage.getItem("savearticleTitle");
 
 //顯示全部
@@ -24,6 +24,9 @@ $(document).ready(function init() {
         dataType: "json",
         success: function (data) {
             if (data.length <= 10) {
+                let repeat = Array();
+                let list_button = "";
+                repeat.push("");
                 for (let i = 0; i < data.length; i++) {
                     let list_html = "";
                     let articleID = data[i].articleID;
@@ -33,7 +36,7 @@ $(document).ready(function init() {
                     let articleDateTime = data[i].articleDateTime;
                     let articleLike = data[i].articleLike;
                     let articleStatus = data[i].articleStatus;
-        
+                    // console.log(userID);
                     $.ajax({
                         url: "http://localhost:8080/ski/FrontendArticle",
                         type: "Post",
@@ -44,7 +47,8 @@ $(document).ready(function init() {
                         dataType: "json",
                         success: function (data) {
                             // console.log(data);
-                            saveUserName = data.userName;
+                            let saveUserName1 = data.userName;
+                            // console.log(saveUserName1);
                             $.ajax({
                                 url: "http://localhost:8080/ski/BackendArticleType",
                                 type: "Post",
@@ -56,21 +60,40 @@ $(document).ready(function init() {
                                 dataType: "json",
                                 success: function (data) {
                                     saveArticleTypeContent = data.articleTypeContent;
+                                    console.log(saveUserName1);
                                     if (articleStatus == "0") {
+                                        // console.log(data.articleTypeID);
+                                        let repeatLength = repeat.length;
+                                        for (let i = 0; i < repeatLength; i++) {
+                                            if (!repeat.includes(saveArticleTypeContent)) { // 如果陣列有相同元素就不新增
+                                                repeat.push(saveArticleTypeContent);
+                                                list_button = `<button class="searchArticleType">#${saveArticleTypeContent}</button>`;
+                                                $("div.btn").append(list_button)
+                                            }
+                                        }
+                                        // console.log(repeat);
+                                        console.log(articleID);
+                                        // console.log(saveUserName1);
                                         list_html += `<tr class="tr">
                                         <td>
-                                            <a href="#"><p class="ID -none">${articleID}</p><p class="article text-start">讚數:${articleLike} &ensp;&ensp;留言:0 &ensp;&ensp;#${saveArticleTypeContent}</p><p class="article text-center">${articleTitle}</p><p class="article text-end">${articleDateTime} by${saveUserName}</p></a>
+                                            <a><p class="ID -none">${articleID}</p><p class="article text-start">讚數:${articleLike} &ensp;&ensp;留言:0 &ensp;&ensp;#${saveArticleTypeContent}</p><p class="article text-center">${articleTitle}</p><p class="article text-end">${articleDateTime} by${saveUserName1}</p></a>
                                         </td>
                                         </tr>`;
                                         $("#type > table > tbody").append(list_html); // 加入網頁表格中
+                                        // myArray = []; //這種方式將原本的陣列 myArray 指派為一個空陣列，從而清空了陣列中的所有元素。
+                                        // repeat.length = 0; //這種方式將陣列 myArray 的 length 屬性設定為 0，從而將陣列清空。這種方法效率比較高，因為它不需要重新分配記憶體。
+                                        // repeat.splice(0, repeat.length); //這種方式使用 splice() 方法，從索引 0 開始刪除 myArray 中的所有元素。
                                     }
                                 },
                             })
                         }
                     });
                 }
-        
+
             } else if (data.length > 10) {
+                let repeat = Array();
+                let list_button = "";
+                repeat.push("");
                 for (let i = 0; i < 10; i++) {
                     let list_html = "";
                     let articleID = data[i].articleID;
@@ -80,7 +103,7 @@ $(document).ready(function init() {
                     let articleDateTime = data[i].articleDateTime;
                     let articleLike = data[i].articleLike;
                     let articleStatus = data[i].articleStatus;
-        
+
                     $.ajax({
                         url: "http://localhost:8080/ski/FrontendArticle",
                         type: "Post",
@@ -91,7 +114,7 @@ $(document).ready(function init() {
                         dataType: "json",
                         success: function (data) {
                             // console.log(data);
-                            saveUserName = data.userName;
+                            let saveUserName1 = data.userName;
                             $.ajax({
                                 url: "http://localhost:8080/ski/BackendArticleType",
                                 type: "Post",
@@ -104,9 +127,18 @@ $(document).ready(function init() {
                                 success: function (data) {
                                     saveArticleTypeContent = data.articleTypeContent;
                                     if (articleStatus == "0") {
+                                        let repeatLength = repeat.length;
+                                        for (let i = 0; i < repeatLength; i++) {
+                                            if (!repeat.includes(saveArticleTypeContent)) { // 如果陣列有相同元素就不新增
+                                                repeat.push(saveArticleTypeContent);
+                                                list_button = `<button class="searchArticleType">#${saveArticleTypeContent}</button>`;
+                                                $("div.btn").append(list_button)
+                                            }
+                                        }
+                                        // console.log(repeat);
                                         list_html += `<tr class="tr">
                                         <td>
-                                            <a href="#"><p class="ID -none">${articleID}</p><p class="article text-start">讚數:${articleLike} &ensp;&ensp;留言:0 &ensp;&ensp;#${saveArticleTypeContent}</p><p class="article text-center">${articleTitle}</p><p class="article text-end">${articleDateTime} by${saveUserName}</p></a>
+                                            <a><p class="ID -none">${articleID}</p><p class="article text-start">讚數:${articleLike} &ensp;&ensp;留言:0 &ensp;&ensp;#${saveArticleTypeContent}</p><p class="article text-center">${articleTitle}</p><p class="article text-end">${articleDateTime} by${saveUserName1}</p></a>
                                         </td>
                                         </tr>`;
                                         $("#type > table > tbody").append(list_html); // 加入網頁表格中
@@ -126,17 +158,17 @@ $(document).ready(function init() {
 
 //發表文章
 $("#type").on("click", "button.btn_addArticle", function (e) {
-    window.location.href = "http://localhost:8080/ski/article/frontend_Article_AddAndUpdate.html"; // 將存下來的ID丟到此網址
+    window.location.href = "http://localhost:8080/ski/article/frontend_Article_Add.html"; // 將存下來的ID丟到此網址
 })
 
 
 
 //點文章標題
 $("#type").on("click", "a", function (e) {
-    articleTitle = $(this).closest("tr").find("p.article").text();
-    articleID = $(this).closest("tr").find("p.ID").text();
-    sessionStorage.setItem("articleID", articleID); // 存下文章ID
-    sessionStorage.setItem("articleTitle", articleTitle); // 存下文章標題
+    articleTitle1 = $(this).closest("tr").find("p.article").text();
+    articleID1 = $(this).closest("tr").find("p.ID").text();
+    sessionStorage.setItem("articleID", articleID1); // 存下文章ID
+    sessionStorage.setItem("articleTitle", articleTitle1); // 存下文章標題
     window.location.href = "http://localhost:8080/ski/article/frontend_Article_Show.html"; // 將存下來的ID丟到此網址
 });
 
@@ -169,7 +201,7 @@ $("#type").on("click", "button.search", function (e) {
                             let articleDateTime = data[i].articleDateTime;
                             let articleLike = data[i].articleLike;
                             let articleStatus = data[i].articleStatus;
-                
+
                             $.ajax({
                                 url: "http://localhost:8080/ski/FrontendArticle",
                                 type: "Post",
@@ -180,7 +212,7 @@ $("#type").on("click", "button.search", function (e) {
                                 dataType: "json",
                                 success: function (data) {
                                     // console.log(data);
-                                    saveUserName = data.userName;
+                                    let saveUserName1 = data.userName;
                                     $.ajax({
                                         url: "http://localhost:8080/ski/BackendArticleType",
                                         type: "Post",
@@ -195,7 +227,7 @@ $("#type").on("click", "button.search", function (e) {
                                             if (articleStatus == "0") {
                                                 list_html += `<tr class="tr">
                                                 <td>
-                                                    <a href="#"><p class="ID -none">${articleID}</p><p class="article text-start">讚數:${articleLike} &ensp;&ensp;留言:0 &ensp;&ensp;#${saveArticleTypeContent}</p><p class="article text-center">${articleTitle}</p><p class="article text-end">${articleDateTime} by${saveUserName}</p></a>
+                                                    <a><p class="ID -none">${articleID}</p><p class="article text-start">讚數:${articleLike} &ensp;&ensp;留言:0 &ensp;&ensp;#${saveArticleTypeContent}</p><p class="article text-center">${articleTitle}</p><p class="article text-end">${articleDateTime} by${saveUserName1}</p></a>
                                                 </td>
                                                 </tr>`;
                                                 $("#type > table > tbody").append(list_html); // 加入網頁表格中
@@ -205,7 +237,7 @@ $("#type").on("click", "button.search", function (e) {
                                 }
                             });
                         }
-                
+
                     } else if (data.length > 10) {
                         for (let i = 0; i < 10; i++) {
                             let list_html = "";
@@ -216,7 +248,7 @@ $("#type").on("click", "button.search", function (e) {
                             let articleDateTime = data[i].articleDateTime;
                             let articleLike = data[i].articleLike;
                             let articleStatus = data[i].articleStatus;
-                
+
                             $.ajax({
                                 url: "http://localhost:8080/ski/FrontendArticle",
                                 type: "Post",
@@ -227,7 +259,7 @@ $("#type").on("click", "button.search", function (e) {
                                 dataType: "json",
                                 success: function (data) {
                                     // console.log(data);
-                                    saveUserName = data.userName;
+                                    let saveUserName1 = data.userName;
                                     $.ajax({
                                         url: "http://localhost:8080/ski/BackendArticleType",
                                         type: "Post",
@@ -242,7 +274,137 @@ $("#type").on("click", "button.search", function (e) {
                                             if (articleStatus == "0") {
                                                 list_html += `<tr class="tr">
                                                 <td>
-                                                    <a href="#"><p class="ID -none">${articleID}</p><p class="article text-start">讚數:${articleLike} &ensp;&ensp;留言:0 &ensp;&ensp;#${saveArticleTypeContent}</p><p class="article text-center">${articleTitle}</p><p class="article text-end">${articleDateTime} by${saveUserName}</p></a>
+                                                    <a><p class="ID -none">${articleID}</p><p class="article text-start">讚數:${articleLike} &ensp;&ensp;留言:0 &ensp;&ensp;#${saveArticleTypeContent}</p><p class="article text-center">${articleTitle}</p><p class="article text-end">${articleDateTime} by${saveUserName1}</p></a>
+                                                </td>
+                                                </tr>`;
+                                                $("#type > table > tbody").append(list_html); // 加入網頁表格中
+                                            }
+                                        },
+                                    })
+                                }
+                            });
+                        }
+                    }
+                }
+            });
+
+        } else {
+            alert("搜尋不可為空");
+        }
+    }
+});
+
+//搜尋分類按鈕
+$("div.btn").on("click", "button.searchArticleType", function () {
+    // console.log("RRRRRRRrrr");
+    let buttonText = $(this).text();
+    let cleanedText = buttonText.replace('#', '');  // 移除文字中的 "#" 符號
+    // console.log(cleanedText);
+    $.ajax({
+        url: "http://localhost:8080/ski/FrontendArticle",
+        type: "Post",
+        data: {
+            "articleTypeContent": cleanedText,
+            "action": "searchArticleTypeID"
+        },
+        dataType: "json",
+        success: function (data) {
+            // console.log(data[0].articleTypeID);
+            $.ajax({
+                url: "http://localhost:8080/ski/FrontendArticle",
+                type: "Post",
+                data: {
+                    "articleTypeID": data[0].articleTypeID,
+                    "action": "useTypeIDsearchArticle"
+                },
+                dataType: "json",
+                success: function (data) {
+                    // console.log(data);
+                    $("#type > table > tbody").find("tr").remove(); // 刪除原網頁表格
+                    if (data.length <= 10) {
+                        for (let i = 0; i < data.length; i++) {
+                            let list_html = "";
+                            let articleID = data[i].articleID;
+                            let userID = data[i].userID;
+                            let articleTypeID = data[i].articleTypeID;
+                            let articleTitle = data[i].articleTitle;
+                            let articleDateTime = data[i].articleDateTime;
+                            let articleLike = data[i].articleLike;
+                            let articleStatus = data[i].articleStatus;
+
+                            $.ajax({
+                                url: "http://localhost:8080/ski/FrontendArticle",
+                                type: "Post",
+                                data: {
+                                    "userID": userID,
+                                    "action": "getMemberUserName"
+                                },
+                                dataType: "json",
+                                success: function (data) {
+                                    // console.log(data);
+                                    let saveUserName1 = data.userName;
+                                    $.ajax({
+                                        url: "http://localhost:8080/ski/BackendArticleType",
+                                        type: "Post",
+                                        data: {
+                                            "articleTypeID": articleTypeID,
+                                            "action": "searchIDAndContent",
+                                            "type": "Number"
+                                        },
+                                        dataType: "json",
+                                        success: function (data) {
+                                            saveArticleTypeContent = data.articleTypeContent;
+                                            if (articleStatus == "0") {
+                                                list_html += `<tr class="tr">
+                                                <td>
+                                                    <a><p class="ID -none">${articleID}</p><p class="article text-start">讚數:${articleLike} &ensp;&ensp;留言:0 &ensp;&ensp;#${saveArticleTypeContent}</p><p class="article text-center">${articleTitle}</p><p class="article text-end">${articleDateTime} by${saveUserName1}</p></a>
+                                                </td>
+                                                </tr>`;
+                                                $("#type > table > tbody").append(list_html); // 加入網頁表格中
+                                            }
+                                        },
+                                    })
+                                }
+                            });
+                        }
+
+                    } else if (data.length > 10) {
+                        for (let i = 0; i < 10; i++) {
+                            let list_html = "";
+                            let articleID = data[i].articleID;
+                            let userID = data[i].userID;
+                            let articleTypeID = data[i].articleTypeID;
+                            let articleTitle = data[i].articleTitle;
+                            let articleDateTime = data[i].articleDateTime;
+                            let articleLike = data[i].articleLike;
+                            let articleStatus = data[i].articleStatus;
+
+                            $.ajax({
+                                url: "http://localhost:8080/ski/FrontendArticle",
+                                type: "Post",
+                                data: {
+                                    "userID": userID,
+                                    "action": "getMemberUserName"
+                                },
+                                dataType: "json",
+                                success: function (data) {
+                                    // console.log(data);
+                                    let saveUserName1 = data.userName;
+                                    $.ajax({
+                                        url: "http://localhost:8080/ski/BackendArticleType",
+                                        type: "Post",
+                                        data: {
+                                            "articleTypeID": articleTypeID,
+                                            "action": "searchIDAndContent",
+                                            "type": "Number"
+                                        },
+                                        dataType: "json",
+                                        success: function (data) {
+                                            saveArticleTypeContent = data.articleTypeContent;
+                                            if (articleStatus == "0") {
+                                                list_html += `<tr class="tr">
+                                                <td>
+                                                    <a><p class="ID -none">${articleID}</p><p class="article text-start">讚數:${articleLike} &ensp;&ensp;留言:0 &ensp;&ensp;#${saveArticleTypeContent}</p><p class="article text-center">${articleTitle}</p><p class="article text-end">${articleDateTime} by${saveUserName1}</p></a>
                                                 </td>
                                                 </tr>`;
                                                 $("#type > table > tbody").append(list_html); // 加入網頁表格中
@@ -256,8 +418,7 @@ $("#type").on("click", "button.search", function (e) {
                 }
             });
             
-        } else {
-            alert("搜尋不可為空");
         }
-    }
-});
+    })
+
+})

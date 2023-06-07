@@ -23,6 +23,8 @@ public interface ArticleDao extends CoreDao{
 
 	List<Article> selectByArticleTitle(String articleTitle);
 	
+	List<Article> selectByArticleTypeID(Integer ArticleTypeID);
+	
 	List<Article> selectByArticleStatus(String articleTitle);
 	
 	int updateAllSelectArticleTypeToOne(Integer articleTypeID);

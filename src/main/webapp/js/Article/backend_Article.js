@@ -40,19 +40,19 @@ $(document).ready(function init() {
                     let articleID = data[i].articleID;
                     let articleTitle = data[i].articleTitle;
                     let articleTypeID = data[i].articleTypeID;
-                    if (data[i].articleStatus == "1") {
+                    if (data[i].articleStatus == "0") {
                         list_html += `<tr class="tr">`;
                         list_html += `<td><p class="id">${articleID}</p></td>`;
                         // list_html += `<td><a class="saveArticleID" href="http://localhost:8080/ski/article/backend_Article_ChangeStatus.html">${articleTitle}</a></td>`;
-                        list_html += `<td><p class="id2 -none">${articleTypeID}</p><button class="nextPageBtn">${articleTitle}</button></td>`;
+                        list_html += `<td><p class="id2 -none">${articleTypeID}</p><a>${articleTitle}</a></td>`;
                         list_html += `<td><p class="green">上架</p>
                                             <p class="red -none">下架</p></td>`;
                         list_html += `</tr>`
-                    } else if (data[i].articleStatus == "0") {
+                    } else if (data[i].articleStatus == "1") {
                         list_html += `<tr class="tr">`;
                         list_html += `<td><p class="id">${articleID}</p></td>`;
                         // list_html += `<td><a class="saveArticleID" href="http://localhost:8080/ski/article/backend_Article_ChangeStatus.html">${articleTitle}</a></td>`;
-                        list_html += `<td><p class="id2 -none">${articleTypeID}</p><button class="nextPageBtn">${articleTitle}</button></td>`;
+                        list_html += `<td><p class="id2 -none">${articleTypeID}</p><a>${articleTitle}</a></td>`;
                         list_html += `<td><p class="green -none">上架</p>
                                             <p class="red">下架</p></td>`;
                         list_html += `</tr>`
@@ -67,19 +67,19 @@ $(document).ready(function init() {
                     let articleID = data[i].articleID;
                     let articleTitle = data[i].articleTitle;
                     let articleTypeID = data[i].articleTypeID;
-                    if (data[i].articleStatus == "1") {
+                    if (data[i].articleStatus == "0") {
                         list_html += `<tr class="tr">`;
                         list_html += `<td><p class="id">${articleID}</p></td>`;
                         // list_html += `<td><a class="saveArticleID" href="http://localhost:8080/ski/article/backend_Article_ChangeStatus.html">${articleTitle}</a></td>`;
-                        list_html += `<td><p class="id2 -none">${articleTypeID}</p><button class="nextPageBtn">${articleTitle}</button></td>`;
+                        list_html += `<td><p class="id2 -none">${articleTypeID}</p><a>${articleTitle}</a></td>`;
                         list_html += `<td><p class="green">上架</p>
                                             <p class="red -none">下架</p></td>`;
                         list_html += `</tr>`
-                    } else if (data[i].articleStatus == "0") {
+                    } else if (data[i].articleStatus == "1") {
                         list_html += `<tr class="tr">`;
                         list_html += `<td><p class="id">${articleID}</p></td>`;
                         // list_html += `<td><a class="saveArticleID" href="http://localhost:8080/ski/article/backend_Article_ChangeStatus.html">${articleTitle}</a></td>`;
-                        list_html += `<td><p class="id2 -none">${articleTypeID}</p><button class="nextPageBtn">${articleTitle}</button></td>`;
+                        list_html += `<td><p class="id2 -none">${articleTypeID}</p><a>${articleTitle}</a></td>`;
                         list_html += `<td><p class="green -none">上架</p>
                                             <p class="red">下架</p></td>`;
                         list_html += `</tr>`
@@ -117,7 +117,8 @@ $(document).ready(function init() {
 });
 
 //點文章標題
-$("#articleTableBody").on("click", "button.nextPageBtn", function () {
+// $("#articleTableBody").on("click", "button.nextPageBtn", function () {
+$("#articleTableBody").on("click", "a", function (e) {
     saveArticleID = $(this).closest("tr").find("p.id").text();
     saveArticleTypeID = $(this).closest("tr").find("p.id2").text();
     $.ajax({
@@ -192,19 +193,19 @@ $("#pagination").on("click", "button.btn_limit", function () {
                 let articleID = data[i].articleID;
                 let articleTitle = data[i].articleTitle;
                 let articleTypeID = data[i].articleTypeID;
-                if (data[i].articleStatus == "1") {
+                if (data[i].articleStatus == "0") {
                     list_html += `<tr class="tr">`;
                     list_html += `<td><p class="id">${articleID}</p></td>`;
                     // list_html += `<td><a class="saveArticleID" href="http://localhost:8080/ski/article/backend_Article_ChangeStatus.html">${articleTitle}</a></td>`;
-                    list_html += `<td><p class="id2 -none">${articleTypeID}</p><button class="nextPageBtn">${articleTitle}</button></td>`;
+                    list_html += `<td><p class="id2 -none">${articleTypeID}</p><a>${articleTitle}</a></td>`;
                     list_html += `<td><p class="green">上架</p>
                                         <p class="red -none">下架</p></td>`;
                     list_html += `</tr>`
-                } else if (data[i].articleStatus == "0") {
+                } else if (data[i].articleStatus == "1") {
                     list_html += `<tr class="tr">`;
                     list_html += `<td><p class="id">${articleID}</p></td>`;
                     // list_html += `<td><a class="saveArticleID" href="http://localhost:8080/ski/article/backend_Article_ChangeStatus.html">${articleTitle}</a></td>`;
-                    list_html += `<td><p class="id2 -none">${articleTypeID}</p><button class="nextPageBtn">${articleTitle}</button></td>`;
+                    list_html += `<td><p class="id2 -none">${articleTypeID}</p><a>${articleTitle}</a></td>`;
                     list_html += `<td><p class="green -none">上架</p>
                                         <p class="red">下架</p></td>`;
                     list_html += `</tr>`
@@ -272,19 +273,19 @@ $("#pagination").on("click", "button.btn_limit2", function () {
                 let articleTitle = data[i].articleTitle;
                 let articleTypeID = data[i].articleTypeID;
                 // console.log(data[i].articleStatus);
-                if (data[i].articleStatus == "1") {
+                if (data[i].articleStatus == "0") {
                     list_html += `<tr class="tr">`;
                     list_html += `<td><p class="id">${articleID}</p></td>`;
                     // list_html += `<td><a class="saveArticleID" href="http://localhost:8080/ski/article/backend_Article_ChangeStatus.html">${articleTitle}</a></td>`;
-                    list_html += `<td><p class="id2 -none">${articleTypeID}</p><button class="nextPageBtn">${articleTitle}</button></td>`;
+                    list_html += `<td><p class="id2 -none">${articleTypeID}</p><a>${articleTitle}</a></td>`;
                     list_html += `<td><p class="green">上架</p>
                                                     <p class="red -none">下架</p></td>`;
                     list_html += `</tr>`
-                } else if (data[i].articleStatus == "0") {
+                } else if (data[i].articleStatus == "1") {
                     list_html += `<tr class="tr">`;
                     list_html += `<td><p class="id">${articleID}</p></td>`;
                     // list_html += `<td><a class="saveArticleID" href="http://localhost:8080/ski/article/backend_Article_ChangeStatus.html">${articleTitle}</a></td>`;
-                    list_html += `<td><p class="id2 -none">${articleTypeID}</p><button class="nextPageBtn">${articleTitle}</button></td>`;
+                    list_html += `<td><p class="id2 -none">${articleTypeID}</p><a>${articleTitle}</a></td>`;
                     list_html += `<td><p class="green -none">上架</p>
                                                     <p class="red">下架</p></td>`;
                     list_html += `</tr>`
@@ -323,7 +324,7 @@ $("button.task_search").on("click", function () {
                     form_data = { // 將輸入的文字送入資料庫
                         "articleID": articleID,
                         "articleTypeID": articleTypeID,
-                        "articleStatus": "1",
+                        "articleStatus": "0",
                         "action": "searchIDAndTitle",
                         "type": "上下架"
                     }
@@ -331,7 +332,7 @@ $("button.task_search").on("click", function () {
                     form_data = { // 將輸入的文字送入資料庫
                         "articleID": articleID,
                         "articleTypeID": articleTypeID,
-                        "articleStatus": "0",
+                        "articleStatus": "1",
                         "action": "searchIDAndTitle",
                         "type": "上下架"
                     }
@@ -364,19 +365,19 @@ $("button.task_search").on("click", function () {
 
                             console.log('輸入為數字');
                             let list_html = "";
-                            if (data.articleStatus == "1") {
+                            if (data.articleStatus == "0") {
                                 list_html += `<tr class="tr">`;
                                 list_html += `<td><p class="id">${data.articleID}</p></td>`;
                                 // list_html += `<td><a class="saveArticleID" href="http://localhost:8080/ski/article/backend_Article_ChangeStatus.html">${articleTitle}</a></td>`;
-                                list_html += `<td><p class="id2 -none">${data.articleTypeID}</p><button class="nextPageBtn">${data.articleTitle}</button></td>`;
+                                list_html += `<td><p class="id2 -none">${data.articleTypeID}</p><a>${data.articleTitle}</a></td>`;
                                 list_html += `<td><p class="green">上架</p>
                                                 <p class="red -none">下架</p></td>`;
                                 list_html += `</tr>`
-                            } else if (data.articleStatus == "0") {
+                            } else if (data.articleStatus == "1") {
                                 list_html += `<tr class="tr">`;
                                 list_html += `<td><p class="id">${data.articleID}</p></td>`;
                                 // list_html += `<td><a class="saveArticleID" href="http://localhost:8080/ski/article/backend_Article_ChangeStatus.html">${articleTitle}</a></td>`;
-                                list_html += `<td><p class="id2 -none">${data.articleTypeID}</p><button class="nextPageBtn">${data.articleTitle}</button></td>`;
+                                list_html += `<td><p class="id2 -none">${data.articleTypeID}</p><a>${data.articleTitle}</a></td>`;
                                 list_html += `<td><p class="green -none">上架</p>
                                                 <p class="red">下架</p></td>`;
                                 list_html += `</tr>`
@@ -395,19 +396,19 @@ $("button.task_search").on("click", function () {
                                 let articleTitle = data[i].articleTitle;
                                 let articleTypeID = data[i].articleTypeID;
                                 // console.log(data[i].articleStatus);
-                                if (data[i].articleStatus == "1") {
+                                if (data[i].articleStatus == "0") {
                                     list_html += `<tr class="tr">`;
                                     list_html += `<td><p class="id">${articleID}</p></td>`;
                                     // list_html += `<td><a class="saveArticleID" href="http://localhost:8080/ski/article/backend_Article_ChangeStatus.html">${articleTitle}</a></td>`;
-                                    list_html += `<td><p class="id2 -none">${articleTypeID}</p><button class="nextPageBtn">${articleTitle}</button></td>`;
+                                    list_html += `<td><p class="id2 -none">${articleTypeID}</p><a>${articleTitle}</a></td>`;
                                     list_html += `<td><p class="green">上架</p>
                                                     <p class="red -none">下架</p></td>`;
                                     list_html += `</tr>`
-                                } else if (data[i].articleStatus == "0") {
+                                } else if (data[i].articleStatus == "1") {
                                     list_html += `<tr class="tr">`;
                                     list_html += `<td><p class="id">${articleID}</p></td>`;
                                     // list_html += `<td><a class="saveArticleID" href="http://localhost:8080/ski/article/backend_Article_ChangeStatus.html">${articleTitle}</a></td>`;
-                                    list_html += `<td><p class="id2 -none">${articleTypeID}</p><button class="nextPageBtn">${articleTitle}</button></td>`;
+                                    list_html += `<td><p class="id2 -none">${articleTypeID}</p><a>${articleTitle}</a></td>`;
                                     list_html += `<td><p class="green -none">上架</p>
                                                     <p class="red">下架</p></td>`;
                                     list_html += `</tr>`
@@ -416,7 +417,7 @@ $("button.task_search").on("click", function () {
                                 $("#type > table > tbody").append(list_html); // 加入網頁表格中
                                 // number = articleTypeID; // 紀錄目前分類編號最後一碼
                             }
-                            if (data.length > 10) {
+                            if (data.length > 10) { //分頁
                                 var pagination = $("#pagination");
                                 buttonPage = (data.length / 10) + 1;
                                 for (let i = 1; i < buttonPage; i++) {

@@ -17,8 +17,8 @@ public class Comment implements Serializable{
 	private Integer articleID;
 	private Integer userID;
 	private String commentContent;
-	private java.sql.Timestamp commentDateTime;
-	private java.sql.Timestamp commentModified;
+	private String commentDateTime;
+	private String commentModified;
 	private Integer commentLike;
 	//
 	public Integer getCommentID() {
@@ -45,16 +45,16 @@ public class Comment implements Serializable{
 	public void setCommentContent(String commentContent) {
 		this.commentContent = commentContent;
 	}
-	public java.sql.Timestamp getCommentDateTime() {
+	public String getCommentDateTime() {
 		return commentDateTime;
 	}
-	public void setCommentDateTime(java.sql.Timestamp commentDateTime) {
+	public void setCommentDateTime(String commentDateTime) {
 		this.commentDateTime = commentDateTime;
 	}
-	public java.sql.Timestamp getCommentModified() {
+	public String getCommentModified() {
 		return commentModified;
 	}
-	public void setCommentModified(java.sql.Timestamp commentModified) {
+	public void setCommentModified(String commentModified) {
 		this.commentModified = commentModified;
 	}
 	public Integer getCommentLike() {
@@ -68,14 +68,14 @@ public class Comment implements Serializable{
 	}
 	//
 	public Comment(Integer commentID, Integer articleID, Integer userID, String commentContent,
-			java.sql.Timestamp commentDateTime, java.sql.Timestamp commentModified, Integer commentLike) {
+			String string, String string2, Integer commentLike) {
 		super();
 		this.commentID = commentID;
 		this.articleID = articleID;
 		this.userID = userID;
 		this.commentContent = commentContent;
-		this.commentDateTime = commentDateTime;
-		this.commentModified = commentModified;
+		this.commentDateTime = string;
+		this.commentModified = string2;
 		this.commentLike = commentLike;
 	}
 	//

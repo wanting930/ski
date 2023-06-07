@@ -23,7 +23,7 @@ button a:hover{
 
 .content_section{
     /* 便於編輯(觀察)，完成後可刪除 */
-    border: 2px solid red;
+    /* border: 2px solid red; */
 }
 
 tr, td{

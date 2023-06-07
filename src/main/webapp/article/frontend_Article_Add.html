@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- 引入bootstrap套件CSS -->
-    <link rel="stylesheet" href="../css/bootstrap.css" />
-    <link rel="stylesheet" href="../css/root.css" />
-    <link rel="stylesheet" href="../css/Article/frontend_Article_AddAndUpdate.css" />
-    <title>前臺討論區_新增與修改</title>
+    <link rel="stylesheet" href="/ski/css/bootstrap.css" />
+    <link rel="stylesheet" href="/ski/css/root.css" />
+    <link rel="stylesheet" href="/ski/css/Article/frontend_Article_Add.css" />
+    <title>前臺討論區_新增</title>
   </head>
 
   <body>
@@ -68,9 +68,22 @@
       <!-- 頁面內容置於此 -->
       <div class="container-main container text-center fw-bold h-100">
         <h1 class="add">發表文章</h1>
-        <h1 class="update">修改文章</h1>
-        
-        </div>
+        <!-- <form> -->
+          <select class="articleType">
+            <!-- <option value="option1">選項 1</option>
+            <option value="option2">選項 2</option>
+            <option value="option3">選項 3</option>
+            <option value="option4">選項 4</option> -->
+          </select>
+          <label for="title">標題：</label>
+          <input type="text" name="title" class="title"><br>
+      
+          <label for="content">內容：</label><br>
+          <textarea id="content" name="content" rows="10" cols="50" class="content"></textarea><br>
+      
+          <button class="add">發表</button>
+        <!-- </form> -->
+      </div>
 
         <!-- 側邊工具列 -->
         <div class="sidetool_group position-absolute btn-toolbar flex-column mb-3" role="toolbar" aria-label="Toolbar with button groups">
@@ -119,8 +132,9 @@
     </footer>
   </body>
   <!-- 引入bootstrap套件JS -->
-  <script src="../js/bootstrap.bundle.js"></script>
-  <script src="../js/Article/frontend_Article_AddAndUpdate.js"></script>
+  <script src="/ski/js/jQuery v3.7.0.js"></script>
+  <script src="/ski/js/bootstrap.bundle.js"></script>
+  <script src="/ski/js/Article/frontend_Article_Add.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-  <script src="../js/Article/navbar.js"></script>
+  <script src="/ski/js/Article/navbar.js"></script>
 </html>
