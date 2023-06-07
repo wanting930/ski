@@ -12,15 +12,12 @@ $(document).ready(function () {
   $("#addButton").on("click", function (event) {
     event.preventDefault(); // Prevent form from being submitted
     // Reset error messages
-    $(".text-danger").addClass("d-none");
 
     // Validate form inputs
     let isValid = true;
 
     form
-      .find(
-        'select, input[type="text"], input[type="file"], input[type="date"], textarea'
-      )
+      .find('select, input[type="text"], input[type="date"], textarea')
       .each(function () {
         const input = $(this);
         const value = input.val();
@@ -29,14 +26,28 @@ $(document).ready(function () {
           errorMsg.removeClass("d-none");
           isValid = false;
         }
+      })
+      .find('select, input[type="file"]')
+      .each(function () {
+        const input = $(this);
+        const value = input.val();
+        const src = $("#myImage").attr("src");
+        if (!src) {
+          if (value === null || value === "") {
+            const errorMsg = input.parent().parent().siblings(".text-danger");
+            errorMsg.removeClass("d-none");
+            isValid = false;
+          }
+        }
       });
-
+    console.log(isValid);
     if (isValid) {
+      console.log("isValid2");
       // Get form values
       const courseSkill = document.getElementById("courseSkill").value;
       const courseLevel = document.getElementById("courseLevel").value;
       const courseName = document.getElementById("courseName").value;
-      const courseLocation = document.getElementById("coursePrice").value;
+      const courseLocation = document.getElementById("courseLocation").value;
       const courseDate = document.getElementById("courseDate").value;
       const startDate = document.getElementById("startDate").value;
       const endDate = document.getElementById("endDate").value;
@@ -91,6 +102,10 @@ $(document).ready(function () {
       });
     }
   });
+
+  document
+    .getElementById("coursePhoto")
+    .addEventListener("change", handleImageChange);
 });
 
 // Function to retrieve course information by ID
@@ -102,6 +117,7 @@ function getCourseInfo() {
     type: "POST",
     success: function (response) {
       // 地點選單建立
+
       option = $("<option>", {
         value: response.skiLocation.pointID,
         text: response.skiLocation.pointName,
@@ -142,4 +158,30 @@ function getCourseInfo() {
       console.error("Request failed. Status:", status, "Error:", error);
     },
   });
+}
+
+function base64ToBlob(base64) {
+  var binary = atob(base64);
+  var bytes = new Uint8Array(binary.length);
+  for (var i = 0; i < binary.length; i++) {
+    bytes[i] = binary.charCodeAt(i);
+  }
+  return new Blob([bytes], { type: "image/png" });
+}
+
+function handleImageChange() {
+  const selectedImage = document.getElementById("coursePhoto").files[0];
+  if (selectedImage) {
+    const reader = new FileReader();
+    reader.onload = function (event) {
+      document.getElementById("originalImage").src = event.target.result;
+      document.getElementById("originalImage").dataset.originalImage =
+        event.target.result;
+    };
+    reader.readAsDataURL(selectedImage);
+  } else {
+    const originalImageURL =
+      document.getElementById("originalImage").dataset.originalImage;
+    document.getElementById("originalImage").src = originalImageURL;
+  }
 }

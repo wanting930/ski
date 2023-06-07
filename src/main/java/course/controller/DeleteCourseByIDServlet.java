@@ -16,16 +16,9 @@ public class DeleteCourseByIDServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) {
 			Integer CourseID = Integer.parseInt(request.getParameter("CourseID"));
 			CourseDaoImpl dao = new CourseDaoImpl();
-			System.out.println(CourseID);
+
 			int result = dao.deleteByCourseId(CourseID);
 			
-//			if (result > 0) {
-//				// 刪除成功
-//				response.getWriter().println("刪除成功");
-//			} else {
-//				// 刪除失敗
-//				response.getWriter().println("刪除失敗");
-//			}
 			return ;					
 	}
 }

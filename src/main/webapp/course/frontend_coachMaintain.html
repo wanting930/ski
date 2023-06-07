@@ -23,13 +23,13 @@
         <!-- 會員中心sidebar -->
         <div class="member_side fw-bold col-2 bg-light text-light"></div>
         <!-- 頁面內容置於此 -->
-        <div class="vh-100 coach-form-container">
+        <div class="vh-100  overflow-auto coach-form-container">
           <div class="title_zone text-center fw-bold " style="border: 2px solid blue">
             <h1>教練課程管理</h1>
             <button type="button" id="insert_btn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#merge"
               data-bs-whatever="@mdo">新增課程</button>
           </div>
-          <div class="card_zone  overflow-scroll">
+          <div class="card_zone ">
             <!-- <div class="courseCard border-top my-3 p-2 d-flex align-items-center position-relative">
               <div class="imgZone mx-2 ">
                 <img class="crousePhoto" src=''
@@ -201,8 +201,8 @@
                       </div>
                       <div class="col-6 align-self-center">
                         <div class="input-group mb-2">
-                          <label class="input-group-text bold-text" for="skiImage">雪點圖片</label>
-                          <input type="file" class="form-control" id="skiImage" />
+                          <label class="input-group-text bold-text" for="coursePhoto">課程圖片</label>
+                          <input type="file" class="form-control" id="coursePhoto" />
                           <div class="invalid-feedback">必填</div>
                           <div class="valid-feedback">通過 !</div>
                         </div>
@@ -222,7 +222,7 @@
                       <div class="col-6 align-self-center">
                         <div class="align-items-center">
                           <div>
-                            <img src="" alt="請選擇需更換的圖片" id="skiImagePreview" style="max-width: 100%px; height: 240px" />
+                            <img src="" alt="請選擇需更換的圖片" id="originalImage" style="max-width: 100%px; height: 240px" />
                           </div>
                         </div>
                       </div>
@@ -255,40 +255,13 @@
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">返回</button>
-                    <button type="button" class="btn btn-primary">確認</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="delete_btn">確認</button>
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-              aria-hidden="true">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">課程新增</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
-                    <form>
-                      <div class="mb-3">
-                        <label for="recipient-name" class="col-form-label">Recipient:</label>
-                        <input type="text" class="form-control" id="recipient-name">
-                      </div>
-                      <div class="mb-3">
-                        <label for="message-text" class="col-form-label">Message:</label>
-                        <textarea class="form-control" id="message-text"></textarea>
-                      </div>
-                    </form>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Send message</button>
-                  </div>
-                </div>
-              </div>
-            </div> -->
 
         </div>
       </div>
@@ -321,7 +294,7 @@
 <script src="../js/bootstrap.bundle.js"></script>
 <script src="../js/frontend_public.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-<!-- <script src="../js/embed.js"></script> -->
+<script src="../js/embed.js"></script>
 <script src="../js/Course/course_fe_Maintain.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
 <script>

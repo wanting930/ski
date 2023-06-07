@@ -24,6 +24,8 @@ public interface CourseDao extends CoreDao{
 
     List<Course> getRuningCourse();
     
+    List<Course> GetCoachCourse(Integer coachID);
+    
     List<Course> getAllCourses();
     
     int updateCourse(Course course) ;
