@@ -1,6 +1,6 @@
 var articleTypeID = 1;
 var articleTypeContent = "";
-
+const saveUserID = sessionStorage.getItem("userID");
 //顯示全部
 $(document).ready(function init() {
     console.log("js載入成功");
@@ -16,6 +16,7 @@ $(document).ready(function init() {
         success: function (data) {
             // console.log(data.length);
             console.log("前端文章發文載入成功");
+            console.log(saveUserID);
             for (let i = 1; i < data.length; i++) {
                 let list_html = "";
                 let articleTypeID = data[i].articleTypeID;
@@ -56,7 +57,7 @@ $("button.add").on("click", function () {
         url: "http://localhost:8080/ski/FrontendArticle",
         type: "Post",
         data: {
-            "userID": 1,
+            "userID": saveUserID,
             "articleTypeID": selectedValue,
             "articleTitle": articleTitle,
             "articleContent": articleContent,

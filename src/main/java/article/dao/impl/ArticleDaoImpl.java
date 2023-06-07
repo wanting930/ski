@@ -206,6 +206,15 @@ public class ArticleDaoImpl implements ArticleDao{
 	}
 	
 	@Override
+	public List<Article> selectByuserID(Integer userID) {
+		String hqlQuery = "FROM Article WHERE userID = :userID";
+		Query<Article> query = getSession().createQuery(hqlQuery, Article.class);
+		query.setParameter("userID", userID);
+		List<Article> list = query.getResultList();
+		return list;
+	}
+	
+	@Override
 	public List<Article> selectByArticleStatus(String articleStatus) {
 		String hqlQuery = "FROM Article WHERE articleStatus LIKE :status";
 		Query<Article> query = getSession().createQuery(hqlQuery, Article.class);

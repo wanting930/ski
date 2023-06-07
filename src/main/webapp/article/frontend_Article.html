@@ -5,71 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- 引入bootstrap套件CSS -->
-    <!-- <link rel="stylesheet" href="/ski/css/bootstrap.css" />
-    <link rel="stylesheet" href="/ski/css/root.css" /> -->
-    <link rel="stylesheet" href="/ski/css/Article/frontend_Article.css" />
+    <link rel="stylesheet" href="/ski/css/bootstrap.css" />
+    <link rel="stylesheet" href="/ski/css/root.css" />
+    <link rel="stylesheet" href="/ski/css/frontend_public.css" />
 
-    <!-- 引入bootstrap套件CSS -->
-  <link rel="stylesheet" href="../css/bootstrap.css" />
-  <!-- <link rel="stylesheet" href="../css/root.css" /> -->
-  <link rel="stylesheet" href="../css/frontend_public.css" />
+    <link rel="stylesheet" href="/ski/css/Article/frontend_Article.css" />
     <title>前臺討論區</title>
   </head>
 
   <body>
-    <nav class="navbar navbar-expand-lg navbar-dark border border-dark bg-dark">
-      <div class="container">
-        <a class="navbar-brand" href="../index.html">
-          <img src="../img/logo.png" alt="UI Kit" style="width: 50px" />
-        </a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarTogglerDemo03"
-          aria-controls="navbarTogglerDemo03"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-          <ul class="navbar-nav ms-auto me-sm-2 mt-2 mt-lg-0">
-            <li class="nav-item active me-3">
-              <a class="nav-link" href="#">Let's go skiing</a>
-            </li>
-            <li class="nav-item me-3">
-              <a class="nav-link" href="#">滑雪地圖</a>
-            </li>
-            <li class="nav-item me-3">
-              <a class="nav-link" href="#">教練</a>
-            </li>
-            <li class="nav-item me-3">
-              <a class="nav-link" href="#">課程</a>
-            </li>
-            <li class="nav-item me-3">
-              <a class="nav-link" href="#">討論區</a>
-            </li>
-            <li class="nav-item me-3">
-              <a class="nav-link" href="#">聊天室</a>
-            </li>
-            <li class="nav-item me-3">
-              <a class="nav-link" href="#">商城</a>
-            </li>
-            <li class="nav-item me-3">
-              <a class="nav-link" href="#">購物車</a>
-            </li>
-            <li class="nav-item me-3" id="nav-login">
-              <a class="nav-link" href="#">登入</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-    <br />
+    <header class="header"></header>
     <!-- 內容欄 -->
-    <div class="main_section position-relative d-flex justify-content-center mb-0">
+    <div class="main_section position-relative d-flex justify-content-center mb-0" >
       <!-- 頁面內容置於此 -->
       <div class="container-main container text-center fw-bold h-100">
         <h1>討論區</h1>
@@ -81,77 +28,53 @@
             <button class="searchArticleType">#新手請教</button>
             <button class="searchArticleType">#心得分享</button> -->
           </div>
-          
+
           <table class="table">
             <tbody>
-              <!-- <tr class="tr">
-                <td>
-                  <a href="#"><p class="-none">2</p><p class="article text-start">讚數:0 &ensp;&ensp;留言:0 &ensp;&ensp;#心得分享</p><p class="article text-center">分享好東C</p><p class="article text-end">2023-06-03 03:26 張文杰</p></a>
-                </td>
-              </tr> -->
+            <!-- <tr class="tr">
+              <td>
+                <a href="#"><p class="-none">2</p><p class="article text-start">讚數:0 &ensp;&ensp;留言:0 &ensp;&ensp;#心得分享</p><p class="article text-center">分享好東C</p><p class="article text-end">2023-06-03 03:26 張文杰</p></a>
+              </td>
+            </tr> -->
             </tbody>
           </table>
           <div id="pagination"><!--<button class="btn_limit">${i}</button>--></div>
         </div>
-      </div>
+        </div>
 
         <!-- 側邊工具列 -->
         <div class="sidetool_group position-absolute btn-toolbar flex-column mb-3" role="toolbar" aria-label="Toolbar with button groups">
           <!-- 聊天室 -->
           <button type="button" class="sidetool_button btn btn-outline-black mb-1">
-            <img class="sidetool_icon" src="../img/chat.png" alt="#" />
+            <img class="sidetool_icon" src="/ski/img/chat.png" alt="#" />
           </button>
           <!-- 客服 -->
           <button type="button" class="sidetool_button btn btn-outline-black mb-1">
-            <img class="sidetool_icon" src="../img/service.png" alt="#" />
+            <img class="sidetool_icon" src="/ski/img/service.png" alt="#" />
           </button>
           <!-- 返回頂端 -->
           <button type="button" id="return_top_button" class="sidetool_button btn btn-outline-black mb-1">
-            <img class="sidetool_icon" src="../img/up_arrow.png" alt="#" />
+            <img class="sidetool_icon" src="/ski/img/up_arrow.png" alt="#" />
           </button>
         </div>
       </div>
     </div>
     <br />
-    <footer class="footer">
-      <div class="container">
-        <div class="row">
-          <div class="col-1 d-flex align-items-center">
-            <a class="navbar-brand" href="../index.html">
-              <img src="../img/logo.png" style="width: 50px" />
-            </a>
-          </div>
-          <div class="col-7 d-flex align-items-center">
-            <ul class="list-unstyled mb-0" style="color: white">
-              <li style="font-size: 14px">Let's go skiing</li>
-              <li style="font-size: 14px">104台北市中山區南京東路三段219號5樓</li>
-            </ul>
-          </div>
-          <div class="col-2 d-flex justify-content-end align-items-center">
-            <ul class="list-unstyled mb-0">
-              <li><a href="#" class="footer-link">關於我們</a></li>
-            </ul>
-          </div>
-          <div class="col-2 d-flex justify-content-end align-items-center">
-            <ul class="list-unstyled mb-0">
-              <li><a href="#" class="footer-link">常見問題</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </footer>
+    <footer class="footer"></footer>
   </body>
   <!-- 引入bootstrap套件JS -->
-<script src="../js/bootstrap.bundle.js"></script>
-<script src="../js/frontend_public.js"></script>
-
-
-
-  <!-- 引入bootstrap套件JS -->
-  <script src="/ski/js/jQuery v3.7.0.js"></script>
-  <!-- <script src="/ski/js/bootstrap.bundle.js"></script> -->
-  <script src="/ski/js/Article/frontend_Article.js"></script>
+  <script src="/ski/js/bootstrap.bundle.js"></script>
+  <script src="/ski/js/frontend_public.js"></script>
+  <!-- 引入公版JS -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-  <script src="/ski/js/Article/navbar.js"></script>
-  
+  <script src="/ski/js/embed.js"></script>
+  <script>
+    window.onload = function() {
+      var script1 = document.createElement("script");
+      script1.src = "/ski/js/navbar.js";
+      document.head.appendChild(script1);
+    };
+  </script>
+  <!-- 引入自定義JS -->
+  <script src="/ski/js/Article/frontend_Article.js"></script>
 </html>

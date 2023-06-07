@@ -5,201 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- 引入bootstrap套件CSS -->
-    <!-- <link rel="stylesheet" href="/ski/css/bootstrap.css" /> -->
-    <!-- <link rel="stylesheet" href="/ski/css/root.css" /> -->
-    <link
-      rel="stylesheet"
-      href="/ski/css/Article/backend_Article_ChangeStatus.css"
-    />
+    <link rel="stylesheet" href="/ski/css/bootstrap.css" />
+    <link rel="stylesheet" href="/ski/css/root.css" />
+    <link rel="stylesheet" href="/ski/css/backend_public.css" />
 
-    <!-- 引入bootstrap套件CSS -->
-    <link rel="stylesheet" href="../css/bootstrap.css" />
-    <link rel="stylesheet" href="../css/root.css" />
+    <link rel="stylesheet" href="/ski/css/Article/backend_Article_ChangeStatus.css"/>
     <title>後臺文章管理_上下架文章</title>
   </head>
 
   <body>
     <div class="main_section row mb-0">
       <!-- 左側導航列 -->
-      <div class="aside_section col-2 p-0">
-        <!-- 連結按鈕群 -->
-        <div class="sidebar d-flex flex-column h-100">
-          <!-- 下拉選單內容設定範例 -->
-          <div class="btn-group">
-            <button
-              class="btn btn-sm mt-3 fs-5"
-              type="button"
-              data-bs-toggle="dropdown"
-              data-bs-display="static"
-              aria-expanded="false"
-            >
-              <a href="#">下拉選單示意</a>
-            </button>
-            <!-- 選單選項部分 -->
-            <ul class="dropdown-menu dropdown-menu-dark text-center w-100">
-              <a class="dropdown-item" href="#">選項文字</a>
-              <a class="dropdown-item" href="#">選項文字</a>
-            </ul>
-          </div>
-
-          <div class="btn-group">
-            <button
-              class="btn btn-sm mt-3 fs-5"
-              type="button"
-              data-bs-toggle="dropdown"
-              data-bs-display="static"
-              aria-expanded="false"
-            >
-              <a href="#">最新消息管理</a>
-            </button>
-            <!-- 選單選項部分 -->
-            <ul class="dropdown-menu dropdown-menu-dark text-center w-100">
-              <a class="dropdown-item" href="#">選項文字</a>
-              <a class="dropdown-item" href="#">選項文字</a>
-            </ul>
-          </div>
-
-          <div class="btn-group">
-            <button
-              class="btn btn-sm mt-3 fs-5"
-              type="button"
-              data-bs-toggle="dropdown"
-              data-bs-display="static"
-              aria-expanded="false"
-            >
-              <a href="#">會員管理</a>
-            </button>
-            <!-- 選單選項部分 -->
-            <ul class="dropdown-menu dropdown-menu-dark text-center w-100">
-              <a class="dropdown-item" href="#">選項文字</a>
-              <a class="dropdown-item" href="#">選項文字</a>
-            </ul>
-          </div>
-
-          <div class="btn-group">
-            <button
-              class="btn btn-sm mt-3 fs-5"
-              type="button"
-              data-bs-toggle="dropdown"
-              data-bs-display="static"
-              aria-expanded="false"
-            >
-              <a href="#">滑雪地點管理</a>
-            </button>
-            <!-- 選單選項部分 -->
-            <ul class="dropdown-menu dropdown-menu-dark text-center w-100">
-              <a class="dropdown-item" href="#">選項文字</a>
-              <a class="dropdown-item" href="#">選項文字</a>
-            </ul>
-          </div>
-
-          <div class="btn-group">
-            <button
-              class="btn btn-sm mt-3 fs-5"
-              type="button"
-              data-bs-toggle="dropdown"
-              data-bs-display="static"
-              aria-expanded="false"
-            >
-              <a href="#">課程管理</a>
-            </button>
-            <!-- 選單選項部分 -->
-            <ul class="dropdown-menu dropdown-menu-dark text-center w-100">
-              <a class="dropdown-item" href="#">選項文字</a>
-              <a class="dropdown-item" href="#">選項文字</a>
-            </ul>
-          </div>
-
-          <div class="btn-group">
-            <button
-              class="btn btn-sm mt-3 fs-5"
-              type="button"
-              data-bs-toggle="dropdown"
-              data-bs-display="static"
-              aria-expanded="false"
-            >
-              <a href="#">討論區管理</a>
-            </button>
-            <!-- 選單選項部分 -->
-            <ul class="dropdown-menu dropdown-menu-dark text-center w-100">
-              <a
-                class="dropdown-item"
-                href="http://localhost:8080/ski/article/backend_ArticleType.html"
-                >分類列表</a
-              >
-              <a
-                class="dropdown-item"
-                href="http://localhost:8080/ski/article/backend_Article.html"
-                >文章管理</a
-              >
-              <a
-                class="dropdown-item"
-                href="http://localhost:8080/ski/article/backend_Report.html"
-                >檢舉處理</a
-              >
-            </ul>
-          </div>
-
-          <div class="btn-group">
-            <button
-              class="btn btn-sm mt-3 fs-5"
-              type="button"
-              data-bs-toggle="dropdown"
-              data-bs-display="static"
-              aria-expanded="false"
-            >
-              <a href="#">商城管理</a>
-            </button>
-            <!-- 選單選項部分 -->
-            <ul class="dropdown-menu dropdown-menu-dark text-center w-100">
-              <a class="dropdown-item" href="#">選項文字</a>
-              <a class="dropdown-item" href="#">選項文字</a>
-            </ul>
-          </div>
-
-          <div class="btn-group">
-            <button
-              class="btn btn-sm mt-3 fs-5"
-              type="button"
-              data-bs-toggle="dropdown"
-              data-bs-display="static"
-              aria-expanded="false"
-            >
-              <a href="#">客服管理</a>
-            </button>
-            <!-- 選單選項部分 -->
-            <ul class="dropdown-menu dropdown-menu-dark text-center w-100">
-              <a class="dropdown-item" href="#">選項文字</a>
-              <a class="dropdown-item" href="#">選項文字</a>
-            </ul>
-          </div>
-          <a
-            href=""
-            class="rounded-0 list-group-item list-group-item-action mt-auto mb-4 fs-5 text-center border-end-0"
-            >登出</a
-          >
-        </div>
-      </div>
-
+      <div class="backend_side aside_section col-2 p-0"></div>
       <!-- 右側內容欄 -->
       <div class="col-10 p-0">
         <!-- 麵包屑 (路徑位置文字) -->
         <nav>
           <ol class="breadcrumb mt-1 px-2" style="border: 2px blue solid">
-            <li class="breadcrumb-item">後臺系統</li>
-            <!-- 路徑追加方式範例 -->
-            <li class="breadcrumb-item">討論區管理</li>
-            <li class="breadcrumb-item">
-              <a href="http://localhost:8080/ski/article/backend_Article.html"
-                >文章管理</a
-              >
-            </li>
+            <li class="breadcrumb-item">後臺管理系統 | Let's go skiing</li>
+            <li class="breadcrumb-item"><a href="/ski/article/backend_Article.html">文章管理</a>
           </ol>
         </nav>
         <!-- 主內容欄 -->
-        <div class="content_section vh-100 mx-3 my-1">
+        <div class="content_section mx-3 my-1">
           <hr />
-          <!-- 頁面內容(功能展現)置於此 -->
+          頁面內容(功能展現)置於此
           <div id="type">
             <!--        <p class="datetime">發表時間: by 會員ID 修改時間時間:</p>-->
             <!--        <h1 class="title">文章標題</h1>-->
@@ -212,14 +42,12 @@
         </div>
       </div>
     </div>
-      <!-- 引入bootstrap套件JS -->
-      <script src="../js/bootstrap.bundle.js"></script>
-
-
     <!-- 引入bootstrap套件JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"></script>
-    <script src="/ski/js/jQuery v3.7.0.js"></script>
+    <script src="/ski/js/bootstrap.bundle.js"></script>
+    <!-- 引入公版JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="/ski/js/embed.js"></script>
+    <!-- 引入自定義JS -->
     <script src="/ski/js/Article/backend_Article_ChangeStatus.js"></script>
-    <!-- <script src="/ski/js/bootstrap.bundle.js"></script> -->
   </body>
 </html>

@@ -85,6 +85,12 @@ public class FrontendArticleServlet extends HttpServlet {
 			case "addComment":
 				fowardPath=addComment(req,res);
 				break;
+			case "updateArticle":
+				fowardPath=updateArticle(req,res);
+				break;
+			case "useUserIDsearchArticle":
+				fowardPath=useUserIDsearchArticle(req,res);
+				break;
         	default:{
         			System.out.println("收到未知請求");
         			break;
@@ -352,6 +358,42 @@ public class FrontendArticleServlet extends HttpServlet {
 			}
 			Gson gson = new Gson();
 			String jsonStr = gson.toJson(comment5);
+			res.getWriter().write(jsonStr);
+//			System.out.println("success");
+			return jsonStr;
+		}
+		
+		// 修改文章
+		private String updateArticle(HttpServletRequest req,HttpServletResponse res) throws IOException {
+			res.setContentType("text/html; charset=utf-8");
+			ArticleDao dao = new ArticleDaoImpl();
+			int article6 = 0; // 新增物件
+			try {
+				Article article1 = new Article(Integer.parseInt(req.getParameter("articleID")),Integer.parseInt(req.getParameter("userID")), Integer.parseInt(req.getParameter("articleTypeID")),req.getParameter("articleTitle"),req.getParameter("articleContent"), req.getParameter("articleDateTime"),req.getParameter("articleModified"),Integer.parseInt(req.getParameter("articleLike")),"0");
+				article6 = dao.updateByArticleID(article1);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			Gson gson = new Gson();
+			String jsonStr = gson.toJson(article6);
+			res.getWriter().write(jsonStr);
+//			System.out.println("success");
+			return jsonStr;
+		}
+		
+		//用使用者ID查詢文章
+		private String useUserIDsearchArticle(HttpServletRequest req,HttpServletResponse res) throws IOException {
+			res.setContentType("text/html; charset=utf-8");
+			ArticleDao dao = new ArticleDaoImpl();
+			List<Article> list3 = new ArrayList<Article>();
+			try {
+				Integer article5 = Integer.parseInt(req.getParameter("userID"));
+				list3 = dao.selectByuserID(article5);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			Gson gson = new Gson();
+			String jsonStr = gson.toJson(list3);
 			res.getWriter().write(jsonStr);
 //			System.out.println("success");
 			return jsonStr;

@@ -6,11 +6,11 @@
 
     <!-- 引入bootstrap套件CSS -->
     <link rel="stylesheet" href="/ski/css/bootstrap.css" />
-    <link rel="stylesheet" href="/ski/css/root.css" />
-    <link rel="stylesheet" href="/ski/css/frontend_public.css" />
+    <link rel="stylesheet" href="/ski/css/root.css" />  
+    <link rel="stylesheet" href="/ski/css/frontend_public.css" />  
 
-    
-    <title>會員中心</title>
+    <link rel="stylesheet" href="/ski/css/Article/member_center_article.css" />
+    <title>會員中心_文章管理</title>
   </head>
 
   <body>
@@ -24,7 +24,31 @@
             <div class="member_side col-2 bg-light text-light"></div>  
               <!-- 頁面內容置於此 -->
               <div class="col-10" style="border: 2px solid blue">
-                <h1>內容內容</h1>
+                <h1>文章管理</h1>
+                <div id="type">
+                  <button class="btn_addArticle">發表文章</button> <input class="text_search" placeholder="搜尋文章標題"><button class="search">搜尋</button>
+                  <br>
+                  <div class="btn">
+                    <!-- <button class="searchArticleType">#揪團</button>
+                    <button class="searchArticleType">#新手請教</button>
+                    <button class="searchArticleType">#心得分享</button> -->
+                  </div>
+                  
+                  <table class="table">
+                    <tbody>
+                      <!-- <tr class="tr">
+                        <td>
+                          <a href="#"><p class="ID -none">2</p><p class="article text-start">讚數:0 &ensp;&ensp;留言:0 &ensp;&ensp;#心得分享</p><p class="article text-center">分享好東C</p><p class="article text-end">2023-06-03 03:26 張文杰</p></a>
+                        </td>
+                      </tr> -->
+                    </tbody>
+                  </table>
+                  <div id="pagination"><!--<button class="btn_limit">${i}</button>--></div>
+                </div>
+              </div>
+
+
+
               </div>
             </div>
         </div>
@@ -67,4 +91,5 @@
     };
   </script>
   <!-- 引入自定義JS -->
+  <script src="/ski/js/Article/member_center_article.js"></script>
 </html>

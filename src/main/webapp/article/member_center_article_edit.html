@@ -6,36 +6,50 @@
 
     <!-- 引入bootstrap套件CSS -->
     <link rel="stylesheet" href="/ski/css/bootstrap.css" />
-    <link rel="stylesheet" href="/ski/css/root.css" />
-    <link rel="stylesheet" href="/ski/css/frontend_public.css" />
+    <link rel="stylesheet" href="/ski/css/root.css" />  
+    <link rel="stylesheet" href="/ski/css/frontend_public.css" />  
 
-    <link rel="stylesheet" href="/ski/css/Article/frontend_Article_Add.css" />
-    <title>前臺討論區_新增</title>
+    <link rel="stylesheet" href="/ski/css/Article/member_center_article_edit.css" />
+    <title>會員中心_文章管理_編輯</title>
   </head>
 
   <body>
     <header class="header"></header>
     <!-- 內容欄 -->
-    <div class="main_section position-relative d-flex justify-content-center mb-0" >
-      <!-- 頁面內容置於此 -->
+    <div class="main_section position-relative d-flex justify-content-center mb-0">
+      
       <div class="container-main container text-center fw-bold h-100">
-        <h1 class="add">發表文章</h1>
-        <!-- <form> -->
-        <select class="articleType">
-          <!-- <option value="option1">選項 1</option>
-          <option value="option2">選項 2</option>
-          <option value="option3">選項 3</option>
-          <option value="option4">選項 4</option> -->
-        </select>
-        <label for="title">標題：</label>
-        <input type="text" name="title" class="title"><br>
+          <div class="row">
+            <!-- 會員中心sidebar -->
+            <div class="member_side col-2 bg-light text-light"></div>  
+              <!-- 頁面內容置於此 -->
+              <div class="col-10" style="border: 2px solid blue">
+                <h1 class="add">發表文章</h1>
+                <!-- <form> -->
+                <select class="articleType">
+                  <!-- <option value="option1">選項 1</option>
+                  <option value="option2">選項 2</option>
+                  <option value="option3">選項 3</option>
+                  <option value="option4">選項 4</option> -->
+                </select>
+                <div class="addc">
+                  <!-- <label for="title">標題：</label>
+                  <input type="text" name="title" class="title" value=""><br>
 
-        <label for="content">內容：</label><br>
-        <textarea id="content" name="content" rows="10" cols="50" class="content"></textarea><br>
+                  <label for="content">內容：</label><br>
+                  <textarea id="content" name="content" rows="10" cols="50" class="content"></textarea><br> -->
 
-        <button class="add">發表</button>
-        <!-- </form> -->
-      </div>
+                  
+                </div>
+                <button class="update">修改</button>
+                <!-- </form> -->
+              </div>
+
+
+
+              </div>
+            </div>
+        </div>
 
         <!-- 側邊工具列 -->
         <div class="sidetool_group position-absolute btn-toolbar flex-column mb-3" role="toolbar" aria-label="Toolbar with button groups">
@@ -68,8 +82,12 @@
       var script1 = document.createElement("script");
       script1.src = "/ski/js/navbar.js";
       document.head.appendChild(script1);
+
+      var script2 = document.createElement("script");
+      script2.src = "/ski/js/sidebar.js";
+      document.head.appendChild(script2);
     };
   </script>
   <!-- 引入自定義JS -->
-  <script src="/ski/js/Article/frontend_Article_Add.js"></script>
+  <script src="/ski/js/Article/member_center_article_edit.js"></script>
 </html>

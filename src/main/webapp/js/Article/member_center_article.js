@@ -10,18 +10,21 @@ var articleStatus1 = "";
 var saveUserName1 = "";
 var saveArticleTypeContent1 = "";
 var savearticleTitle = sessionStorage.getItem("savearticleTitle");
+var saveuserID = sessionStorage.getItem("userID");
+
 
 //顯示全部(同步)
 //根據你提供的程式碼，我們可以看到你在迴圈中執行了多個 Ajax 請求，這可能導致請求完成的順序不確定，因為 Ajax 請求是非同步的。如果你想確保請求完成的順序與迴圈的順序相符，你可以使用 Promise 或 async/await 進行同步處理。
 $(document).ready(async function init() {
     console.log("js載入成功");
-
+    
     try {
         const response = await $.ajax({
             url: "http://localhost:8080/ski/FrontendArticle",
             type: "Post",
             data: {
-                "action": "showAll"
+                "userID": saveuserID,
+                "action": "useUserIDsearchArticle"
             },
             dataType: "json"
         });
@@ -242,7 +245,7 @@ $(document).ready(async function init() {
 
 //發表文章
 $("#type").on("click", "button.btn_addArticle", function (e) {
-    window.location.href = "http://localhost:8080/ski/article/frontend_Article_Add.html"; // 將存下來的ID丟到此網址
+    window.location.href = "/ski/article/frontend_Article_Add.html"; // 將存下來的ID丟到此網址
 })
 
 
@@ -251,9 +254,11 @@ $("#type").on("click", "button.btn_addArticle", function (e) {
 $("#type").on("click", "a", function (e) {
     articleTitle1 = $(this).closest("tr").find("p.article").text();
     articleID1 = $(this).closest("tr").find("p.ID").text();
+    articleTypeID1 = $(this).closest("tr").find("p.ID").text();
     sessionStorage.setItem("articleID", articleID1); // 存下文章ID
     sessionStorage.setItem("articleTitle", articleTitle1); // 存下文章標題
-    window.location.href = "http://localhost:8080/ski/article/frontend_Article_Show.html"; // 將存下來的ID丟到此網址
+    sessionStorage.setItem("articleTypeID", Number(articleTypeID1)+1); // 存下文章分類ID
+    window.location.href = "/ski/article/member_center_article_edit.html"; // 將存下來的ID丟到此網址
 });
 
 
@@ -407,101 +412,107 @@ $("div.btn").on("click", "button.searchArticleType", function () {
                     $("#type > table > tbody").find("tr").remove(); // 刪除原網頁表格
                     if (data.length <= 10) {
                         for (let i = 0; i < data.length; i++) {
-                            let list_html = "";
-                            let articleID = data[i].articleID;
-                            let userID = data[i].userID;
-                            let articleTypeID = data[i].articleTypeID;
-                            let articleTitle = data[i].articleTitle;
-                            let articleDateTime = data[i].articleDateTime;
-                            let articleLike = data[i].articleLike;
-                            let articleStatus = data[i].articleStatus;
-
-                            $.ajax({
-                                url: "http://localhost:8080/ski/FrontendArticle",
-                                type: "Post",
-                                data: {
-                                    "userID": userID,
-                                    "action": "getMemberUserName"
-                                },
-                                dataType: "json",
-                                success: function (data) {
-                                    // console.log(data);
-                                    let saveUserName1 = data.userName;
-                                    $.ajax({
-                                        url: "http://localhost:8080/ski/BackendArticleType",
-                                        type: "Post",
-                                        data: {
-                                            "articleTypeID": articleTypeID,
-                                            "action": "searchIDAndContent",
-                                            "type": "Number"
-                                        },
-                                        dataType: "json",
-                                        success: function (data) {
-                                            saveArticleTypeContent = data.articleTypeContent;
-                                            if (articleStatus == "0") {
-                                                list_html += `<tr class="tr">
-                                                <td>
-                                                    <a><p class="ID -none">${articleID}</p><p class="article text-start">讚數:${articleLike} &ensp;&ensp;留言:0 &ensp;&ensp;#${saveArticleTypeContent}</p><p class="article text-center">${articleTitle}</p><p class="article text-end">${articleDateTime} by${saveUserName1}</p></a>
-                                                </td>
-                                                </tr>`;
-                                                $("#type > table > tbody").append(list_html); // 加入網頁表格中
-                                            }
-                                        },
-                                    })
-                                }
-                            });
+                            if(data[i].userID == saveuserID){
+                                let list_html = "";
+                                let articleID = data[i].articleID;
+                                let userID = data[i].userID;
+                                let articleTypeID = data[i].articleTypeID;
+                                let articleTitle = data[i].articleTitle;
+                                let articleDateTime = data[i].articleDateTime;
+                                let articleLike = data[i].articleLike;
+                                let articleStatus = data[i].articleStatus;
+    
+                                $.ajax({
+                                    url: "http://localhost:8080/ski/FrontendArticle",
+                                    type: "Post",
+                                    data: {
+                                        "userID": userID,
+                                        "action": "getMemberUserName"
+                                    },
+                                    dataType: "json",
+                                    success: function (data) {
+                                        // console.log(data);
+                                        let saveUserName1 = data.userName;
+                                        $.ajax({
+                                            url: "http://localhost:8080/ski/BackendArticleType",
+                                            type: "Post",
+                                            data: {
+                                                "articleTypeID": articleTypeID,
+                                                "action": "searchIDAndContent",
+                                                "type": "Number"
+                                            },
+                                            dataType: "json",
+                                            success: function (data) {
+                                                saveArticleTypeContent = data.articleTypeContent;
+                                                if (articleStatus == "0") {
+                                                    list_html += `<tr class="tr">
+                                                    <td>
+                                                        <a><p class="ID -none">${articleID}</p><p class="article text-start">讚數:${articleLike} &ensp;&ensp;留言:0 &ensp;&ensp;#${saveArticleTypeContent}</p><p class="article text-center">${articleTitle}</p><p class="article text-end">${articleDateTime} by${saveUserName1}</p></a>
+                                                    </td>
+                                                    </tr>`;
+                                                    $("#type > table > tbody").append(list_html); // 加入網頁表格中
+                                                }
+                                            },
+                                        })
+                                    }
+                                });
+                            }
+                            
                         }
 
                     } else if (data.length > 10) {
                         for (let i = 0; i < 10; i++) {
-                            let list_html = "";
-                            let articleID = data[i].articleID;
-                            let userID = data[i].userID;
-                            let articleTypeID = data[i].articleTypeID;
-                            let articleTitle = data[i].articleTitle;
-                            let articleDateTime = data[i].articleDateTime;
-                            let articleLike = data[i].articleLike;
-                            let articleStatus = data[i].articleStatus;
-
-                            $.ajax({
-                                url: "http://localhost:8080/ski/FrontendArticle",
-                                type: "Post",
-                                data: {
-                                    "userID": userID,
-                                    "action": "getMemberUserName"
-                                },
-                                dataType: "json",
-                                success: function (data) {
-                                    // console.log(data);
-                                    let saveUserName1 = data.userName;
-                                    $.ajax({
-                                        url: "http://localhost:8080/ski/BackendArticleType",
-                                        type: "Post",
-                                        data: {
-                                            "articleTypeID": articleTypeID,
-                                            "action": "searchIDAndContent",
-                                            "type": "Number"
-                                        },
-                                        dataType: "json",
-                                        success: function (data) {
-                                            saveArticleTypeContent = data.articleTypeContent;
-                                            if (articleStatus == "0") {
-                                                list_html += `<tr class="tr">
-                                                <td>
-                                                    <a><p class="ID -none">${articleID}</p><p class="article text-start">讚數:${articleLike} &ensp;&ensp;留言:0 &ensp;&ensp;#${saveArticleTypeContent}</p><p class="article text-center">${articleTitle}</p><p class="article text-end">${articleDateTime} by${saveUserName1}</p></a>
-                                                </td>
-                                                </tr>`;
-                                                $("#type > table > tbody").append(list_html); // 加入網頁表格中
-                                            }
-                                        },
-                                    })
-                                }
-                            });
+                            if(data[i].userID == saveuserID){
+                                let list_html = "";
+                                let articleID = data[i].articleID;
+                                let userID = data[i].userID;
+                                let articleTypeID = data[i].articleTypeID;
+                                let articleTitle = data[i].articleTitle;
+                                let articleDateTime = data[i].articleDateTime;
+                                let articleLike = data[i].articleLike;
+                                let articleStatus = data[i].articleStatus;
+    
+                                $.ajax({
+                                    url: "http://localhost:8080/ski/FrontendArticle",
+                                    type: "Post",
+                                    data: {
+                                        "userID": userID,
+                                        "action": "getMemberUserName"
+                                    },
+                                    dataType: "json",
+                                    success: function (data) {
+                                        // console.log(data);
+                                        let saveUserName1 = data.userName;
+                                        $.ajax({
+                                            url: "http://localhost:8080/ski/BackendArticleType",
+                                            type: "Post",
+                                            data: {
+                                                "articleTypeID": articleTypeID,
+                                                "action": "searchIDAndContent",
+                                                "type": "Number"
+                                            },
+                                            dataType: "json",
+                                            success: function (data) {
+                                                saveArticleTypeContent = data.articleTypeContent;
+                                                if (articleStatus == "0") {
+                                                    list_html += `<tr class="tr">
+                                                    <td>
+                                                        <a><p class="ID -none">${articleID}</p><p class="article text-start">讚數:${articleLike} &ensp;&ensp;留言:0 &ensp;&ensp;#${saveArticleTypeContent}</p><p class="article text-center">${articleTitle}</p><p class="article text-end">${articleDateTime} by${saveUserName1}</p></a>
+                                                    </td>
+                                                    </tr>`;
+                                                    $("#type > table > tbody").append(list_html); // 加入網頁表格中
+                                                }
+                                            },
+                                        })
+                                    }
+                                });
+                            }
+                            
                         }
                     }
                 }
             });
-
+            
         }
     })
 

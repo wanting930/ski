@@ -81,9 +81,7 @@ $(document).ready(function init() {
                 <tr>
                 <td><p>檢舉回覆:</p></td>
                 <td>
-                <input
-                    class="statusResponse"
-                    value="">
+                <textarea id="content" name="content" rows="10" cols="50" class="statusResponse" value=""></textarea>
                 </td>
                 </tr>
                 <tr>
@@ -113,7 +111,7 @@ $(document).ready(function init() {
 $("#type").on("click", "button.btn_update", function () {
     console.log("檢舉處理回覆囉!");
     reportStatus1 = "1";
-    let task_text = $("input.statusResponse").val().trim();
+    let task_text = $("textarea.statusResponse").val().trim();
     if(task_text != ""){
         $.ajax({
             url: "http://localhost:8080/ski/BackendReport",
