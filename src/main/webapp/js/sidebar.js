@@ -23,7 +23,7 @@ success: function (resp) {
     .append(
       $("<a></a>")
     .addClass("nav-link")
-    .attr("href", "/ski/course/coachCourse.html")
+    .attr("href", "/ski/course/frontend_coachMaintain.html")
     .text("教練課程管理")
     );
     $(".nav.flex-column").append(newNavItem);

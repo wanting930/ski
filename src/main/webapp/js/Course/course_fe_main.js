@@ -1,5 +1,11 @@
 $(document).ready(function () {
-  getRunungCourse();
+  getRunnungCourse();
+
+  var data = {
+    userID: sessionStorage.getItem("userID"),
+  };
+  var jsonData = JSON.stringify(data);
+  var level = setLevel(jsonData);
 
   $(".skilloptions").on("change", function () {
     getCourseByKeywordAndTag();
@@ -14,7 +20,22 @@ $(document).ready(function () {
   });
 });
 
-function getRunungCourse() {
+function setLevel(jsonData) {
+  $.ajax({
+    url: "http://localhost:8080/ski/member/getOneMember",
+    data: jsonData,
+    type: "POST",
+    dataType: "json",
+    success: function (data) {
+      level = data.level;
+    },
+    error: function () {
+      console.log("error");
+    },
+  });
+}
+
+function getRunnungCourse() {
   $.ajax({
     url: "http://localhost:8080/ski/course_GRC",
     type: "POST",
@@ -78,7 +99,7 @@ function renderCourse(Course) {
       });
     // 子頁導向按鈕生成
     const subDirectButton = $("<button>")
-      .addClass("btn btn-secondary m-2 subDirect")
+      .addClass("btn btn-secondary m-2 subDirect ")
       .append(subDirectLink);
 
     //購物車按鈕生成
@@ -94,6 +115,7 @@ function renderCourse(Course) {
     addCartButton = $("<button>")
       .addClass("btn btn-secondary m-2 addCart")
       .text(valid_result);
+
     if (register_allow) {
       addCartButton.addClass("disable");
     }
@@ -123,8 +145,8 @@ function renderCourse(Course) {
     const imageSrc = `data:image/png;base64,${base64Image}`;
 
     cardStr = `
+    
        <div class="courseCard border-top my-3 p-2 d-flex align-items-center position-relative">
-
            <div class="imgZone mx-2 ">
              <img class="crousePhoto" src='${imageSrc}' style="max-height: 180px; max-width: 250px; color: gray; height: 180px; width: 250px;">
            </div>
@@ -138,15 +160,36 @@ function renderCourse(Course) {
              </p>
            </div>
 
-           <div class="btnGroup m-2 position-absolute bottom-0 end-0">
-           </div>
+           <div class="btnGroup m-2 position-absolute bottom-0 end-0"></div>
+           <div class="cardMask position-absolute" style="background-color: rgba(43, 43, 43, 0.8);">
+			</div>
      		</div>
      `;
-
-    $("#courseContent").append(cardStr);
+$("#courseContent").append(cardStr);
+  	resizeMask();
+  
+    
     $(".courseCard").each(function () {
       const btnGroup = $(this).find(".btnGroup");
       btnGroup.append(subDirectButton, addCartButton);
     });
   });
+}
+
+function resizeMask(){
+	//resize mask
+    var sourceDiv = $(".courseCard");
+    var targetDiv = $(".cardMask");
+
+    var sourceWidth = sourceDiv.width();
+    var sourceHeight = sourceDiv.height();
+
+    targetDiv.width(sourceWidth);
+    targetDiv.height(sourceHeight);
+    targetDiv.addClass("d-flex justify-content-center align-item-center");
+    filterConfirm = $("<p>").text("該課程難度過高").css({
+      color: "white",
+    });
+
+    targetDiv.html(filterConfirm);
 }
