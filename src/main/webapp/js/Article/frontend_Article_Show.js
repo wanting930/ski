@@ -16,7 +16,7 @@ var savecomment = 0;
 var commentShow = "hidden";
 
 //顯示全部
-$(document).ready(function init() {
+$(document).ready(async function init() {
     // console.log(savearticleTitle);
     console.log("js載入成功");
     $.ajax({
@@ -249,12 +249,12 @@ function myFunction(x) {
 }
 
 //留言按鈕(顯示此文章的留言)
-function showComment() {
+async function showComment() {
     console.log("觸發到留言按鈕");
     let list_input = "";
     list_input = `<tr>
         <td>
-            <textarea id="content" name="content" rows="10" cols="50" class="content"></textarea><button class="btn_addcomment">送出</button>
+            <textarea id="content" name="content" rows="5" cols=20" class="content"></textarea><button class="btn_addcomment">送出</button>
         </td>
     </tr>`;
     $("thead.thead").append(list_input);
@@ -270,7 +270,6 @@ function showComment() {
             dataType: "json",
             success: function (data) {
                 // console.log(data);
-
                 if (data.length <= 10) {
                     for (let i = 0; i < data.length; i++) {
                         let commentID = data[i].commentID;
@@ -280,15 +279,17 @@ function showComment() {
                         let commentDateTime = data[i].commentDateTime;
                         let commentModified = data[i].commentModified;
                         let commentLike = data[i].commentLike;
+                        // console.log(data[0].userID);
                         $.ajax({
                             url: "http://localhost:8080/ski/FrontendArticle",
                             type: "Post",
                             data: {
-                                "userID": data[0].userID,
+                                "userID": data[i].userID,
                                 "action": "getMemberUserName"
                             },
                             dataType: "json",
                             success: function (data) {
+                                // console.log(data);
                                 let saveUserName1 = data.userName;
                                 let list_comment = "";
                                 list_comment = `<tr>
@@ -344,7 +345,7 @@ function showComment() {
 }
 
 
-
+//送出新增留言
 $("thead.thead").on("click", "button.btn_addcomment", function () {
     console.log("送出留言成功");
     let addCommentContent = $("textarea.content").val();
@@ -405,7 +406,7 @@ $("thead.thead").on("click", "button.btn_addcomment", function () {
                                 url: "http://localhost:8080/ski/FrontendArticle",
                                 type: "Post",
                                 data: {
-                                    "userID": data[0].userID,
+                                    "userID": data[i].userID,
                                     "action": "getMemberUserName"
                                 },
                                 dataType: "json",
