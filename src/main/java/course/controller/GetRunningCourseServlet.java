@@ -24,8 +24,9 @@ public class GetRunningCourseServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
             
-            CourseDaoImpl dao = new CourseDaoImpl();
-
+            CourseDaoImpl dao = new CourseDaoImpl();                 
+            
+            
             List<Course> list = dao.getRuningCourse();                
             
             Gson gson = new Gson();
