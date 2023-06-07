@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // 獲取商品數據並渲染表格
 function fetchProducts() {
-  fetch('http://localhost:8080/ski/getAll')
+  fetch('/ski/getAll')
     .then(response => response.json())
     .then(data => {
       renderProducts(data);
@@ -82,7 +82,7 @@ function jumpupdatepage(productID) {
 
 // 刪除商品
 function deleteProduct(productID) {
-  fetch(`http://localhost:8080/ski/productDelete?productID=${productID}`, {
+  fetch(`/ski/productDelete?productID=${productID}`, {
     method: 'GET',
   })
     .then(response => response.json())

@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.hibernate.Session;
 
+import course.entity.Course;
 import member.vo.Member;
 import order.courseOrder.model.CourseOrder;
 import order.courseOrderDetail.model.CourseOrderDetail;
@@ -135,6 +136,17 @@ public class CourseOrderDaoImpl implements CourseOrderDao{
 										+"LIKE :searchName")
 										.setParameter("searchName","%"+userName+"%").list();
 				
+	}
+	@Override
+	public void updatePerson(Integer courseID) {
+		Integer person=getSession().get(Course.class,courseID).getCoursePerson()+1;
+		getSession().createQuery("UPDATE Course "
+								+"SET coursePerson = :person "
+								+"WHERE courseID = :ID")
+								.setParameter("person", person)
+								.setParameter("ID", courseID).executeUpdate();
+		System.out.println(courseID+"更新"+person+"人");
+		
 	}
 
 	

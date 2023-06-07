@@ -95,14 +95,15 @@ document.addEventListener("DOMContentLoaded", function () {
         )
       );
       const imageSrc = `data:image/png;base64,${base64Image}`;
+
       var courseStatus = "";
       if (course.courseStatus == 0) {
-        courseStatus = "已下架";
+        courseStatus = "下架中";
       } else if (course.courseStatus == 1) {
-        courseStatus = "已上架";
+        courseStatus = "上架中";
       }
 
-		console.log("course.coachID" + course.coachID);
+      console.log("course.coachID" + course.coachID);
       row.innerHTML = `
       <th scope="row">${course.courseID}</th>
       <td><img src='${imageSrc}' style="max-width: 150px; max-height: 80px;"></img></td>

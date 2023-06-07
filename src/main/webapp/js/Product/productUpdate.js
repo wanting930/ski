@@ -3,7 +3,7 @@ const productID = urlParams.get('id');
 
 document.getElementById('productID').value = productID;
 
-fetch(`http://localhost:8080/ski/productSelectByID?productID=${productID}`, {
+fetch(`/ski/productSelectByID?productID=${productID}`, {
 	method: 'GET',
 	headers: {
 		'Content-Type': 'application/json'
@@ -71,7 +71,7 @@ function updateProduct(event) {
     updatedProduct.append("productImage", productImage);
 
     // 向後端 API 發送更新請求
-    fetch(`http://localhost:8080/ski/productUpdate`, {
+    fetch(`/ski/productUpdate`, {
         method: 'POST', // 或是其他適合的 HTTP 方法，如 PUT
         body: updatedProduct // 使用 FormData 物件，不需指定 headers
     })
@@ -84,7 +84,7 @@ function updateProduct(event) {
     })
     .then(data => {
         // 更新成功，導向商品管理頁面
-         window.location.replace("http://localhost:8080/ski/product/backend_productPut.html");
+         window.location.replace("/ski/product/backend_productPut.html");
     })
     .then(text => console.log(text))
     .catch((error) => console.error('錯誤:', error));

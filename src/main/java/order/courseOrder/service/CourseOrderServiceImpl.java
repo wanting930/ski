@@ -127,6 +127,12 @@ public class CourseOrderServiceImpl implements CourseOrderService{
 	@Override
 	public Integer updateDetailStatus(Integer courseOrderID) {
 		dao.updateDetailStatus(courseOrderID);
+		List<CourseOrderDetail>list=dao.selectDetailByOrderID(courseOrderID);
+		for(CourseOrderDetail courseOrderDetail:list) {
+			Integer courseID=courseOrderDetail.getCourseID();
+			dao.updatePerson(courseID);
+			
+		}
 		return courseOrderID;
 		
 	}

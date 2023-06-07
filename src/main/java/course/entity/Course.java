@@ -10,11 +10,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-//import loc.model.SkiLocation;
+import loc.model.SkiLocation;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import member.vo.Coach;
 
 
 	@Entity
@@ -43,8 +44,12 @@ import lombok.Setter;
         private Integer courseStatus;
         
 //        @ManyToOne
-//        @JoinColumn(name = "pointID", insertable = false, updatable = false)
-//        private SkiLocation skiLocation;
+//        @JoinColumn(name = "coachID", insertable = false, updatable = false)
+//        private Coach coach;
+        
+        @ManyToOne
+        @JoinColumn(name = "pointID", insertable = false, updatable = false)
+        private SkiLocation skiLocation;
 
 	    }
 
