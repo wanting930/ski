@@ -4,14 +4,14 @@ document.addEventListener('DOMContentLoaded', function() {
   fetchProducts();
 
   // 為刪除按鈕綁定事件
-  // 為修改按钮也绑定事件
+  // 為修改按鈕綁定事件
   document.getElementById('productTableBody').addEventListener('click', function(event) {
     if (event.target.classList.contains('btn-delete')) {
       const productID = event.target.dataset.productId;
       deleteProduct(productID);
     } else if (event.target.classList.contains('btn-edit')) {
       const productID = event.target.dataset.productId;
-      jumpupdatepage(productID); // 跳轉到修改頁面
+      jumpUpdatePage(productID); // 跳轉到修改頁面
     }
   });
 
@@ -28,6 +28,30 @@ document.addEventListener('DOMContentLoaded', function() {
       const searchTerm = document.getElementById('searchInput').value;
       searchProduct(searchTerm);
     }
+  });
+
+  // 獲取商品類別按鈕的節點
+  const productClassButtons = document.querySelectorAll('.ProductClass');
+
+  // 為商品類別按鈕綁定事件
+  productClassButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const productClass = button.innerText.trim();
+
+      fetch(`/ski/productSelectByClass?productClass=${productClass}`)
+        .then(response => response.json())
+        .then(data => {
+          renderProducts(data); // 重新渲染表格以顯示符合商品類別的商品
+        })
+        .catch(error => {
+          console.error('There has been a problem with your fetch operation: ', error);
+        });
+    });
+  });
+
+  // 為全部商品按鈕綁定事件
+  document.getElementById('allProductsButton').addEventListener('click', function() {
+    displayAllProducts();
   });
 });
 
@@ -62,12 +86,19 @@ function renderProducts(products) {
     deleteButton.textContent = '刪除';
     deleteButton.dataset.productId = product.productID;
 
-    const base64Image = btoa(new Uint8Array(product.productImage).reduce((data, byte) => data + String.fromCharCode(byte), ''));
+    const base64Image = btoa(
+      new Uint8Array(product.productImage).reduce(
+        (data, byte) => data + String.fromCharCode(byte),
+        ''
+      )
+    );
     const imageSrc = `data:image/png;base64,${base64Image}`;
 
     // 將日期格式轉換為 yyyy-MM-dd 格式
     const date = new Date(product.productDate);
-    const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+    const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1)
+      .toString()
+      .padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
 
     row.innerHTML = `
       <th scope="row">${product.productID}</th>
@@ -83,14 +114,14 @@ function renderProducts(products) {
     `;
 
     row.querySelector('td:nth-child(7)').appendChild(editButton);
-    row.querySelector('td:nth-child(8').appendChild(deleteButton);
+    row.querySelector('td:nth-child(8)').appendChild(deleteButton);
 
     tableBody.appendChild(row);
   });
 }
 
 // 跳轉到商品頁面
-function jumpupdatepage(productID) {
+function jumpUpdatePage(productID) {
   const url = `/ski/product/backend_productUpdate.html?id=${productID}`;
   window.location.href = url;
 }
@@ -117,9 +148,21 @@ function searchProduct(searchTerm) {
   fetch(url)
     .then(response => response.json())
     .then(data => {
-      renderProducts(data);
+      renderProducts(data); // 重新渲染表格以顯示符合搜尋條件的商品
     })
     .catch(error => {
       console.log(error);
+    });
+}
+
+// 顯示全部商品
+function displayAllProducts() {
+  fetch('/ski/getAll')
+    .then(response => response.json())
+    .then(data => {
+      renderProducts(data); // 渲染所有商品
+    })
+    .catch(error => {
+      console.error('There has been a problem with your fetch operation: ', error);
     });
 }

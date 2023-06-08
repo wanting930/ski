@@ -48,4 +48,13 @@ button a:hover{
   border-radius: 5px;
   width: 200px;
 }
+.ProductClass {
+  display: inline-block;
+  padding: 10px;
+  margin: 5px;
+  background-color: #eee;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
 
