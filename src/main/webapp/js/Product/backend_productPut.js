@@ -1,4 +1,4 @@
-//頁面加載完成後執行
+// 頁面加載完成後執行
 document.addEventListener('DOMContentLoaded', function() {
   // 獲取商品數據並渲染表格
   fetchProducts();
@@ -12,6 +12,21 @@ document.addEventListener('DOMContentLoaded', function() {
     } else if (event.target.classList.contains('btn-edit')) {
       const productID = event.target.dataset.productId;
       jumpupdatepage(productID); // 跳轉到修改頁面
+    }
+  });
+
+  // 為搜尋按鈕綁定事件
+  document.getElementById('searchButton').addEventListener('click', function() {
+    const searchTerm = document.getElementById('searchInput').value;
+    searchProduct(searchTerm);
+  });
+
+  // 為搜索輸入框綁定鍵盤按下事件
+  document.getElementById('searchInput').addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+      event.preventDefault(); // 阻止預設的 Enter 鍵行為
+      const searchTerm = document.getElementById('searchInput').value;
+      searchProduct(searchTerm);
     }
   });
 });
@@ -92,5 +107,19 @@ function deleteProduct(productID) {
     })
     .catch(error => {
       console.error(error);
+    });
+}
+
+// 模糊搜尋商品
+function searchProduct(searchTerm) {
+  const url = `/ski/productSelectByName?productName=${searchTerm}`;
+
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      renderProducts(data);
+    })
+    .catch(error => {
+      console.log(error);
     });
 }
