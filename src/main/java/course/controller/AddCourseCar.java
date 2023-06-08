@@ -23,8 +23,8 @@ public class AddCourseCar extends HttpServlet{
 		
 	    resp.setContentType("application/json;charset=utf-8");
 	    int userID=Integer.parseInt(req.getParameter("userID"));
-	    int productID=Integer.parseInt(req.getParameter("productID"));
-	    CourseCarPK PK=new CourseCarPK(userID,productID);
+	    int courseID=Integer.parseInt(req.getParameter("courseID"));
+	    CourseCarPK PK=new CourseCarPK(userID,courseID);
 	    CourseCar car=new CourseCar(PK,1);
 	    boolean status=courseCarService.addCar(car);
 
