@@ -58,14 +58,15 @@ public class CourseCarServiceImpl implements CourseCarService{
 	}
 
 	@Override
-	public void addCar(CourseCar courseCar) {
+	public boolean addCar(CourseCar courseCar) {
 
-		
 		if(dao.selectByID(courseCar.getId())==null) {
 			dao.insert(courseCar);
+			return true;
 
 		}else {
 			System.out.println("購物車已有同一商品");
+			return false;
 		}
 		
 		
