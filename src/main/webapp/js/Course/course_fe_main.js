@@ -1,11 +1,12 @@
 $(document).ready(function () {
-  getRunnungCourse();
+  
 
   var data = {
     userID: sessionStorage.getItem("userID"),
   };
   var jsonData = JSON.stringify(data);
-  var level = setLevel(jsonData);
+  setLevel(jsonData);
+	
 
   $(".skilloptions").on("change", function () {
     getCourseByKeywordAndTag();
@@ -27,7 +28,8 @@ function setLevel(jsonData) {
     type: "POST",
     dataType: "json",
     success: function (data) {
-      level = data.level;
+      const memberLevel = data.level;
+      getRunnungCourse(memberLevel);
     },
     error: function () {
       console.log("error");
@@ -35,13 +37,13 @@ function setLevel(jsonData) {
   });
 }
 
-function getRunnungCourse() {
+function getRunnungCourse(memberLevel) {
   $.ajax({
     url: "http://localhost:8080/ski/course_GRC",
     type: "POST",
     dataType: "json",
     success: function (data) {
-      renderCourse(data);
+      renderCourse(data, memberLevel);
     },
     error: function () {
       console.log("error");
@@ -82,7 +84,7 @@ function getCourseByKeywordAndTag() {
   });
 }
 
-function renderCourse(Course) {
+function renderCourse(Course, memberLevel) {
   $("#courseContent").empty();
   Course.forEach((course) => {
     // 子頁導向連結生成
@@ -161,13 +163,14 @@ function renderCourse(Course) {
            </div>
 
            <div class="btnGroup m-2 position-absolute bottom-0 end-0"></div>
-           <div class="cardMask position-absolute" style="background-color: rgba(43, 43, 43, 0.8);">
-			</div>
+           <div id="${course.courseID}" class="cardMask position-absolute d-none" style="background-color: rgba(43, 43, 43, 0.8);" > </div>
      		</div>
      `;
-$("#courseContent").append(cardStr);
+	$("#courseContent").append(cardStr);
   	resizeMask();
-  
+  	let courseLevel = course.level;
+  	let courseID = course.courseID;
+  	levelFilter(courseID, memberLevel, courseLevel);
     
     $(".courseCard").each(function () {
       const btnGroup = $(this).find(".btnGroup");
@@ -192,4 +195,10 @@ function resizeMask(){
     });
 
     targetDiv.html(filterConfirm);
+}
+
+function levelFilter(courseID, memberLevel, courseLevel){
+	if(memberLevel < courseLevel){
+		$('#' + courseID).removeClass("d-none");
+	}
 }

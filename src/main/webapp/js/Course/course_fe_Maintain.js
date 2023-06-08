@@ -1,59 +1,33 @@
 $(document).ready(function () {
-  var courseID;
+  getRunnungCourse();
 
-  getAllCourse();
-  resetInputState();
+  var data = {
+    userID: sessionStorage.getItem("userID"),
+  };
+  var jsonData = JSON.stringify(data);
+  //var level = setLevel(jsonData);
 
-  // 綁定欄位輸入事件
-  $(
-    "#courseSkill, #courseLevel, #courseName, #courseLocation, #courseDate, #startDate, #endDate,#coursePrice,#courseMax,#courseMin,#courseStatus,#skiImage,#courseIntroduce"
-  ).on("input change", function () {
-    validateInputField($(this));
+  $(".skilloptions").on("change", function () {
+    getCourseByKeywordAndTag();
   });
 
-  $("#insert_btn").on("click", function (event) {
-    resetForm();
-    courseID;
-    merge(courseID);
+  $(".leveloptions").on("change", function () {
+    getCourseByKeywordAndTag();
   });
 
-  //更新事件綁定
-  $(".card_zone").on("click", ".update_btn", function (event) {
-    courseID = $(this)
-      .closest(".btnGroup")
-      .siblings(".textZone")
-      .find(".courseID")
-      .val();
-    getCourseInfo(courseID);
-    bringInfoState();
-    merge(courseID);
+  $("#searchbar").on("input", function () {
+    getCourseByKeywordAndTag();
   });
-
-  $(".card_zone").on("click", ".deleteEntrace", function (event) {
-    courseID = $(this)
-      .closest(".btnGroup")
-      .siblings(".textZone")
-      .find(".courseID")
-      .val();
-  });
-
-  $(".card_zone").on("click", "#delete_btn", function (event) {
-    deleteCourse(courseID);
-  });
-
-  //表單依輸入圖片更新預覽圖
-  document
-    .getElementById("coursePhoto")
-    .addEventListener("change", handleImageChange);
 });
 
-function getCoachID(memberId) {
+function setLevel(jsonData) {
   $.ajax({
-    url: "http://localhost:8080/ski/",
+    url: "http://localhost:8080/ski/member/getOneMember",
+    data: jsonData,
     type: "POST",
-    data: { memberId: memberId },
-    success: function (response) {
-      coach = response.coachId;
+    dataType: "json",
+    success: function (data) {
+      level = data.level;
     },
     error: function () {
       console.log("error");
@@ -61,25 +35,46 @@ function getCoachID(memberId) {
   });
 }
 
-function getAllCourse() {
+function getRunnungCourse() {
   $.ajax({
-    url: "http://localhost:8080/ski/course_GA",
-    // url:　"http://localhost:8080/ski/course_GCC",
-    //data:{coachID : coachID},
+    url: "http://localhost:8080/ski/course_GRC",
     type: "POST",
     dataType: "json",
-    success: function (response) {
-      // 地點選單生成
-      if (response) {
-        option = $("<option>", {
-          value: response[0].skiLocation.pointID,
-          text: response[0].skiLocation.pointName,
-        });
-      }
+    success: function (data) {
+      renderCourse(data);
+    },
+    error: function () {
+      console.log("error");
+    },
+  });
+}
 
-      $("#courseLocation").append(option);
+function getCourseByKeywordAndTag() {
+  var keyWord = $("#searchbar").val();
+  var courseLevel = $("input[name='leveloptions']:checked").val();
+  var courseSkill = $("input[name='skilloptions']:checked").val();
 
-      renderCourse(response);
+  if (!keyWord) {
+    keyWord = "";
+  }
+  if (!courseLevel) {
+    courseLevel = "-1";
+  }
+  if (!courseSkill) {
+    courseSkill = "-1";
+  }
+
+  $.ajax({
+    url: "http://localhost:8080/ski/course_GBKAT",
+    type: "POST",
+    dataType: "json",
+    data: {
+      keyWord: keyWord,
+      courseLevel: courseLevel,
+      courseSkill: courseSkill,
+    },
+    success: function (data) {
+      renderCourse(data);
     },
     error: function () {
       console.log("error");
@@ -88,22 +83,58 @@ function getAllCourse() {
 }
 
 function renderCourse(Course) {
+  $("#courseContent").empty();
   Course.forEach((course) => {
-    //刪除按鈕生成
-    const deleteButton = $("<button>")
-      .addClass("btn mx-1 btn-primary deleteEntrace")
-      .attr("type", "button")
-      .attr("data-bs-toggle", "modal")
-      .attr("data-bs-target", "#delete")
-      .text("刪除課程");
+    // 子頁導向連結生成
+    subDirectLink = $("<a>")
+      .attr(
+        "href",
+        "http://localhost:8080/ski/course/frontend_courseDetail.html?courseID=" +
+          course.courseID
+      )
+      .text("詳細資訊")
+      .css({
+        "text-decoration": "none",
+        color: "white",
+      });
+    // 子頁導向按鈕生成
+    const subDirectButton = $("<button>")
+      .addClass("btn btn-secondary m-2 subDirect ")
+      .append(subDirectLink);
 
-    //更新按鈕生成
-    const updateButton = $("<button>")
-      .addClass("btn mx-1 btn-primary update_btn")
-      .attr("type", "button")
-      .attr("data-bs-toggle", "modal")
-      .attr("data-bs-target", "#merge")
-      .text("更改課程資訊");
+    //購物車按鈕生成
+    register_allow = true;
+    valid_result = "";
+
+    if (register_allow) {
+      valid_result = "加入購物車";
+    } else {
+      valid_result = "會員層級不符";
+    }
+
+    addCartButton = $("<button>")
+      .addClass("btn btn-secondary m-2 addCart")
+      .text(valid_result);
+
+    if (register_allow) {
+      addCartButton.addClass("disable");
+    }
+
+    //加入購物車功能綁定
+    $(".addCart").on("click", function () {
+      $.ajax({
+        url: "http://localhost:8080/ski/",
+        type: "POST",
+        dataType: "json",
+        data: { keyWord: keyWord },
+        success: function (data) {
+          alert("加入購物車成功");
+        },
+        error: function () {
+          console.log("error");
+        },
+      });
+    });
 
     const base64Image = btoa(
       new Uint8Array(course.coursePhoto).reduce(
@@ -112,269 +143,52 @@ function renderCourse(Course) {
       )
     );
     const imageSrc = `data:image/png;base64,${base64Image}`;
-    const courseDate = moment(course.courseDate).format("YYYY-MM-DD");
-
-    var courseSkill = "";
-    if (course.skill == 0) {
-      courseSkill = "單板";
-    } else if (course.skill == 1) {
-      courseSkill = "雙版";
-    }
-
-    var courseLevel = "";
-    if (course.level == 0) {
-      courseLevel = "初階";
-    } else if (course.level == 1) {
-      courseLevel = "中階";
-    } else if (course.level == 2) {
-      courseLevel = "高階";
-    }
-
-    var courseStatus = "";
-    var textDec = "";
-    if (course.courseStatus == 0) {
-      courseStatus = "上架中";
-      textDec = "text-success";
-    } else if (course.courseStatus == 1) {
-      courseStatus = "下架中";
-      textDec = "text-danger";
-    }
 
     cardStr = `
-       <div class="courseCard border-top my-3 p-2 d-flex align-items-start justify-content-start position-relative">
-
+    
+       <div class="courseCard border-top my-3 p-2 d-flex align-items-center position-relative">
            <div class="imgZone mx-2 ">
-             <img class="crousePhoto" src='${imageSrc}' style="max-height: 160px; max-width: 180px; height: 160px; width: 180px;">
+             <img class="crousePhoto" src='${imageSrc}' style="max-height: 180px; max-width: 250px; color: gray; height: 180px; width: 250px;">
            </div>
 
-           <div class="textZone fw-bold mb-3">
-                <div id="titleGroup " class="d-flex align-items-center">
-                  
-                  <p class="mx-2 my-0 fs-3">${course.courseName}</p>
-                  <p class="mb-0">${courseSkill}/${courseLevel}</p>
-   
-                  <input type="text" class="d-none courseID" value="${course.courseID}">
-                </div>
-                <div class="d-flex flex-column ">
-                
-                  <p class="mb-0 mx-2 text-start">${courseDate}</p>
-                  <p class="mb-0 mx-2 text-start ${textDec}">${courseStatus}</p>
-                  
-                </div>
-              </div>       
-
-           <div class="btnGroup m-2 position-absolute bottom-0 end-0">
+           <div class="textZone mb-3">
+            <div id="titleGroup" class="d-flex ">
+               <h1>${course.courseName}</h1>
+             </div>
+             <p class="p-2">
+               ${course.courseIntroduce}
+             </p>
            </div>
+
+           <div class="btnGroup m-2 position-absolute bottom-0 end-0"></div>
+           <div class="cardMask position-absolute" style="background-color: rgba(43, 43, 43, 0.8);" level="${course.level}> 
+			</div>
      		</div>
      `;
+    $("#courseContent").append(cardStr);
+    resizeMask();
 
-    $(".card_zone").append(cardStr);
     $(".courseCard").each(function () {
       const btnGroup = $(this).find(".btnGroup");
-      btnGroup.append(deleteButton, updateButton);
+      btnGroup.append(subDirectButton, addCartButton);
     });
   });
 }
 
-function validateInputField(field) {
-  var value = field.val().trim();
+function resizeMask() {
+  //resize mask
+  var sourceDiv = $(".courseCard");
+  var targetDiv = $(".cardMask");
 
-  if (value === "") {
-    field.removeClass("is-valid");
-    field.addClass("is-invalid");
-    field.next(".invalid-feedback");
-  } else {
-    value = field.val().trim();
-    field.removeClass("is-invalid");
-    field.addClass("is-valid");
-    field.next(".invalid-feedback");
-  }
-}
+  var sourceWidth = sourceDiv.width();
+  var sourceHeight = sourceDiv.height();
 
-function bringInfoState() {
-  $(
-    "#courseSkill, #courseLevel, #courseName, #courseLocation, #courseDate, #startDate, #endDate,#coursePrice,#courseMax,#courseMin,#courseStatus,#skiImage,#courseIntroduce"
-  ).addClass("is-valid");
-  $(
-    "#courseSkill, #courseLevel, #courseName, #courseLocation, #courseDate, #startDate, #endDate,#coursePrice,#courseMax,#courseMin,#courseStatus,#skiImage,#courseIntroduce"
-  ).removeClass("is-invalid");
-}
-
-function merge(courseID) {
-  $("#submit_btn").on("click", function (event) {
-    event.preventDefault();
-
-    if ($(".is-invalid").length > 0) {
-      alert("請填寫完整資料！");
-    } else {
-      exist = false;
-      method = "IS";
-      if (courseID) {
-        exist = true;
-      }
-
-      var courseSkill = $("#courseSkill").val();
-      var courseLevel = $("#courseLevel").val();
-      var courseName = $("#courseName").val();
-      var courseLocation = $("#courseLocation").val();
-      var courseDate = $("#courseDate").val();
-      var startDate = $("#startDate").val();
-      var endDate = $("#endDate").val();
-      var coursePrice = $("#coursePrice").val();
-      var courseMax = $("#courseMax").val();
-      var courseMin = $("#courseMin").val();
-      var courseStatus = $("#courseStatus").val();
-      var coursePhoto = $("#coursePhoto")[0].files[0];
-      var courseIntroduce = $("#courseIntroduce").val();
-
-      var formData = new FormData();
-      formData.append("courseSkill", courseSkill);
-      formData.append("courseLevel", courseLevel);
-      formData.append("courseName", courseName);
-      formData.append("courseLocation", courseLocation);
-      formData.append("courseDate", courseDate);
-      formData.append("startDate", startDate);
-      formData.append("endDate", endDate);
-      formData.append("coursePrice", coursePrice);
-      formData.append("courseMax", courseMax);
-      formData.append("courseMin", courseMin);
-      formData.append("courseStatus", courseStatus);
-      formData.append("coursePhoto", coursePhoto);
-      formData.append("courseIntroduce", courseIntroduce);
-      if (exist) {
-        formData.append("courseID", courseID);
-        method = "UD";
-      }
-
-      console.log("formData" + formData);
-      console.log("method" + method);
-
-      $.ajax({
-        url: "http://localhost:8080/ski/course_" + method,
-        type: "POST",
-        data: formData,
-        contentType: false,
-        processData: false,
-        success: function (response) {
-          alert("執行成功！");
-          location.reload();
-        },
-        error: function (xhr, status, error) {
-          console.log("資料傳送失敗");
-          console.log(error);
-        },
-      });
-    }
+  targetDiv.width(sourceWidth);
+  targetDiv.height(sourceHeight);
+  targetDiv.addClass("d-flex justify-content-center align-item-center");
+  filterConfirm = $("<p>").text("該課程難度過高").css({
+    color: "white",
   });
-}
 
-function deleteCourse(courseID) {
-  $.ajax({
-    url: "http://localhost:8080/ski/course_DL",
-    type: "POST",
-    data: { CourseID: courseID },
-    success: function (response) {
-      alert("刪除成功!");
-    },
-    error: function () {
-      console.log("error");
-    },
-  });
-}
-
-function resetInputState() {
-  $(
-    "#courseSkill, #courseLevel, #courseName, #courseLocation, #courseDate, #startDate, #endDate,#coursePrice,#courseMax,#courseMin,#courseStatus,#skiImage,#courseIntroduce"
-  ).removeClass("is-valid");
-  $(
-    "#courseSkill, #courseLevel, #courseName, #courseLocation, #courseDate, #startDate, #endDate,#coursePrice,#courseMax,#courseMin,#courseStatus,#skiImage,#courseIntroduce"
-  ).addClass("is-invalid");
-}
-
-function resetForm() {
-  resetInputState();
-
-  resetVal($(".form-control"));
-  resetOption($(".form-select"));
-
-  function resetVal(field) {
-    field.val("");
-  }
-
-  function resetOption(field) {
-    field.prop("selectedIndex", -1);
-  }
-
-  $("#originalImage").attr("src", "");
-}
-
-function getCourseInfo(courseID) {
-  $.ajax({
-    url: "http://localhost:8080/ski/course_GBI",
-    data: { courseID: courseID },
-    type: "POST",
-    dataType: "json",
-    success: function (response) {
-      const courseDate = moment(response.courseDate).format("YYYY-MM-DD");
-      const startDate = moment(response.startDate).format("YYYY-MM-DD");
-      const endDate = moment(response.endDate).format("YYYY-MM-DD");
-
-      $("#courseSkill").val(response.skill);
-      $("#courseLevel").val(response.level);
-      $("#courseName").val(response.courseName);
-      $("#courseLocation").val(response.skiLocation.pointID);
-      $("#courseDate").val(courseDate);
-      $("#startDate").val(startDate);
-      $("#endDate").val(endDate);
-      $("#coursePrice").val(response.coursePrice);
-      $("#courseMax").val(response.courseMax);
-      $("#courseMin").val(response.courseMin);
-      $("#courseStatus").val(response.courseStatus);
-
-      // $("#skiImage")[0].files[0];
-
-      const base64Image = btoa(
-        new Uint8Array(response.coursePhoto).reduce(
-          (data, byte) => data + String.fromCharCode(byte),
-          ""
-        )
-      );
-
-      const imageSrc = `data:image/png;base64,${base64Image}`;
-      document.getElementById("originalImage").src = imageSrc;
-      document.getElementById("originalImage").dataset.originalImage =
-        base64Image;
-
-      $("#courseIntroduce").val(response.courseIntroduce);
-    },
-    error: function () {
-      console.log("error");
-    },
-  });
-}
-
-function base64ToBlob(base64) {
-  var binary = atob(base64);
-  var bytes = new Uint8Array(binary.length);
-  for (var i = 0; i < binary.length; i++) {
-    bytes[i] = binary.charCodeAt(i);
-  }
-  return new Blob([bytes], { type: "image/png" });
-}
-
-function handleImageChange() {
-  const selectedImage = document.getElementById("coursePhoto").files[0];
-  if (selectedImage) {
-    const reader = new FileReader();
-    reader.onload = function (event) {
-      document.getElementById("originalImage").src = event.target.result;
-      document.getElementById("originalImage").dataset.originalImage =
-        event.target.result;
-    };
-    reader.readAsDataURL(selectedImage);
-  } else {
-    const originalImageURL =
-      document.getElementById("originalImage").dataset.originalImage;
-    document.getElementById("originalImage").src = originalImageURL;
-  }
+  targetDiv.html(filterConfirm);
 }
