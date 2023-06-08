@@ -42,11 +42,12 @@ $(document).ready(function () {
       });
     console.log(isValid);
     if (isValid) {
-      console.log("isValid2");
       // Get form values
       const courseSkill = document.getElementById("courseSkill").value;
       const courseLevel = document.getElementById("courseLevel").value;
       const courseName = document.getElementById("courseName").value;
+      const courseCoach = document.getElementById("courseCoach").value;
+		const coursePerson = document.getElementById("coursePerson").value;
       const courseLocation = document.getElementById("courseLocation").value;
       const courseDate = document.getElementById("courseDate").value;
       const startDate = document.getElementById("startDate").value;
@@ -76,11 +77,13 @@ $(document).ready(function () {
       formData.append("courseSkill", courseSkill);
       formData.append("courseLevel", courseLevel);
       formData.append("courseName", courseName);
+      formData.append("courseCoach", courseCoach);
       formData.append("courseLocation", courseLocation);
       formData.append("courseDate", courseDate);
       formData.append("startDate", startDate);
       formData.append("endDate", endDate);
       formData.append("coursePrice", coursePrice);
+       formData.append("coursePerson", coursePerson);
       formData.append("courseMax", courseMax);
       formData.append("courseMin", courseMin);
       formData.append("courseStatus", courseStatus);
@@ -95,6 +98,8 @@ $(document).ready(function () {
         contentType: false,
         success: function (response) {
           alert("更新成功");
+          window.location.href =
+            "http://localhost:8080/ski/course/backend_courseMain.html";
         },
         error: function () {
           alert("更新失敗");
@@ -124,6 +129,26 @@ function getCourseInfo() {
       });
 
       $("#courseLocation").append(option);
+
+      $.ajax({
+        url: "/ski/member/getAllCoach",
+        type: "GET",
+        processData: false,
+        contentType: false,
+        success: function (response) {
+          response.forEach(function (Data) {
+            userID = Data.userID;
+            var data = {
+              userID: userID,
+            };
+            var jsonData = JSON.stringify(data);
+            getCoachName(jsonData);
+          });
+        },
+        error: function () {
+          alert("新增失敗");
+        },
+      });
       const courseDate = moment(response.courseDate).format("YYYY-MM-DD");
       const startDate = moment(response.startDate).format("YYYY-MM-DD");
       const endDate = moment(response.endDate).format("YYYY-MM-DD");
@@ -131,11 +156,13 @@ function getCourseInfo() {
       $("#courseSkill").val(response.skill);
       $("#courseLevel").val(response.level);
       $("#courseName").val(response.courseName);
+      $("#courseCoach").val(response.coachID);
       $("#courseLocation").val(response.skiLocation.pointID);
       $("#courseDate").val(courseDate);
       $("#startDate").val(startDate);
       $("#endDate").val(endDate);
       $("#coursePrice").val(response.coursePrice);
+      $("#coursePerson").val(response.coursePerson);
       $("#courseMax").val(response.courseMax);
       $("#courseMin").val(response.courseMin);
       $("#courseStatus").val(response.courseStatus);
@@ -184,4 +211,28 @@ function handleImageChange() {
       document.getElementById("originalImage").dataset.originalImage;
     document.getElementById("originalImage").src = originalImageURL;
   }
+}
+
+function getCoachName(jsonData) {
+  $.ajax({
+    url: "/ski/member/getOneMember",
+    type: "POST",
+    data: jsonData,
+    processData: false,
+    contentType: false,
+    success: function (response) {
+      var CoachName = response.userName;
+      var userID = response.userID;
+
+      option = $("<option>", {
+        value: userID,
+        text: userID + " - " + CoachName,
+      });
+
+      $("#courseCoach").append(option);
+    },
+    error: function () {
+      alert("教練名稱取得失敗");
+    },
+  });
 }

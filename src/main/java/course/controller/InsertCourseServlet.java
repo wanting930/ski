@@ -30,10 +30,12 @@ public class InsertCourseServlet extends HttpServlet {
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			
 //			Integer courseID =  Integer.valueOf(request.getParameter("courseID"));
+			
 			System.out.println(request.getParameter("courseSkill"));
 			Integer courseSkill =  Integer.valueOf(request.getParameter("courseSkill"));
 			Integer courseLevel =  Integer.valueOf(request.getParameter("courseLevel"));
 	        String courseName = request.getParameter("courseName");
+	        Integer coachID =  Integer.valueOf(request.getParameter("courseCoach"));
 	        Integer courseLocation =  Integer.valueOf(request.getParameter("courseLocation"));
 	        
 	        Date courseDate = null;
@@ -70,6 +72,7 @@ public class InsertCourseServlet extends HttpServlet {
 //			course.setCourseID(courseID);
 			course.setSkill(courseSkill);
 			course.setLevel(courseLevel);
+			course.setCoachID(coachID);
 			course.setCourseName(courseName);
 			course.setPointID(courseLocation);
 			course.setCourseDate(courseDate);

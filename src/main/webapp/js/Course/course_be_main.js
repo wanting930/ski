@@ -8,11 +8,9 @@ document.addEventListener("DOMContentLoaded", function () {
     .getElementById("courseTableBody")
     .addEventListener("click", function (event) {
       if (event.target.classList.contains("btn-delete")) {
-        const courseID = event.target.dataset.courseId;
+        const courseID = $(this).closest('tbody').find('.courseID').text();
         deleteExc(courseID);
-      } else if (event.target.classList.contains("btn-edit")) {
-        const courseID = event.target.dataset.courseId;
-      }
+      } 
     });
 
   $("#serachbar").on("input", function () {
@@ -104,7 +102,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       row.innerHTML = `
-      <th scope="row">${course.courseID}</th>
+      <th scope="row" class="courseID">${course.courseID}</th>
       <td><img src='${imageSrc}' style="max-width: 150px; max-height: 80px;"></img></td>
       <td>${course.coachID}</td>
       <td>${courseSkill}</td>
@@ -136,13 +134,13 @@ document.addEventListener("DOMContentLoaded", function () {
           console.success(data);
         },
         error: function (error) {
-          console.error(error);
+          console.log(error);
         },
       });
-      alarm("刪除成功");
+      alert ("刪除成功");
       AllCrouseRequsest();
     } else {
-      alarm("刪除失敗");
+      alert ("刪除失敗");
     }
   }
 });

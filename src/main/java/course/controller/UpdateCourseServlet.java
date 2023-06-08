@@ -36,6 +36,8 @@ public class UpdateCourseServlet extends HttpServlet {
 		Integer courseID =  Integer.valueOf(request.getParameter("courseID"));
 		Integer courseSkill =  Integer.valueOf(request.getParameter("courseSkill"));
 		Integer courseLevel =  Integer.valueOf(request.getParameter("courseLevel"));
+		Integer coachID =  Integer.valueOf(request.getParameter("courseCoach"));
+		Integer coursePerson =  Integer.valueOf(request.getParameter("coursePerson"));
         String courseName = request.getParameter("courseName");
         Integer courseLocation =  Integer.valueOf(request.getParameter("courseLocation"));
         
@@ -50,8 +52,7 @@ public class UpdateCourseServlet extends HttpServlet {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-        
-        Integer coursePrice = Integer.valueOf(request.getParameter("coursePrice"));
+		Integer coursePrice = Integer.valueOf(request.getParameter("coursePrice"));
         Integer courseMax =  Integer.valueOf(request.getParameter("courseMax"));
         Integer courseMin =  Integer.valueOf(request.getParameter("courseMin"));
         Integer courseStatus =  Integer.valueOf(request.getParameter("courseStatus"));       
@@ -86,11 +87,13 @@ public class UpdateCourseServlet extends HttpServlet {
 		course.setSkill(courseSkill);
 		course.setLevel(courseLevel);
 		course.setCourseName(courseName);
+		course.setCoachID(coachID);
 		course.setPointID(courseLocation);
 		course.setCourseDate(courseDate);
 		course.setStartDate(startDate);
 		course.setEndDate(endDate);
 		course.setCoursePrice(coursePrice);
+		course.setCoursePerson(coursePerson);
 		course.setCourseMax(courseMax);
 		course.setCourseMin(courseMin);
 		course.setCourseStatus(courseStatus);
