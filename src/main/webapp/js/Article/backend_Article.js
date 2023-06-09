@@ -17,7 +17,7 @@ var articleTypeContent = "";
 
 //顯示全部
 $(document).ready(function init() {
-
+    
     console.log("js載入成功");
     $.ajax({
         url: "http://localhost:8080/ski/BackendArticle",

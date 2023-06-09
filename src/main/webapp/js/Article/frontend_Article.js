@@ -10,12 +10,17 @@ var articleStatus1 = "";
 var saveUserName1 = "";
 var saveArticleTypeContent1 = "";
 var savearticleTitle = sessionStorage.getItem("savearticleTitle");
+const saveUserID = sessionStorage.getItem("userID");
 
 //顯示全部(同步)
 //根據你提供的程式碼，我們可以看到你在迴圈中執行了多個 Ajax 請求，這可能導致請求完成的順序不確定，因為 Ajax 請求是非同步的。如果你想確保請求完成的順序與迴圈的順序相符，你可以使用 Promise 或 async/await 進行同步處理。
 $(document).ready(async function init() {
     console.log("js載入成功");
-
+    if(saveUserID==null){
+        var button = document.querySelector('button.btn_addArticle');
+        button.setAttribute('disabled','disabled');
+        // $("button.btn_addArticle").addClass("-disabled")
+    }
     try {
         const response = await $.ajax({
             url: "http://localhost:8080/ski/FrontendArticle",
