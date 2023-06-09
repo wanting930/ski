@@ -11,6 +11,7 @@ var saveUserName = "";
 var saveArticleTypeContent = "";
 var savearticleID = sessionStorage.getItem("articleID");
 var savearticleTitle = sessionStorage.getItem("articleTitle");
+const saveUserID = sessionStorage.getItem("userID");
 var savearticleLike = 0;
 var savecomment = 0;
 var commentShow = "hidden";
@@ -45,7 +46,7 @@ $(document).ready(async function init() {
                 url: "http://localhost:8080/ski/FrontendArticle",
                 type: "Post",
                 data: {
-                    "userID": userID,
+                    "userID": saveUserID,
                     "action": "getMemberUserName"
                 },
                 dataType: "json",
@@ -180,7 +181,7 @@ function myFunction(x) {
                     },
                     dataType: "json",
                     success: function (data) {
-                        savearticleLike = Number($("i.fa").text()) + 1;
+                        savearticleLike = Number($("i.fa.fa-thumbs-up").text()) + 1;
                         $.ajax({
                             url: "http://localhost:8080/ski/FrontendArticle",
                             type: "Post",
@@ -199,7 +200,7 @@ function myFunction(x) {
                             dataType: "json",
                             success: function (data) {
                                 console.log("按讚");
-                                const likeCountElement = document.querySelector('i.fa');
+                                const likeCountElement = document.querySelector('i.fa.fa-thumbs-up');
                                 likeCountElement.textContent = savearticleLike;
                             }
                         });
@@ -218,7 +219,7 @@ function myFunction(x) {
                     },
                     dataType: "json",
                     success: function (data) {
-                        savearticleLike = Number($("i.fa").text()) - 1;
+                        savearticleLike = Number($("i.fa.fa-thumbs-up").text()) - 1;
                         $.ajax({
                             url: "http://localhost:8080/ski/FrontendArticle",
                             type: "Post",
@@ -237,7 +238,7 @@ function myFunction(x) {
                             dataType: "json",
                             success: function (data) {
                                 console.log("收讚");
-                                const likeCountElement = document.querySelector('i.fa'); // 即時更新畫面的按讚數
+                                const likeCountElement = document.querySelector('i.fa.fa-thumbs-up'); // 即時更新畫面的按讚數
                                 likeCountElement.textContent = savearticleLike;
                             }
                         });
@@ -478,7 +479,7 @@ function openReportForm() {
             type: "Post",
             data: {
                 "articleID": articleID1,
-                "userID": userID1,
+                "userID": saveUserID,
                 "reportContent": reportReason,
                 "action": "addReportContent"
             },

@@ -38,5 +38,23 @@
     text-decoration: none;
 }
 
-
+.content {
+    position: relative;
+  }
   
+  .text-wrapper {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .image-wrapper {
+    position: absolute;
+    top: 0;
+    right: 0;
+    pointer-events: none; /* 確保圖片不會干擾到輸入框的操作 */
+  }
+  
+  .image-wrapper img {
+    max-width: 100%;
+    max-height: 100%;
+  }

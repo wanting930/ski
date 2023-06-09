@@ -16,7 +16,7 @@ $(document).ready(function init() {
         success: function (data) {
             // console.log(data.length);
             console.log("前端文章發文載入成功");
-            console.log(saveUserID);
+            // console.log(saveUserID);
             for (let i = 1; i < data.length; i++) {
                 let list_html = "";
                 let articleTypeID = data[i].articleTypeID;
@@ -30,6 +30,45 @@ $(document).ready(function init() {
         }
     });
 });
+
+const textarea = document.getElementById('text');
+const imageWrapper = document.querySelector('.image-wrapper');
+
+textarea.addEventListener('input', function() {
+    const textareaRect = textarea.getBoundingClientRect();
+    imageWrapper.style.top = `${textareaRect.top}px`;
+    imageWrapper.style.right = `${window.innerWidth - textareaRect.right}px`;
+});
+
+//上傳圖片
+// $("#uploadForm").submit(function (event) {
+//     event.preventDefault(); // 阻止表單的默認提交行為
+
+//     // 取得選擇的圖片檔案
+//     var imageFile = $("#imageFile")[0].files[0];
+
+//     // 建立 FormData 物件
+//     var formData = new FormData();
+//     formData.append("imageFile", imageFile); // 將圖片檔案添加到 FormData
+
+//     // 發送 Ajax 請求
+//     $.ajax({
+//         url: "http://localhost:8080/ski/UploadServlet",
+//         type: "Post",
+//         data: formData,
+//         contentType: false,
+//         processData: false,
+//         success: function (response) {
+//             console.log("圖片上傳成功");
+//             console.log(response); // 處理回應
+//         },
+//         error: function (xhr, status, error) {
+//             console.log("圖片上傳失敗");
+//             console.log(error); // 處理錯誤
+//         }
+//     });
+// });
+
 
 //新增文章
 $("button.add").on("click", function () {

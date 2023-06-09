@@ -1,4 +1,5 @@
-var saveReportID = sessionStorage.getItem("saveReportID");
+const saveReportID = sessionStorage.getItem("saveReportID");
+// const saveUserID = sessionStorage.getItem("userID");
 // var saveReportID = 2;
 var reportID1 = 1;
 var articleID1 = 1;
@@ -8,6 +9,7 @@ var reportStatus1 = "";
 var reportResponse1 = "";
 var number = 0;
 var repeat = 0;
+var saveMemberEmail = "";
 
 
 
@@ -107,6 +109,7 @@ $(document).ready(function init() {
 
     })
 });
+
 //修改狀態1(檢舉處理回覆)
 $("#type").on("click", "button.btn_update", function () {
     console.log("檢舉處理回覆囉!");
@@ -127,36 +130,52 @@ $("#type").on("click", "button.btn_update", function () {
             },
             dataType: "json",
             success: function (data) {
-                alert("檢舉處理成功");
+                
             },
             error: function (err) {
                 console.log("後端檢舉處理修改失敗");
                 console.log(err);
             }
-        })
-        $.ajax({ //傳email(還沒寫好)
-            url: "http://localhost:8080/ski/SendEmailServlet",
+        });
+        $.ajax({
+            url: "http://localhost:8080/ski/FrontendArticle",
             type: "Post",
             data: {
-                "email":"masterAreYouSureStart",
-                "subject":"test",
-                "message":"師傅你確定要拍嗎?"
+                "userID": userID1,
+                "action": "getMemberUserName"
             },
             dataType: "json",
             success: function (data) {
-                alert("Email傳送成功");
-                window.location.href = "http://localhost:8080/ski/article/backend_Report.html";
-            },
-            error: function (err) {
-                console.log("Email傳送失敗");
-                console.log(err);
+                saveMemberEmail = data.email;
+                console.log(saveMemberEmail);
+                $.ajax({ //傳email
+                    url: "http://localhost:8080/ski/SendEmailServlet",
+                    type: "Post",
+                    data: {
+                        "email":saveMemberEmail,
+                        "subject":"Let's go skiing 檢舉回覆",
+                        "message":task_text
+                    },
+                    success: function (data) {
+                        // alert("Email傳送成功");
+                        // console.log(saveMemberEmail);
+                        alert("檢舉處理成功");
+                        window.location.href = "http://localhost:8080/ski/article/backend_Report.html";
+                    },
+                    error: function (err) {
+                        console.log("Email傳送失敗");
+                        // console.log(saveMemberEmail);
+                        console.log(err);
+                    }
+                })
             }
-        })
-        
+        });
+
     }else if(task_text == ""){
         alert("檢舉回覆不可為空白");
     }
 });
+
 
 //已送出檢舉回覆，返回上一頁(已經回覆)
 $("#type").on("click", "button.btn_finish", function () {
