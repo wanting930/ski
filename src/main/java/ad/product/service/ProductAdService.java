@@ -3,6 +3,7 @@ package ad.product.service;
 import java.util.List;
 
 import ad.product.vo.ProductAd;
+import ad.product.vo.ProductDTO;
 import product.vo.Product;
 
 public interface ProductAdService {
@@ -18,5 +19,9 @@ public interface ProductAdService {
 
 	//模糊查詢商品
 	List<Product> search(String keyword);
+	
+	List<ProductDTO> productAdList();
+	
+	 List<Product> Topten();
 
 }

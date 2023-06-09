@@ -14,9 +14,11 @@ public interface CourseAdService {
 
 	public int deleteAd(Integer id);
 
-	public List<Course> getCourse();
+	public List<CourseDTO> getCourse();
 
 	public List<Course> search(String keyword);
 
 	List<CourseDTO> courseAdlist();
+	
+	CourseAd selectAd(Integer id);
 }

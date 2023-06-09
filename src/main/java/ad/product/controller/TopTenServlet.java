@@ -1,7 +1,7 @@
-package qa.controller;
+package ad.product.controller;
 
 import java.io.IOException;
-import java.sql.Timestamp;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,15 +9,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.JsonObject;
+import com.google.gson.Gson;
 
-import qa.service.QaService;
-import qa.service.Impl.QaServiceImpl;
+import ad.product.service.ProductAdService;
+import ad.product.service.Impl.ProductAdServiceImpl;
+import core.util.GsonUtils;
+import product.vo.Product;
 
-@WebServlet("/qa/insertQa")
-public class InsertServlet extends HttpServlet {
+
+@WebServlet("/ad/topTen")
+public class TopTenServlet extends HttpServlet{
+
 	private static final long serialVersionUID = 1L;
-	private QaService service = new QaServiceImpl();
+
+	private ProductAdService serv = new ProductAdServiceImpl();
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -30,19 +35,10 @@ public class InsertServlet extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		resp.setContentType("application/json;charset=UTF-8");
 
-		// 獲取前端傳遞的資料
-		Integer questionType = Integer.parseInt(req.getParameter("questionType"));
-		String questionTitle = req.getParameter("questionTitle");
-		String answerContent = req.getParameter("answerContent");
-		Timestamp questionDate = new Timestamp(System.currentTimeMillis());
 
-		// 呼叫 service 的 insert() 方法建立新的 qa 物件
-		int res = service.insert(questionType, questionTitle, answerContent, questionDate);
-		 JsonObject jsonObject = new JsonObject();
-		 jsonObject.addProperty("status", "success");
-		 if(res<0) resp.getWriter().println(jsonObject.toString());
+		resp.getWriter().print(GsonUtils.toJson(serv.Topten()));
 
-
+		
 	}
 
 	@Override

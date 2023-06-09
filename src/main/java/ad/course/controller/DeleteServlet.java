@@ -13,6 +13,7 @@ import com.google.gson.JsonObject;
 
 import ad.course.service.CourseAdService;
 import ad.course.service.Impl.CourseAdServiceImpl;
+import ad.course.vo.CourseAd;
 
 @WebServlet("/ad/courseAdDelete")
 @MultipartConfig
@@ -20,7 +21,7 @@ public class DeleteServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 //	 public void init() {
-	CourseAdService Service = new CourseAdServiceImpl();
+	private CourseAdService Service = new CourseAdServiceImpl();
 
 //	 }
 	@Override
@@ -40,8 +41,10 @@ public class DeleteServlet extends HttpServlet {
 		resp.setContentType("application/json;charset=UTF-8");
 
 		Integer cAdid = Integer.valueOf(req.getParameter("cAdId"));
-		System.out.println(cAdid);
+//		System.out.println(cAdid);
 //		Service.deleteAd(cAdid);
+		
+		
 		 int result = Service.deleteAd(cAdid);
 		 JsonObject jsonObject = new JsonObject();
 		 jsonObject.addProperty("status", "success");

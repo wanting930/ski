@@ -8,10 +8,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.JsonObject;
+
 import ad.product.service.ProductAdService;
 import ad.product.service.Impl.ProductAdServiceImpl;
 
-@WebServlet("/productAdinsert")
+@WebServlet("/ad/productAdinsert")
 public class InsertAdServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -29,8 +31,12 @@ public class InsertAdServlet extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		resp.setContentType("application/json;charset=UTF-8");
 
-		Integer pId = Integer.parseInt(req.getParameter("cId"));
+		Integer pId = Integer.parseInt(req.getParameter("pAdId"));
 		serv.insert(pId);
+		 JsonObject jsonObject = new JsonObject();
+		 jsonObject.addProperty("status", "success");
+		 resp.getWriter().println(jsonObject.toString());
+
 	}
 
 	@Override

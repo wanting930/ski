@@ -42,9 +42,9 @@ public class CourseAdServiceImpl implements CourseAdService {
 		return courseDTOs;
 	}
 
-//	public courseAd selectAd(Integer id) {
-//		return dao.selectAd(id);
-//	}
+	public CourseAd selectAd(Integer id) {
+		return dao.selectAd(id);
+	}
 
 	// 新增
 	public CourseAd insertAd(Integer courseId) {
@@ -56,9 +56,13 @@ public class CourseAdServiceImpl implements CourseAdService {
 
 	// 刪除
 	public int deleteAd(Integer id) {
-
+		
+		System.out.println(id);
+		CourseAd cAd = dao.selectAd(id);
+		
+		
 		CourseAdHistory cAdHistory = new CourseAdHistory();
-		cAdHistory.setCourseID(id);
+		cAdHistory.setCourseID(cAd.getCourseID());
 		cAdHistory.setHistoryDateTime(new Timestamp(System.currentTimeMillis()));
 		hDao.insert(cAdHistory);
 
@@ -67,7 +71,7 @@ public class CourseAdServiceImpl implements CourseAdService {
 	}
 
 	// 取全部課程
-	public List<Course> getCourse() {
+	public List<CourseDTO> getCourse() {
 		return dao.selectActiveCourse();
 	}
 

@@ -8,7 +8,7 @@ import qa.vo.Qa;
 public interface QaService {
 
 	// new
-	Qa insert(Integer questionType, String questionTitle, String answerContent, Timestamp questionDate);
+	int insert(Integer questionType, String questionTitle, String answerContent, Timestamp questionDate);
 
 	// delete
 	boolean remove(Integer id);

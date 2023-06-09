@@ -12,7 +12,7 @@ import ad.product.service.ProductAdService;
 import ad.product.service.Impl.ProductAdServiceImpl;
 import core.util.GsonUtils;
 
-@WebServlet("/productAdServlet")
+@WebServlet("/ad/productAdList")
 public class ProductAdlistServlet extends HttpServlet {
 	private static final long serialVersionUID = 2325585622213783096L;
 	private ProductAdService serv = new ProductAdServiceImpl();
@@ -28,7 +28,7 @@ public class ProductAdlistServlet extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		resp.setContentType("application/json;charset=UTF-8");
 
-		resp.getWriter().print(GsonUtils.toJson(serv.getProducts()));
+		resp.getWriter().print(GsonUtils.toJson(serv.productAdList()));
 	}
 
 	@Override

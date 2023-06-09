@@ -23,7 +23,7 @@ public class CourseAd {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer courseAD;
-	@Column(insertable = false)
+	@Column
 	private Integer courseID;
 
 }

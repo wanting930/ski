@@ -13,13 +13,14 @@ import com.google.gson.Gson;
 
 import ad.product.service.ProductAdService;
 import ad.product.service.Impl.ProductAdServiceImpl;
+import antlr.collections.impl.LList;
 import product.vo.Product;
 
-@WebServlet("/productAdSearch")
+@WebServlet("/ad/productAdSearch")
 public class SearchAdServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	ProductAdService serv = new ProductAdServiceImpl();
+	private ProductAdService serv = new ProductAdServiceImpl();
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -34,17 +35,13 @@ public class SearchAdServlet extends HttpServlet {
 
 		String input = req.getParameter("input");
 
-		if (input != null && !input.isEmpty()) {
 			List<Product> result = serv.search(input);
 
 			resp.setContentType("application/json");
 			Gson gson = new Gson();
 			String json = gson.toJson(result);
 			resp.getWriter().print(json);
-		} else {
-			resp.getWriter().print("請輸入關鍵字");
-
-		}
+		
 	}
 
 	@Override

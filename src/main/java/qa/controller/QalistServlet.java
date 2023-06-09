@@ -12,7 +12,7 @@ import core.util.GsonUtils;
 import qa.service.QaService;
 import qa.service.Impl.QaServiceImpl;
 
-@WebServlet("/qalistServlet")
+@WebServlet("/qa/qalistServlet")
 public class QalistServlet extends HttpServlet {
 	private static final long serialVersionUID = 7113413569589284935L;
 	private QaService serv = new QaServiceImpl();

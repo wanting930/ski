@@ -4,21 +4,22 @@ import java.util.List;
 
 import org.hibernate.query.Query;
 
-import ad.product.dao.ProductDao;
-//>>>>>>> e6638a84f6a961976edf1a7acf72d24bfb983847
+import ad.product.dao.ProductAdDao;
 import ad.product.vo.ProductAd;
 import product.vo.Product;
 
-public class ProductAdDaoImpl implements ProductDao {
+public class ProductAdDaoImpl implements ProductAdDao {
 
 //	getSession() getSession() = HibernateUtil.getgetSession()Factory().getCurrentgetSession()();
 
+	//新增
 	@Override
 	public int insert(ProductAd ProductAd) {
 		getSession().persist(ProductAd);
 		return -1;
 	}
 
+	//刪除
 	@Override
 	public int delete(Integer id) {
 		ProductAd pAd = getSession().get(ProductAd.class, id);
@@ -26,7 +27,7 @@ public class ProductAdDaoImpl implements ProductDao {
 		return 1;
 	}
 
-	// 新增
+	//修改
 	@Override
 	public int update(ProductAd ProductAd) {
 		getSession().update(ProductAd);
@@ -39,11 +40,17 @@ public class ProductAdDaoImpl implements ProductDao {
 		return getSession().get(ProductAd.class, id);
 	}
 
+	//選全廣告
+	public List<ProductAd> selectAllAd() {
+		return getSession().createQuery("FROM ProductAd", ProductAd.class).list();
+	}
+	
 	// 選全商品
 	public List<ProductAd> selectAllProduct() {
-		return getSession().createQuery("from ProductAd", ProductAd.class).list();
+		return getSession().createQuery("FROM ProductAd", ProductAd.class).list();
 	}
 
+	//模糊查詢
 	public List<Product> searchProduct(String keyword) {
 		String hql = "FROM Product WHERE " + "productName LIKE :keyword " + "OR productDetail LIKE :keyword "
 				+ "OR productClass LIKE :keyword";
@@ -52,15 +59,23 @@ public class ProductAdDaoImpl implements ProductDao {
 		return query.getResultList();
 	}
 
+	//前十名商品
 	public List<Product> selectTopTenProducts() {
 		String hql = "FROM Product ORDER BY productBuyPerson DESC";
 		Query<Product> query = getSession().createQuery(hql, Product.class);
 		return query.getResultList();
 	}
 
+	//上架商品
 	public List<Product> selectSaleProducts() {
-		String hql = "FROM Product WHERE productStatus=0";
+		String hql = "SELECT p FROM Product p WHERE p.productID NOT IN (SELECT pAd.productID FROM ProductAd pAd)"
+				+ "AND productStatus LIKE '%上架%'";
 		Query<Product> query = getSession().createQuery(hql, Product.class);
 		return query.getResultList();
+	}
+	
+	//取商品
+	public Product selectProduct(Integer id) {
+		return getSession().get(Product.class,id);
 	}
 }
