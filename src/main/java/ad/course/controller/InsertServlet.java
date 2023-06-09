@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.JsonObject;
+
 import ad.course.service.CourseAdService;
 import ad.course.service.Impl.CourseAdServiceImpl;
 
@@ -17,7 +19,7 @@ public class InsertServlet extends HttpServlet {
 	//	courseAdService cAdService;
 //	public void init() throws ServletException {
 //		cAdService = new courseAdServiceImpl();
-	CourseAdService Serv = new CourseAdServiceImpl();
+	private CourseAdService Serv = new CourseAdServiceImpl();
 
 //	}
 	@Override
@@ -33,7 +35,10 @@ public class InsertServlet extends HttpServlet {
 
 		Integer cId = Integer.parseInt(req.getParameter("cId"));
 		Serv.insertAd(cId);
-		resp.getWriter().print(333);
+		 JsonObject jsonObject = new JsonObject();
+		 jsonObject.addProperty("status", "success");
+		 resp.getWriter().println(jsonObject.toString());
+
 	}
 
 	@Override

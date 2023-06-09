@@ -108,7 +108,7 @@ import course.entity.Course;
 			public List<Course> GetCoachCourse(Integer coachID) {
 				String hql = "FROM Course WHERE coachID = :coachID ";			    
 				Query<Course> query = getSession().createQuery(hql, Course.class);   
-				query.setParameter("coachID", "%" + coachID + "%");	
+				query.setParameter("coachID",  coachID  );	
 	        	List<Course> resultList = query.getResultList();		        	
 	        	return resultList; 	
 			}

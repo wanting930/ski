@@ -6,6 +6,7 @@ import org.hibernate.query.Query;
 
 import ad.course.dao.CourseAdDao;
 import ad.course.vo.CourseAd;
+import ad.course.vo.CourseDTO;
 import course.entity.Course;
 
 public class CourseAdDaoImpl implements CourseAdDao {
@@ -32,7 +33,7 @@ public class CourseAdDaoImpl implements CourseAdDao {
 		
 		System.out.println(cAd);
 		getSession().remove(cAd);
-		return 1;
+		return -1;
 	}
 
 	// ???
@@ -44,8 +45,8 @@ public class CourseAdDaoImpl implements CourseAdDao {
 
 	@Override
 	public CourseAd selectAd(Integer id) {
-//		return getSession().get(CourseAd.class, id);
-		return getSession().get(CourseAd.class, id);
+		System.out.println(id);
+		return getSession().get(CourseAd.class,id);
 	}
 
 	@Override
@@ -58,18 +59,32 @@ public class CourseAdDaoImpl implements CourseAdDao {
 	}
 
 	public List<Course> searchCourses(String keyword) {
-		String hql = "FROM Course WHERE " + "courseName LIKE :keyword " + "OR level LIKE :keyword "
-				+ "OR skill LIKE :keyword";
+		String hql = "SELECT c FROM Course c "
+				+ "WHERE c.courseID NOT IN (SELECT cAd.courseID FROM CourseAd cAd) "
+				+ "AND c.startDate <= CURRENT_TIMESTAMP() "
+				+ "AND c.endDate > CURRENT_TIMESTAMP()"		
+				+ "AND "
+				+ "(level = :keyint "
+				+ "OR skill = :keyint "				
+				+ "OR courseName LIKE :keyword)";
+
 		Query<Course> query = getSession().createQuery(hql, Course.class);
+		Integer keyint = Integer.parseInt(keyword);
 		query.setParameter("keyword", "%" + keyword + "%");
+		query.setParameter("keyint", keyint);
 		return query.getResultList();
 
 	}
 
-	public List<Course> selectActiveCourse() {
-		String hql = "FROM Course \r\n" + "WHERE startDate <= CURRENT_TIMESTAMP() AND endDate > CURRENT_TIMESTAMP()";
-		Query<Course> query = getSession().createQuery(hql, Course.class);
-		return query.getResultList();
+	public List<CourseDTO> selectActiveCourse() {
+		String hql = "SELECT c FROM Course c "
+				+ "WHERE c.courseID NOT IN (SELECT cAd.courseID FROM CourseAd cAd) "
+				+ "AND c.startDate <= CURRENT_TIMESTAMP() "
+				+ "AND c.endDate > CURRENT_TIMESTAMP()";		
+	Query query = getSession().createQuery(hql);
+	List<CourseDTO> results = query.list();
+
+		return results;
 	}
 
 	public Course getInfoByID(Integer courseID) {

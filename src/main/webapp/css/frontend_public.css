@@ -34,10 +34,10 @@
     font-weight: bold;
 }
 
-.container{
-    /* 便於編輯(觀察)，完成後可刪除 */
-    border: 2px solid red;
-}
+/* .container{ */
+/*     便於編輯(觀察)，完成後可刪除 */
+/*     border: 2px solid red; */
+/* } */
 
 .footer{
     background-color: #073642 

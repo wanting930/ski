@@ -16,7 +16,7 @@ public interface CourseCarService {
 	JSONArray listCourseCar(Integer userID);
 
 	// 加入購物車
-	void addCar(CourseCar courseCar);
+	boolean addCar(CourseCar courseCar);
 
 	// 從購物車移除
 	JSONObject removeCar(Integer userID, Integer courseID);

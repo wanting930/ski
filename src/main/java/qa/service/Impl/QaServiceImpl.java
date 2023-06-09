@@ -3,6 +3,7 @@ package qa.service.Impl;
 import java.sql.Timestamp;
 import java.util.List;
 
+import qa.dao.QaDao;
 import qa.dao.Impl.QaDaoImpl;
 //>>>>>>> e6638a84f6a961976edf1a7acf72d24bfb983847
 import qa.service.QaService;
@@ -10,26 +11,25 @@ import qa.vo.Qa;
 
 public class QaServiceImpl implements QaService {
 
-	private QaDaoImpl dao;
+	private QaDao dao = new QaDaoImpl(); 
 
-	public QaServiceImpl() {
-		dao = new QaDaoImpl();
-	}
 
 	// new
 	@Override
-	public Qa insert(Integer questionType, String questionTitle, String answerContent, Timestamp questionDate) {
+	public int insert(Integer questionType, String questionTitle, String answerContent, Timestamp questionDate) {
 		Qa qa = new Qa();
 		qa.setQuestionType(questionType);
 		qa.setQuestionTitle(questionTitle);
 		qa.setAnswerContent(answerContent);
 		qa.setQuestionDate(questionDate);
-		return qa;
-	}
+		
+		return dao.insert(qa);
+		}
 
 	// delete
 	@Override
 	public boolean remove(Integer id) {
+		System.out.println(id);
 		return dao.deleteById(id) > 0;
 	}
 

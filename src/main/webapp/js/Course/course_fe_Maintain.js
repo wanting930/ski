@@ -1,7 +1,11 @@
 $(document).ready(function () {
-  var courseID;
+  const urlParams = new URLSearchParams(window.location.search);
+  const userID = sessionStorage.getItem("userID");
+  var data = { userID: userID };
+  var jsonData = JSON.stringify(data);
+  getCoachID(jsonData);
+  locSelctBuild();
 
-  getAllCourse();
   resetInputState();
 
   // 綁定欄位輸入事件
@@ -13,7 +17,7 @@ $(document).ready(function () {
 
   $("#insert_btn").on("click", function (event) {
     resetForm();
-    courseID;
+    var courseID;
     merge(courseID);
   });
 
@@ -47,46 +51,6 @@ $(document).ready(function () {
     .addEventListener("change", handleImageChange);
 });
 
-function getCoachID(memberId) {
-  $.ajax({
-    url: "http://localhost:8080/ski/",
-    type: "POST",
-    data: { memberId: memberId },
-    success: function (response) {
-      coach = response.coachId;
-    },
-    error: function () {
-      console.log("error");
-    },
-  });
-}
-
-function getAllCourse() {
-  $.ajax({
-    url: "http://localhost:8080/ski/course_GA",
-    // url:　"http://localhost:8080/ski/course_GCC",
-    //data:{coachID : coachID},
-    type: "POST",
-    dataType: "json",
-    success: function (response) {
-      // 地點選單生成
-      if (response) {
-        option = $("<option>", {
-          value: response[0].skiLocation.pointID,
-          text: response[0].skiLocation.pointName,
-        });
-      }
-
-      $("#courseLocation").append(option);
-
-      renderCourse(response);
-    },
-    error: function () {
-      console.log("error");
-    },
-  });
-}
-
 function renderCourse(Course) {
   Course.forEach((course) => {
     //刪除按鈕生成
@@ -107,8 +71,7 @@ function renderCourse(Course) {
 
     const base64Image = btoa(
       new Uint8Array(course.coursePhoto).reduce(
-        (data, byte) => data + String.fromCharCode(byte),
-        ""
+        (data, byte) => data + String.fromCharCode(byte)
       )
     );
     const imageSrc = `data:image/png;base64,${base64Image}`;
@@ -203,19 +166,21 @@ function bringInfoState() {
 function merge(courseID) {
   $("#submit_btn").on("click", function (event) {
     event.preventDefault();
-
     if ($(".is-invalid").length > 0) {
       alert("請填寫完整資料！");
     } else {
-      exist = false;
-      method = "IS";
       if (courseID) {
         exist = true;
+      } else {
+        exist = false;
+        method = "IS";
       }
 
+	var coursePerson = $("#coursePerson").val();
       var courseSkill = $("#courseSkill").val();
       var courseLevel = $("#courseLevel").val();
       var courseName = $("#courseName").val();
+      var courseCoach = $("#courseCoach").val();
       var courseLocation = $("#courseLocation").val();
       var courseDate = $("#courseDate").val();
       var startDate = $("#startDate").val();
@@ -226,10 +191,12 @@ function merge(courseID) {
       var courseStatus = $("#courseStatus").val();
       var coursePhoto = $("#coursePhoto")[0].files[0];
       var courseIntroduce = $("#courseIntroduce").val();
-
+	
       var formData = new FormData();
+
       formData.append("courseSkill", courseSkill);
       formData.append("courseLevel", courseLevel);
+      formData.append("courseCoach", courseCoach);
       formData.append("courseName", courseName);
       formData.append("courseLocation", courseLocation);
       formData.append("courseDate", courseDate);
@@ -241,13 +208,12 @@ function merge(courseID) {
       formData.append("courseStatus", courseStatus);
       formData.append("coursePhoto", coursePhoto);
       formData.append("courseIntroduce", courseIntroduce);
+
       if (exist) {
         formData.append("courseID", courseID);
+        formData.append("coursePerson", coursePerson);
         method = "UD";
       }
-
-      console.log("formData" + formData);
-      console.log("method" + method);
 
       $.ajax({
         url: "http://localhost:8080/ski/course_" + method,
@@ -274,7 +240,10 @@ function deleteCourse(courseID) {
     type: "POST",
     data: { CourseID: courseID },
     success: function (response) {
-      alert("刪除成功!");
+    alert("刪除成功!");
+    //刷新結果
+    location.reload();
+      
     },
     error: function () {
       console.log("error");
@@ -308,6 +277,7 @@ function resetForm() {
   $("#originalImage").attr("src", "");
 }
 
+//帶入原資料供更新使用
 function getCourseInfo(courseID) {
   $.ajax({
     url: "http://localhost:8080/ski/course_GBI",
@@ -318,7 +288,7 @@ function getCourseInfo(courseID) {
       const courseDate = moment(response.courseDate).format("YYYY-MM-DD");
       const startDate = moment(response.startDate).format("YYYY-MM-DD");
       const endDate = moment(response.endDate).format("YYYY-MM-DD");
-
+		$("#coursePerson").val(response.coursePerson);
       $("#courseSkill").val(response.skill);
       $("#courseLevel").val(response.level);
       $("#courseName").val(response.courseName);
@@ -377,4 +347,62 @@ function handleImageChange() {
       document.getElementById("originalImage").dataset.originalImage;
     document.getElementById("originalImage").src = originalImageURL;
   }
+}
+
+function locSelctBuild() {
+  //地點選單
+  $(document).ready(function () {
+    $.ajax({
+      url: "/ski/loc/backend_selectmap",
+      type: "GET",
+      contentType: false,
+      success: function (response) {
+        response.forEach(function (Data) {
+          option = $("<option>", {
+            value: Data.pointID,
+            text: Data.pointName,
+          });
+
+          $("#courseLocation").append(option);
+        });
+      },
+      error: function () {
+        alert("新增失敗");
+      },
+    });
+  });
+}
+
+//取得教練ID
+function getCoachID(jsonData) {
+  $.ajax({
+    url: "/ski/member/coachInfo",
+    type: "POST",
+    processData: false,
+    contentType: false,
+    data: jsonData,
+    success: function (response) {
+      $("#courseCoach").val(response.coachID);
+      getCoachCourse(response.coachID);
+    },
+    error: function () {
+      alert("新增失敗");
+    },
+  });
+}
+
+//帶出用戶開設的相關課程
+function getCoachCourse(coachID) {
+  $.ajax({
+    url: "http://localhost:8080/ski/course_GCC",
+    data: { coachID: coachID },
+    type: "POST",
+    dataType: "json",
+    success: function (response) {
+      renderCourse(response);
+    },
+    error: function () {
+      console.log("error");
+    },
+  });
 }

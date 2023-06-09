@@ -18,5 +18,17 @@ public class CourseDTO {
     private String courseName;
     private Date startDate;
     private Date endDate;
+    private String courseIntroduce;
+    private Integer courseMax;
+    private Integer courseMin;
+    private Integer coursePerson;
+    private Integer coursePrice;
+    private byte[] coursePhoto;
+    private Integer level;   
+    private Integer coachID;
+    private Integer skill;
+    private Integer pointID;
+    private Date courseDate;
+    private Integer courseStatus;
 
 }

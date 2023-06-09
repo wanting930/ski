@@ -8,12 +8,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.JsonObject;
+
 import qa.service.QaService;
 import qa.service.Impl.QaServiceImpl;
 
-@WebServlet("/deleteQa")
+@WebServlet("/qa/deleteQa")
 public class DeleteServlet extends HttpServlet {
-	private static final long serialVersionUID = -2429064100428696905L;
+	private static final long serialVersionUID = 1L;
 	private QaService service = new QaServiceImpl();
 
 	@Override
@@ -26,6 +28,16 @@ public class DeleteServlet extends HttpServlet {
 		// 設置返回格式
 		req.setCharacterEncoding("UTF-8");
 		resp.setContentType("application/json;charset=UTF-8");
+		
+		
+		System.out.println(req.getParameter("qa"));
+		
+		boolean result = service.remove(Integer.parseInt(req.getParameter("qaId")));
+		
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("status", "success");
+		if(result) {resp.getWriter().println(jsonObject.toString());}
+
 
 	}
 

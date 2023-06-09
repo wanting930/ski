@@ -18,7 +18,7 @@ import course.entity.Course;
 public class SearchServlet extends HttpServlet{
 	 private static final long serialVersionUID = 1L;
 //	 public void init() {
-			CourseAdServiceImpl cAdService = new CourseAdServiceImpl();
+		private	CourseAdServiceImpl cAdService = new CourseAdServiceImpl();
 
 //	}
 	 @Override
@@ -34,20 +34,14 @@ public class SearchServlet extends HttpServlet{
 		 
 		 String input = req.getParameter("input");
 
-//		 if (input != null && !input.isEmpty()) {
-		     // 呼叫查詢方法進行相應的處理
 		     List<Course> result = cAdService.search(input);
 
 		     resp.setContentType("application/json");
 		     Gson gson = new Gson();
 		     String json = gson.toJson(result);
+		     resp.getWriter().write(json);
+		     System.out.println(json);
 		     
-		     resp.getWriter().print(json);
-		     
-//		 } else {
-//		     // 輸入為空值，處理相應的錯誤情況或提示訊息
-//		     resp.getWriter().print("請輸入關鍵字");
-//		 }
 
 		 
 	}

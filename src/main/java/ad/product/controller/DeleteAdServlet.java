@@ -8,10 +8,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.JsonObject;
+
 import ad.product.service.ProductAdService;
 import ad.product.service.Impl.ProductAdServiceImpl;
 
-@WebServlet("/productAdDelete")
+@WebServlet("/ad/productAdDelete")
 public class DeleteAdServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -29,7 +31,10 @@ public class DeleteAdServlet extends HttpServlet {
 		resp.setContentType("application/json;charset=UTF-8");
 
 		Integer pAdId = Integer.parseInt(req.getParameter("pAdId"));
-		serv.delete(pAdId);
+		int result = serv.delete(pAdId);
+		 JsonObject jsonObject = new JsonObject();
+		 jsonObject.addProperty("status", "success");
+		 if(result < 0) {resp.getWriter().println(jsonObject.toString());}
 
 	}
 

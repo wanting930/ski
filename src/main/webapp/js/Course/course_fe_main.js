@@ -1,11 +1,10 @@
 $(document).ready(function () {
-  getRunnungCourse();
-
-  var data = {
-    userID: sessionStorage.getItem("userID"),
-  };
-  var jsonData = JSON.stringify(data);
-  var level = setLevel(jsonData);
+  
+  if (sessionStorage.getItem("userID") == null) {
+    getRunnungCourse("-1");
+  } else{
+  	setLevel();
+  }
 
   $(".skilloptions").on("change", function () {
     getCourseByKeywordAndTag();
@@ -20,14 +19,25 @@ $(document).ready(function () {
   });
 });
 
-function setLevel(jsonData) {
+function setLevel(searchResult) {
+var data = {
+    userID: sessionStorage.getItem("userID"),
+  };
+  var jsonData = JSON.stringify(data);
   $.ajax({
     url: "http://localhost:8080/ski/member/getOneMember",
     data: jsonData,
     type: "POST",
     dataType: "json",
     success: function (data) {
-      level = data.level;
+      const memberLevel = data.level;
+      
+      if(searchResult){
+      	 renderCourse(searchResult, memberLevel);
+      }else{
+         getRunnungCourse(memberLevel);
+      }
+      
     },
     error: function () {
       console.log("error");
@@ -35,13 +45,13 @@ function setLevel(jsonData) {
   });
 }
 
-function getRunnungCourse() {
+function getRunnungCourse(memberLevel) {
   $.ajax({
     url: "http://localhost:8080/ski/course_GRC",
     type: "POST",
     dataType: "json",
     success: function (data) {
-      renderCourse(data);
+      renderCourse(data, memberLevel);
     },
     error: function () {
       console.log("error");
@@ -74,7 +84,7 @@ function getCourseByKeywordAndTag() {
       courseSkill: courseSkill,
     },
     success: function (data) {
-      renderCourse(data);
+    setLevel(data);
     },
     error: function () {
       console.log("error");
@@ -82,8 +92,14 @@ function getCourseByKeywordAndTag() {
   });
 }
 
-function renderCourse(Course) {
+function renderCourse(Course, memberLevel) {
   $("#courseContent").empty();
+  // if(Course){
+  // 	noneConfirm = $("<p>")
+  //     .text("尚無相關課程")
+  //     .addClass("align-content-center justify-content-center");
+  // 	$("#courseContent").append(noneConfirm);
+  // }
   Course.forEach((course) => {
     // 子頁導向連結生成
     subDirectLink = $("<a>")
@@ -161,14 +177,16 @@ function renderCourse(Course) {
            </div>
 
            <div class="btnGroup m-2 position-absolute bottom-0 end-0"></div>
-           <div class="cardMask position-absolute" style="background-color: rgba(43, 43, 43, 0.8);">
-			</div>
+           <div id="${course.courseID}" class="cardMask position-absolute d-none" style="background-color: rgba(43, 43, 43, 0.8);" > </div>
      		</div>
      `;
-$("#courseContent").append(cardStr);
-  	resizeMask();
-  
-    
+
+    $("#courseContent").append(cardStr);
+    resizeMask(memberLevel);
+    let courseLevel = course.level;
+    let courseID = course.courseID;
+    levelFilter(courseID, memberLevel, courseLevel);
+
     $(".courseCard").each(function () {
       const btnGroup = $(this).find(".btnGroup");
       btnGroup.append(subDirectButton, addCartButton);
@@ -176,20 +194,36 @@ $("#courseContent").append(cardStr);
   });
 }
 
-function resizeMask(){
-	//resize mask
-    var sourceDiv = $(".courseCard");
-    var targetDiv = $(".cardMask");
+function resizeMask(memberLevel) {
+  //resize mask
+  var sourceDiv = $(".courseCard");
+  var targetDiv = $(".cardMask");
 
-    var sourceWidth = sourceDiv.width();
-    var sourceHeight = sourceDiv.height();
+  var sourceWidth = sourceDiv.width();
+  var sourceHeight = sourceDiv.height();
 
-    targetDiv.width(sourceWidth);
-    targetDiv.height(sourceHeight);
-    targetDiv.addClass("d-flex justify-content-center align-item-center");
-    filterConfirm = $("<p>").text("該課程難度過高").css({
-      color: "white",
-    });
+  targetDiv.width(sourceWidth);
+  targetDiv.height(sourceHeight);
+  targetDiv.addClass("d-flex justify-content-center align-item-center");
 
-    targetDiv.html(filterConfirm);
+  var confirmText;
+  if (memberLevel < 0) {
+    confirmText = "請登入會員以進行相關操作";
+  } else {
+    confirmText = "該課程難度過高";
+  }
+
+  filterConfirm = $("<p>").text(confirmText).css({
+    color: "white",
+  });
+
+  targetDiv.html(filterConfirm);
+}
+
+function levelFilter(courseID, memberLevel, courseLevel) {
+  if (memberLevel < 0) {
+    $("#" + courseID).removeClass("d-none");
+  } else if (memberLevel < courseLevel) {
+    $("#" + courseID).removeClass("d-none");
+  }
 }

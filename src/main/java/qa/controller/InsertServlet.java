@@ -9,10 +9,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.JsonObject;
+
 import qa.service.QaService;
 import qa.service.Impl.QaServiceImpl;
 
-@WebServlet("/insertQa")
+@WebServlet("/qa/insertQa")
 public class InsertServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private QaService service = new QaServiceImpl();
@@ -35,7 +37,11 @@ public class InsertServlet extends HttpServlet {
 		Timestamp questionDate = new Timestamp(System.currentTimeMillis());
 
 		// 呼叫 service 的 insert() 方法建立新的 qa 物件
-		service.insert(questionType, questionTitle, answerContent, questionDate);
+		int res = service.insert(questionType, questionTitle, answerContent, questionDate);
+		 JsonObject jsonObject = new JsonObject();
+		 jsonObject.addProperty("status", "success");
+		 if(res<0) resp.getWriter().println(jsonObject.toString());
+
 
 	}
 

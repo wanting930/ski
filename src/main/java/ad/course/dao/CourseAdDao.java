@@ -3,6 +3,7 @@ package ad.course.dao;
 import java.util.List;
 
 import ad.course.vo.CourseAd;
+import ad.course.vo.CourseDTO;
 import core.CoreDao;
 import course.entity.Course;
 
@@ -24,6 +25,6 @@ public interface CourseAdDao extends CoreDao {
 
 	List<Course> selectAllCourses();
 	List<Course> searchCourses(String keyword);
-	List<Course> selectActiveCourse();
+	List<CourseDTO> selectActiveCourse();
 	Course getInfoByID(Integer courseID);
 }

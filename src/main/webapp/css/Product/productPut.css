@@ -28,4 +28,33 @@ button a:hover{
   .valign-middle {
     vertical-align: middle;
   }
+  
+  .search {
+  display: inline-block;
+  padding: 10px;
+  margin: 5px;
+  background-color: #eee;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.search-bar {
+  display: inline-block;
+  padding: 10px;
+  margin: 5px;
+  background-color: #eee;
+  border: none;
+  border-radius: 5px;
+  width: 200px;
+}
+.ProductClass {
+  display: inline-block;
+  padding: 10px;
+  margin: 5px;
+  background-color: #eee;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
 
