@@ -36,17 +36,20 @@ public class QaServiceImpl implements QaService {
 	// update
 	@Override
 	public Qa edit(Qa qz) {
-		Qa qa = dao.selectByID(qz.getQaID());
-		qa.setQuestionType(qz.getQuestionType());
-		qa.setQuestionTitle(qz.getQuestionTitle());
-		qa.setAnswerContent(qz.getAnswerContent());
-		qa.setQuestionDate(qz.getQuestionDate());
-		dao.updata(qa);
-		return qa;
+//		Qa qa = dao.selectByID(qz.getQaID());
+//		qa.setQuestionType(qz.getQuestionType());
+//		qa.setQuestionTitle(qz.getQuestionTitle());
+//		qa.setAnswerContent(qz.getAnswerContent());
+//		qa.setQuestionDate(qz.getQuestionDate());
+		dao.updata(qz);
+		return qz;
 	}
 
 	// getAll
 	public List<Qa> qalist() {
 		return dao.selectAll();
 	}
+	 public Qa getqa(Integer id) {
+		 return dao.selectByID(id);
+	 }
 }

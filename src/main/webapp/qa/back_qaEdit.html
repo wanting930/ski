@@ -44,21 +44,21 @@
                     <label for="type" class="col-sm-3 col-form-label ms-1 me-1" placeholder="Type"
                     >類別</label>
                     <div class="col-sm-8">
-                        <select class="form-select" id="type" >
-                            <option value="01">One</option>
-                            <option value="02">Two</option>
-                            <option value="03">Three</option>
+                        <select id="qaType" class="form-select" id="type" >
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
                           </select>
                     </div>
                 </div>
                 <div class="row col-md-6">
-                <label for="time" class="col-sm-2 col-form-label ms-5">時間</label>
+                <!-- <label for="time" class="col-sm-2 col-form-label ms-5">時間</label>
                 <div class="input-group col-sm-8">
                     <div class="input-group-text">
                       <i class="fa-regular fa-calendar" ></i>
                     </div>
                     <input type="text" class="form-control" id="time" data-inputmask="'alias': 'date', 'inputFormat': 'dd/mm/yyyy'">
-                </div>
+                </div> -->
                 </div>
             </div>
             <div class="row form-group mt-3">
@@ -112,6 +112,11 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.1.63/inputmask/jquery.inputmask.date.extensions.js"></script>
+
+
+<!-- axios 匯入 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
+
 
 <script src="../js/qa_edit.js"></script>
   </body>

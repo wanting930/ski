@@ -28,6 +28,7 @@ $(document).ready(function() {
                 //     showConfirmButton: false,   
                 // });
                 location.reload();
+                
             },
             error: function (error) {
                 console.log(error);

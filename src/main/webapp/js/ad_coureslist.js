@@ -58,7 +58,7 @@ $(".btn-search").on("click", function () {
           if (data.length === 0) {
             // 查詢結果為空，顯示提示訊息
             let html = `
-            <div class="row">
+            <div class="row" style = "justify-content: center; width: 100%;"">
                 <div class="text-center my-3 align-items-center">
                     查無資料
                 </div>

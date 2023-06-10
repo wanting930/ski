@@ -1,5 +1,6 @@
 package ad.product.service;
 
+import java.sql.Blob;
 import java.util.List;
 
 import ad.product.vo.ProductAd;
@@ -23,5 +24,6 @@ public interface ProductAdService {
 	List<ProductDTO> productAdList();
 	
 	 List<Product> Topten();
+	 List<String> slider();
 
 }
