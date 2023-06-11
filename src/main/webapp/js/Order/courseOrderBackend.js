@@ -134,7 +134,7 @@ $("#displayOrder").on("click","tr[type*='order']",function(){
 
                 detail_html+="<tr detailID="+courseOrderDetailID+">"
                 detail_html+=   "<td>"+courseOrderDetailID+"</td>"
-                detail_html+=   '<td><img alt="" src="/THA101G6/courseImgServlet?courseID='+courseID+'" /></td>'
+                detail_html+=   '<td><img alt="" src="/ski/courseImgServlet?courseID='+courseID+'" /></td>'
                 detail_html+=   "<td>"+courseName+"</td>"
                 detail_html+=   "<td>"+coursePrice+"</td>"
                 detail_html+=   "<td>"+courseOrderDetailStatus+"</td>"

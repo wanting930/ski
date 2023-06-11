@@ -23,7 +23,7 @@ $(document).ready(function init(){
                 let quantity=data[i].quantity;
                 let subTotal=data[i].subTotal;
                 list_html +="<tr listID="+productID+">";
-                list_html +=    '<td><img alt="" src="/THA101G6/productImgServlet?productID='+productID+'" /></td>'
+                list_html +=    '<td><img alt="" src="/ski/productImgServlet?productID='+productID+'" /></td>'
                 list_html +=    "<td>"+productName+"</td>"
                 list_html +=    "<td>"+productPrice+"</td>"
                 list_html +=    "<td>"+quantity+"</td>"
