@@ -20,8 +20,26 @@
     href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css"
     rel="stylesheet"
   />
+  <!-- 引入bootstrap套件CSS -->
+  <link rel="stylesheet" href="/ski/css/bootstrap.css" />
+  <link rel="stylesheet" href="/ski/css/root.css" />
+  <link rel="stylesheet" href="/ski/css/backend_public.css" />
   </head>
   <body>
+    <div class="main_section row mb-0">
+      <!-- 左側導航列 -->
+      <div class="backend_side aside_section col-2 p-0 vh-100"></div>
+      <!-- 右側內容欄 -->
+      <div class="col-10 p-0">
+        <!-- 麵包屑 (路徑位置文字) -->
+        <nav>
+          <ol class="breadcrumb mt-1 px-2">
+            <li class="breadcrumb-item">後臺管理系統 | Let's go skiing</li>
+          </ol>
+        </nav>
+        <!-- 主內容欄 -->
+        <div class="content_section mx-3 my-1">
+
     <div class="container">
       <div class="card card-info">
         <div class="card-header">
@@ -71,11 +89,15 @@
         <div class="card-footer clearfix">
             <button
               type="button"
-              class="btn btn-info float-right"
+              class="btn float-right"
               id="submit"
+              style="background-color: #17a2b8; color: white;"
             >
               <i class="fa-solid fa-plus fa-sm me-1"></i> 編輯送出
             </button>
+          </div>
+          </div>
+          </div>
           </div>
     
         
@@ -116,6 +138,8 @@
 
 <!-- axios 匯入 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="/ski/js/embed.js"></script>
 
 
 <script src="../js/qa_edit.js"></script>
