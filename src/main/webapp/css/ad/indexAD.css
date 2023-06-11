@@ -1,5 +1,5 @@
 .carousel .carousel-item {
-    height: 500px;
+    height: 450px;
     width: 100%;
   }
   
@@ -8,7 +8,7 @@
     object-fit: cover;
     top: 0;
     left: 50%;
-    max-height: 500px;
+    max-height: 450px;
     width: auto;
     transform: translate(-50%, 0);
   }
@@ -18,6 +18,6 @@
   }
 
   .slider{
-    background-color: #355070;
+    background-color: #ffffff;
   }
-  
+ 
