@@ -19,7 +19,7 @@ $(document).ready(function init(){
 
                 
                 list_html +="<tr listID="+courseID+">";
-                list_html +=    '<td><img alt="" src="/THA101G6/courseImgServlet?courseID='+courseID+'" /></td>'
+                list_html +=    '<td><img alt="" src="/ski/courseImgServlet?courseID='+courseID+'" /></td>'
                 list_html +=    "<td>"+courseName+"</td>"
                 list_html +=    "<td>"+coursePrice+"</td>"
                 list_html +=    "<td><div class='delMark'>X</div></td>"

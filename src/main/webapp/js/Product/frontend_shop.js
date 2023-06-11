@@ -167,7 +167,7 @@ document.addEventListener('keyup', function(event) {
 });
 
 $("#productContent").on("click","button[class*='btn btn-info add-to-cart']",function(){
-	let id=$(this).attr("productID");
+	let id=$(this).attr("product");
 	console.log(id);
 		if(userID!=null){
 			var check=confirm("確定新增商品至購物車?")
