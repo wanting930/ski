@@ -41,10 +41,9 @@
 		<mapping class="course.entity.Course" />
 
 		<mapping class="loc.model.SkiLocation" />
-<!-- 		<mapping class="loc.model.SkiLocationHistory" /> -->
 
-<!-- 		<mapping class="member.vo.Member" /> -->
-<!-- 		<mapping class="member.vo.Coach" /> -->
+		<mapping class="member.vo.Member" />
+		<mapping class="member.vo.Coach" />
 
 <!-- 		<mapping class="order.courseCar.model.CourseCar" /> -->
 <!-- 		<mapping class="order.courseOrder.model.CourseOrder" /> -->
