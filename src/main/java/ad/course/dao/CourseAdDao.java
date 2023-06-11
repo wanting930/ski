@@ -27,4 +27,5 @@ public interface CourseAdDao extends CoreDao {
 	List<Course> searchCourses(String keyword);
 	List<CourseDTO> selectActiveCourse();
 	Course getInfoByID(Integer courseID);
+	List<byte[]> random();
 }

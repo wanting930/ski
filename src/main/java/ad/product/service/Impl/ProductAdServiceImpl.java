@@ -91,4 +91,6 @@ public class ProductAdServiceImpl implements ProductAdService {
 	        }
 		return base64StringList;
 	}
+	
+	
 }

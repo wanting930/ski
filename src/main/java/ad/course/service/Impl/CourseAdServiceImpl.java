@@ -2,6 +2,7 @@ package ad.course.service.Impl;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 import ad.course.dao.*;
@@ -79,4 +80,16 @@ public class CourseAdServiceImpl implements CourseAdService {
 	public List<Course> search(String keyword) {
 		return dao.searchCourses(keyword);
 	}
+	
+	public List<String> slider(){
+		List<String> base64StringList = new ArrayList<>();
+		List<byte[]> blobSQL =  dao.random();
+		 for (byte[] blobItem : blobSQL) {
+//	            System.out.println(item);
+			 String base64String = Base64.getEncoder().encodeToString(blobItem);
+			 base64StringList.add(base64String);
+	        }
+		return base64StringList;
+	}
+
 }

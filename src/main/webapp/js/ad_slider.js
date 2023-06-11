@@ -10,7 +10,7 @@ function init() {
         success: function (data) {
             // console.log(data);
             // let btn = $("#carousel-indicators")
-            let body = $("#carousel-inner");
+            let body = $(".carousel-inner");
             // body.html("");
             // btn.html("");
             data.forEach(product => {
@@ -31,7 +31,7 @@ function init() {
                     // console.log(base64Data);
                     let html = `
                 <div class="carousel-item active">
-                <img src="data:image/png;base64,${product}" class="d-block w-100" alt="">
+                <img src="data:image/png;base64,${product}" class="d-block" style="heigh:200px weight:200px" alt="">
                 </div>       
                 `;
                     body.append(html);
