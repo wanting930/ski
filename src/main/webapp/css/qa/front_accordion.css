@@ -1,3 +1,9 @@
+body {
+    background-image: url(./t4.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+}
 #qaItem{
     margin-top: 20px; 
     margin-left: auto; 
@@ -5,4 +11,13 @@
 }
 #title{
     text-align: center;
+}
+.accordion-button   {
+ background-color: #006494 !important ;
+ color: #ffffff !important;
+}
+.que{
+    font-weight: bold;
+    font-size: 20px;
+    color: #ffffff;
 }
