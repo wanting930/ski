@@ -63,7 +63,7 @@ $(document).on("click", "#delete", function deleteQa() {
             
             setTimeout(function() {
                 location.reload();
-              }, 5000);
+              }, 2000);
         },
         error: function (error) {
             console.log(error);

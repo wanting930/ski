@@ -27,7 +27,7 @@ $(document).ready(function() {
                 //     icon: 'success',
                 //     showConfirmButton: false,   
                 // });
-                location.reload();
+                window.location.href = '/ski/qa/back_qaList.html';
                 
             },
             error: function (error) {
