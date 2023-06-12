@@ -3,15 +3,12 @@ document.addEventListener("DOMContentLoaded", function () {
   // 獲取數據並渲染表格
   AllCrouseRequsest();
 
-  // 為刪除修、改按鈕綁定事件
-  document
-    .getElementById("courseTableBody")
-    .addEventListener("click", function (event) {
-      if (event.target.classList.contains("btn-delete")) {
-        const courseID = $(this).closest('tbody').find('.courseID').text();
+  // 為刪除按鈕綁定事件
+  $("#courseTableBody").on("click", ".btn-delete", function (event) {
+    const courseID = $(this).parents().siblings("th").text();
         deleteExc(courseID);
-      } 
-    });
+  });
+  
 
   $("#serachbar").on("input", function () {
     var keyWord = $(this).val();
@@ -96,11 +93,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
       var courseStatus = "";
       if (course.courseStatus == 0) {
-        courseStatus = "下架中";
-      } else if (course.courseStatus == 1) {
         courseStatus = "上架中";
+      } else if (course.courseStatus == 1) {
+        courseStatus = "下架中";
       }
 
+
+		
+		
       row.innerHTML = `
       <th scope="row" class="courseID">${course.courseID}</th>
       <td><img src='${imageSrc}' style="max-width: 150px; max-height: 80px;"></img></td>
@@ -128,7 +128,7 @@ document.addEventListener("DOMContentLoaded", function () {
       $.ajax({
         url: "http://localhost:8080/ski/course_DL",
         type: "POST",
-        data: { CourseID: courseID },
+        data: { courseID: courseID },
         dataType: "json",
         success: function (data) {
           console.success(data);
@@ -143,4 +143,6 @@ document.addEventListener("DOMContentLoaded", function () {
       alert ("刪除失敗");
     }
   }
+ 
 });
+
