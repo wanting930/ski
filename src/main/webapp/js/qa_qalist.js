@@ -9,7 +9,7 @@ function init() {
         dataType: "json",
         success: function (data) { 
             let Qdata = $("#Qalist");
-            Qdata.html("");
+            // Qdata.html("");
             data.forEach(qa => {
                 let html = `
                 <tr>
