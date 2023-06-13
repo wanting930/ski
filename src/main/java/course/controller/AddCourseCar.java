@@ -3,6 +3,7 @@ package course.controller;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,15 +16,16 @@ import order.courseCar.model.CourseCar;
 import order.courseCar.service.CourseCarService;
 import order.courseCar.service.CourseCarServiceImpl;
 @WebServlet("/course_AC")
+@MultipartConfig
 public class AddCourseCar extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	 private CourseCarService courseCarService = new  CourseCarServiceImpl();
 
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 	    resp.setContentType("application/json;charset=utf-8");
-	    int userID=Integer.parseInt(req.getParameter("userID"));
-	    int courseID=Integer.parseInt(req.getParameter("courseID"));
+	    Integer userID=Integer.parseInt(req.getParameter("userID"));
+	    Integer courseID=Integer.parseInt(req.getParameter("courseID"));
 	    CourseCarPK PK=new CourseCarPK(userID,courseID);
 	    CourseCar car=new CourseCar(PK,1);
 	    boolean status=courseCarService.addCar(car);

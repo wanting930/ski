@@ -3,6 +3,47 @@ const urlParams = new URLSearchParams(window.location.search);
 const courseID = urlParams.get("courseID");
 
 $(document).ready(function () {
+
+	 $.ajax({
+    url: "/ski/loc/backend_selectmap",
+    type: "GET",
+    processData: false,
+    contentType: false,
+    success: function (response) {
+      response.forEach(function (Data) {
+        option = $("<option>", {
+          value: Data.pointID,
+          text: Data.pointName,
+        });
+
+        $("#courseLocation").append(option);
+      });
+    },
+    error: function () {
+      alert("新增失敗");
+    },
+  });
+  
+  $.ajax({
+        url: "/ski/member/getAllCoach",
+        type: "GET",
+        processData: false,
+        contentType: false,
+        success: function (response) {
+          response.forEach(function (Data) {
+            userID = Data.userID;
+            var data = {
+              userID: userID,
+            };
+            var jsonData = JSON.stringify(data);
+            getCoachName(jsonData);
+          });
+        },
+        error: function () {
+          alert("新增失敗");
+        },
+      });
+
   getCourseInfo();
 
   // Get form element by ID
@@ -121,34 +162,7 @@ function getCourseInfo() {
     data: { courseID: courseID },
     type: "POST",
     success: function (response) {
-      // 地點選單建立
-
-      option = $("<option>", {
-        value: response.skiLocation.pointID,
-        text: response.skiLocation.pointName,
-      });
-
-      $("#courseLocation").append(option);
-
-      $.ajax({
-        url: "/ski/member/getAllCoach",
-        type: "GET",
-        processData: false,
-        contentType: false,
-        success: function (response) {
-          response.forEach(function (Data) {
-            userID = Data.userID;
-            var data = {
-              userID: userID,
-            };
-            var jsonData = JSON.stringify(data);
-            getCoachName(jsonData);
-          });
-        },
-        error: function () {
-          alert("新增失敗");
-        },
-      });
+      
       const courseDate = moment(response.courseDate).format("YYYY-MM-DD");
       const startDate = moment(response.startDate).format("YYYY-MM-DD");
       const endDate = moment(response.endDate).format("YYYY-MM-DD");
@@ -156,6 +170,7 @@ function getCourseInfo() {
       $("#courseSkill").val(response.skill);
       $("#courseLevel").val(response.level);
       $("#courseName").val(response.courseName);
+      console.log("response.coachID  " + response.coachID);
       $("#courseCoach").val(response.coachID);
       $("#courseLocation").val(response.skiLocation.pointID);
       $("#courseDate").val(courseDate);
@@ -226,7 +241,7 @@ function getCoachName(jsonData) {
 
       option = $("<option>", {
         value: userID,
-        text: userID + " - " + CoachName,
+        text: CoachName,
       });
 
       $("#courseCoach").append(option);
