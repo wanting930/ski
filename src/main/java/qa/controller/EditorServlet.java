@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+
+import core.util.GsonUtils;
 import qa.service.QaService;
 import qa.service.Impl.QaServiceImpl;
 import qa.vo.Qa;
@@ -28,19 +31,25 @@ public class EditorServlet extends HttpServlet {
 		resp.setContentType("application/json;charset=UTF-8");
 
 		Qa qz = new Qa();
-		qz.setQaID(Integer.parseInt(req.getParameter("QaId")));
-		qz.setQuestionType(Integer.parseInt(req.getParameter("Type")));
-		qz.setQuestionTitle(req.getParameter("Title"));
-		qz.setAnswerContent(req.getParameter("Ans"));
-		qz.setQuestionDate(new Timestamp(System.currentTimeMillis()));
-
-		service.edit(qz);
+		Gson gsonEdit = new Gson();
+		Qa editQa = gsonEdit.fromJson(req.getReader(), Qa.class);
+		System.out.println(editQa);
+//		qz.setQaID(Integer.parseInt(req.getParameter("QaId")));
+//		qz.setQuestionType(Integer.parseInt(req.getParameter("Type")));
+//		qz.setQuestionTitle(req.getParameter("Title"));
+//		qz.setAnswerContent(req.getParameter("Ans"));
+//		qz.setQuestionDate(new Timestamp(System.currentTimeMillis()));
+//
+		service.edit(editQa);
 
 	}
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		doPost(req, resp);
+		Qa qz = service.getqa(Integer.parseInt(req.getParameter("QaId")));
+		
+		resp.getWriter().print(GsonUtils.toJson(qz));
+//		doPost(req, resp);
 	}
 
 }

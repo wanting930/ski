@@ -1,9 +1,13 @@
+var memberLevel;
+
 $(document).ready(function () {
-  
+$(window).on("resize", function () {
+    resizeMask();
+  });
   if (sessionStorage.getItem("userID") == null) {
     getRunnungCourse("-1");
-  } else{
-  	setLevel();
+  } else {
+    setLevel();
   }
 
   $(".skilloptions").on("change", function () {
@@ -17,10 +21,42 @@ $(document).ready(function () {
   $("#searchbar").on("input", function () {
     getCourseByKeywordAndTag();
   });
+  
+  	//加入購物車功能綁定
+  	$("#courseContent").on("click", ".addCart", function (event) {
+     userID = sessionStorage.getItem("userID");
+ 		courseID = $(this)
+      .closest(".btnGroup")
+      .siblings(".textZone")
+      .find(".courseID")
+      .val();
+		
+		$.ajax({
+        url: "http://localhost:8080/ski/course_AC",
+        type: "POST",
+        dataType: "json",
+        data: { 
+        userID: userID,
+        courseID: courseID
+         },
+        success: function (response) {
+        if(response){
+        	alert("加入購物車成功");
+        }else{
+        	alert("操作失敗，請聯絡客服人員");
+        }
+          
+        },
+        error: function () {
+          console.log("error");
+        },
+      });
+      ;
+    });
 });
 
-function setLevel(searchResult) {
-var data = {
+function setLevel() {
+  var data = {
     userID: sessionStorage.getItem("userID"),
   };
   var jsonData = JSON.stringify(data);
@@ -30,14 +66,21 @@ var data = {
     type: "POST",
     dataType: "json",
     success: function (data) {
-      const memberLevel = data.level;
-      
-      if(searchResult){
-      	 renderCourse(searchResult, memberLevel);
-      }else{
-         getRunnungCourse(memberLevel);
+    memberLevel = data.level;
+    var levelText;
+      if (memberLevel == 0) {
+        levelText = "初階";
+      } else if (memberLevel == 1) {
+        levelText = "中階";
+      } else if (memberLevel == 2) {
+        levelText = "高階";
       }
       
+      
+      $("#levelHolder").removeClass("d-none");
+    	$("#memberLevel").text(levelText);
+      
+      getRunnungCourse(memberLevel);
     },
     error: function () {
       console.log("error");
@@ -84,7 +127,7 @@ function getCourseByKeywordAndTag() {
       courseSkill: courseSkill,
     },
     success: function (data) {
-    setLevel(data);
+      renderCourse(data, memberLevel);
     },
     error: function () {
       console.log("error");
@@ -94,13 +137,13 @@ function getCourseByKeywordAndTag() {
 
 function renderCourse(Course, memberLevel) {
   $("#courseContent").empty();
-  // if(Course){
-  // 	noneConfirm = $("<p>")
-  //     .text("尚無相關課程")
-  //     .addClass("align-content-center justify-content-center");
-  // 	$("#courseContent").append(noneConfirm);
-  // }
-  Course.forEach((course) => {
+   if(Course.length == 0){
+   	noneConfirm = $("<p>")
+       .text("尚無相關課程")
+   	$("#courseContent").append(noneConfirm).addClass("d-flex justify-content-center");
+   }else{
+   $("#courseContent").removeClass("d-flex justify-content-center");
+   	Course.forEach((course) => {
     // 子頁導向連結生成
     subDirectLink = $("<a>")
       .attr(
@@ -119,38 +162,24 @@ function renderCourse(Course, memberLevel) {
       .append(subDirectLink);
 
     //購物車按鈕生成
-    register_allow = true;
-    valid_result = "";
+    // register_allow = true;
+    // valid_result = "";
 
-    if (register_allow) {
-      valid_result = "加入購物車";
-    } else {
-      valid_result = "會員層級不符";
-    }
+    // if (register_allow) {
+    //   valid_result = "加入購物車";
+    // } else {
+    //   valid_result = "會員層級不符";
+    // }
 
     addCartButton = $("<button>")
       .addClass("btn btn-secondary m-2 addCart")
-      .text(valid_result);
+      .text("加入購物車");
 
-    if (register_allow) {
-      addCartButton.addClass("disable");
-    }
+    //if (register_allow) {
+    //  addCartButton.addClass("disable");
+    //}
 
-    //加入購物車功能綁定
-    $(".addCart").on("click", function () {
-      $.ajax({
-        url: "http://localhost:8080/ski/",
-        type: "POST",
-        dataType: "json",
-        data: { keyWord: keyWord },
-        success: function (data) {
-          alert("加入購物車成功");
-        },
-        error: function () {
-          console.log("error");
-        },
-      });
-    });
+    
 
     const base64Image = btoa(
       new Uint8Array(course.coursePhoto).reduce(
@@ -160,6 +189,22 @@ function renderCourse(Course, memberLevel) {
     );
     const imageSrc = `data:image/png;base64,${base64Image}`;
 
+var courseSkill = "";
+      if (course.skill == 0) {
+        courseSkill = "單板";
+      } else if (course.skill == 1) {
+        courseSkill = "雙版";
+      }
+
+      var courseLevel = "";
+      if (course.level == 0) {
+        courseLevel = "初階";
+      } else if (course.level == 1) {
+        courseLevel = "中階";
+      } else if (course.level == 2) {
+        courseLevel = "高階";
+      }
+
     cardStr = `
     
        <div class="courseCard border-top my-3 p-2 d-flex align-items-center position-relative">
@@ -167,31 +212,34 @@ function renderCourse(Course, memberLevel) {
              <img class="crousePhoto" src='${imageSrc}' style="max-height: 180px; max-width: 250px; color: gray; height: 180px; width: 250px;">
            </div>
 
-           <div class="textZone mb-3">
-            <div id="titleGroup" class="d-flex ">
-               <h1>${course.courseName}</h1>
+           <div class="textZone mb-5">
+            <div id="titleGroup" class="d-flex align-items-center">
+            	<input class="courseID d-none" value="${course.courseID}"></input>
+               <h1 class="me-2">${course.courseName}</h1>
+               <p>$ ${course.coursePrice}</p>               
              </div>
-             <p class="p-2">
-               ${course.courseIntroduce}
-             </p>
+             <p>${courseSkill} / ${courseLevel}</p>
            </div>
 
            <div class="btnGroup m-2 position-absolute bottom-0 end-0"></div>
-           <div id="${course.courseID}" class="cardMask position-absolute d-none" style="background-color: rgba(43, 43, 43, 0.8);" > </div>
+           <div id="${course.courseID}" class="cardMask position-absolute d-none d-flex align-items-center" style="background-color: rgba(43, 43, 43, 0.8);" > </div>
      		</div>
      `;
 
     $("#courseContent").append(cardStr);
+
+
     resizeMask(memberLevel);
-    let courseLevel = course.level;
     let courseID = course.courseID;
-    levelFilter(courseID, memberLevel, courseLevel);
+    levelFilter(courseID, memberLevel, course.level);
 
     $(".courseCard").each(function () {
       const btnGroup = $(this).find(".btnGroup");
       btnGroup.append(subDirectButton, addCartButton);
     });
   });
+   }
+  
 }
 
 function resizeMask(memberLevel) {
@@ -210,7 +258,7 @@ function resizeMask(memberLevel) {
   if (memberLevel < 0) {
     confirmText = "請登入會員以進行相關操作";
   } else {
-    confirmText = "該課程難度過高";
+    confirmText = "課程難度高於設定級別";
   }
 
   filterConfirm = $("<p>").text(confirmText).css({
@@ -226,4 +274,18 @@ function levelFilter(courseID, memberLevel, courseLevel) {
   } else if (memberLevel < courseLevel) {
     $("#" + courseID).removeClass("d-none");
   }
+}
+
+function addCart(){
+	userID = sessionStorage.getItem("userID");
+ 	courseID = $(this)
+      .closest(".btnGroup")
+      .siblings(".textZone")
+      .find(".courseID")
+      .val();
+
+      console.log(userID);
+      console.log(courseID);
+ 
+ 
 }

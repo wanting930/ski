@@ -1,12 +1,16 @@
 package ad.product.dao.Impl;
 
+import java.sql.Blob;
+import java.util.Collections;
 import java.util.List;
 
 import org.hibernate.query.Query;
 
+import ad.product.controller.ProductAdlistServlet;
 import ad.product.dao.ProductAdDao;
 import ad.product.vo.ProductAd;
 import product.vo.Product;
+
 
 public class ProductAdDaoImpl implements ProductAdDao {
 
@@ -77,5 +81,19 @@ public class ProductAdDaoImpl implements ProductAdDao {
 	//取商品
 	public Product selectProduct(Integer id) {
 		return getSession().get(Product.class,id);
+	}
+	
+	//廣告中商品
+	public List<byte[]> random() {
+		String hql = "SELECT p.productImage FROM Product p WHERE p.productID IN (SELECT pAd.productID FROM ProductAd pAd)";
+		List<byte[]> blobList = getSession().createQuery(hql, byte[].class).list();
+		
+
+	    Collections.shuffle(blobList);
+	    List<byte[]> randomProducts = blobList.subList(0, Math.min(blobList.size(), 3));
+//	    System.out.println(randomProducts);
+	    return randomProducts;
+
+		
 	}
 }

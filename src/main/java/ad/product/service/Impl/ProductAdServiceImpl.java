@@ -1,7 +1,9 @@
 package ad.product.service.Impl;
 
+import java.sql.Blob;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 import ad.product.dao.ProductAdDao;
@@ -79,4 +81,16 @@ public class ProductAdServiceImpl implements ProductAdService {
 	public List<Product> Topten(){
 		return dao.selectTopTenProducts();
 	}
+	public List<String> slider(){
+		List<String> base64StringList = new ArrayList<>();
+		List<byte[]> blobSQL =  dao.random();
+		 for (byte[] blobItem : blobSQL) {
+//	            System.out.println(item);
+			 String base64String = Base64.getEncoder().encodeToString(blobItem);
+			 base64StringList.add(base64String);
+	        }
+		return base64StringList;
+	}
+	
+	
 }

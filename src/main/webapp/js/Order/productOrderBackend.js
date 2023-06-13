@@ -139,7 +139,7 @@ $("#displayOrder").on("click","tr[type*='order']",function(){
 
                 detail_html+="<tr detailID="+productOrderDetailID+">"
                 detail_html+=   "<td>"+productOrderDetailID+"</td>"
-                detail_html+=   '<td><img alt="" src="/THA101G6/productImgServlet?productID='+productID+'" /></td>'
+                detail_html+=   '<td><img alt="" src="/ski/productImgServlet?productID='+productID+'" /></td>'
                 detail_html+=   "<td>"+productName+"</td>"
                 detail_html+=   "<td>"+productPrice+"</td>"
                 detail_html+=   "<td>"+quantity+"</td>"

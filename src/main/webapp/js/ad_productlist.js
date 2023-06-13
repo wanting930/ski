@@ -59,7 +59,7 @@ $(".btn-search").on("click", function () {
           if (data.length === 0) {
             // 查詢結果為空，顯示提示訊息
             let html = `
-                <div class="text-center my-3 align-items-center h5">
+                <div class="text-center my-3 align-items-center h5" style="test-align:center">
                     查無資料
                 </div>
         `;

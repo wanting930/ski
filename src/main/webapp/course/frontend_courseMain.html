@@ -23,7 +23,6 @@
 		<div class="container ">
 			<!-- 分類按鈕 -->
 			<div class="tagGroup d-flex justify-content-center">
-
 				<div class="d-flex">
 					<!-- 課程類型分類 -->
 					<div class="skillZone m-2">
@@ -56,15 +55,16 @@
 						<label class="btn btn-secondary" for="level_2">高階</label>
 					</div>
 				</div>
-
 			</div>
 			<!-- 搜尋欄 -->
 			<div class="searchZone mb-3 d-flex justify-content-center">
 				<input type="text" id="searchbar" ; class="col-10" placeholder="請輸入課程關鍵字..." />
 			</div>
-
+			<div class=" mb-2 d-flex justify-content-center">
+			    <p id="levelHolder" class="text-secondary d-none"> 您所設定的程級為 : <span id="memberLevel" ></span> </p>
+			</div>
 			<!-- 課程展示 -->
-			<div id="courseContainer ">
+			<div id="courseContainer"  >
 				<div class="overflow-auto" id="courseContent" style="height: 500px;">
 				</div>
 			</div>

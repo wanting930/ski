@@ -28,12 +28,12 @@
   <body>
     <div class="main_section row mb-0">
       <!-- 左側導航列 -->
-      <div class="backend_side aside_section col-2 p-0"></div>
+      <div class="backend_side aside_section col-2 p-0 vh-100"></div>
       <!-- 右側內容欄 -->
       <div class="col-10 p-0">
         <!-- 麵包屑 (路徑位置文字) -->
         <nav>
-          <ol class="breadcrumb mt-1 px-2" style="border: 2px blue solid">
+          <ol class="breadcrumb mt-1 px-2">
             <li class="breadcrumb-item">後臺管理系統 | Let's go skiing</li>
           </ol>
         </nav>
@@ -61,6 +61,38 @@
                   </thead>
                   <tbody id="Qalist">
                     <!-- 動態 -->
+                    <tr>
+                      <td id="Id">1</td>
+                      <td id="Type">1</td>
+                      <td id="Title">關於我們</td>
+                      <td id="Ans">
+                        我們是一群熱愛滑雪的人，但由於台灣對於滑雪相關資訊相對匱乏，我們希望能做出一個整合各方面資訊的網站，包含，裝備、雪點、教練、雪友等相關資訊這裡都找的到喔。
+                      </td>
+                      <td id="Time">Jun 12, 2023, 9:21:54 AM</td>
+                      <td>
+                        <div class="tools" style="display: flex-wrap">
+                          <div style="width: 50%">
+                            <a
+                              href="./Q1.html"
+                              data-id="${qa.qaID}"
+                              id="edit"
+                              style="display: inline-block"
+                            >
+                              <i class="fas fa-edit me-5"></i>
+                            </a>
+                          </div>
+                          <div style="width: 50%">
+                            <i
+                              class="fa-solid fa-trash fa-sm"
+                              id="delete"
+                              role="button"
+                              data-id="${qa.qaID}"
+                              style="width: 20px; display: inline-block"
+                            ></i>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
                   </tbody>
                 </table>
                 <!-- </div> -->

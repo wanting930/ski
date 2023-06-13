@@ -10,6 +10,8 @@
       integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
       crossorigin="anonymous"
     />
+        <!-- 引入bootstrap套件CSS -->
+        <link rel="stylesheet" href="/ski/css/bootstrap.css" />
     <link rel="stylesheet" href="/ski/css/root.css" />
     <link rel="stylesheet" href="/ski/css/frontend_public.css" />
 
@@ -21,17 +23,44 @@
     <div class="main_section position-relative d-flex justify-content-center mb-0" >
       <!-- 頁面內容置於此 -->
       <div class="container-main container text-center fw-bold h-100">
-        <h1>內容內容</h1>
+        <h1>FAQ</h1>
         <div class="container mx-auto">
-          <div
+          <!-- <div
           class="row fs-2 fw-semibold my-3 mx-auto"
           id="title
           "
           >
           FAQ
-        </div>
+        </div> -->
+
         <div id="qalist">
           <!-- action -->
+          <div class="pa" id="qaItem">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button
+                        class="accordion-button"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#panelsStayOpen-one"
+                        aria-expanded="true"
+                        aria-controls="panelsStayOpen-one">
+                            <div class="que" style="margin: 0 5px 0 0">關於我們</div>
+                            <span class="badge rounded-pill bg-info text-dark">1</span>
+                    </button>
+                </h2>
+  
+                <div id="panelsStayOpen-one"
+                class="accordion-collapse collapse show"
+                >
+                    <div class="accordion-body">
+                      我們是一群熱愛滑雪的人，但由於台灣對於滑雪相關資訊相對匱乏，我們希望能做出一個整合各方面資訊的網站，包含，裝備、雪點、教練、雪友等相關資訊這裡都找的到喔。
+                    </div>
+                </div>
+            </div>
+            </div>
+
+
         </div>
       </div>
     </div>
@@ -60,6 +89,20 @@
 
     <!-- above -->
     <!-- jquery -->
+    <!-- 引入bootstrap套件JS -->
+  <script src="/ski/js/bootstrap.bundle.js"></script>
+  <script src="/ski/js/frontend_public.js"></script>
+  <!-- 引入公版JS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="/ski/js/embed.js"></script>
+  <script>
+    window.onload = function() {
+      var script1 = document.createElement("script");
+      script1.src = "/ski/js/navbar.js";
+      document.head.appendChild(script1);
+    };
+  </script>
+  <!-- 引入自定義JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
     <script

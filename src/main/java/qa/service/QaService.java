@@ -17,4 +17,5 @@ public interface QaService {
 	Qa edit(Qa qz);
 
 	List<Qa> qalist();
+	Qa getqa(Integer id);
 }

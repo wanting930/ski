@@ -1,9 +1,13 @@
+var deleteID;
 $(document).ready(function () {
   const urlParams = new URLSearchParams(window.location.search);
   const userID = sessionStorage.getItem("userID");
-  var data = { userID: userID };
-  var jsonData = JSON.stringify(data);
-  getCoachID(jsonData);
+  // var data = { userID: userID };
+  // var jsonData = JSON.stringify(data);
+  // getCoachID(jsonData);
+
+  $("#courseCoach").val(userID);
+  getCoachCourse(userID);
   locSelctBuild();
 
   resetInputState();
@@ -34,15 +38,17 @@ $(document).ready(function () {
   });
 
   $(".card_zone").on("click", ".deleteEntrace", function (event) {
-    courseID = $(this)
+    deleteID = $(this)
       .closest(".btnGroup")
       .siblings(".textZone")
       .find(".courseID")
       .val();
+      console.log("deleteEntrace" + deleteID)
   });
 
   $(".card_zone").on("click", "#delete_btn", function (event) {
-    deleteCourse(courseID);
+   console.log("delete_btn" + deleteID)
+    deleteCourse(deleteID);
   });
 
   //表單依輸入圖片更新預覽圖
@@ -71,10 +77,12 @@ function renderCourse(Course) {
 
     const base64Image = btoa(
       new Uint8Array(course.coursePhoto).reduce(
-        (data, byte) => data + String.fromCharCode(byte)
+        (data, byte) => data + String.fromCharCode(byte),""
       )
     );
     const imageSrc = `data:image/png;base64,${base64Image}`;
+    
+    
     const courseDate = moment(course.courseDate).format("YYYY-MM-DD");
 
     var courseSkill = "";
@@ -176,7 +184,7 @@ function merge(courseID) {
         method = "IS";
       }
 
-	var coursePerson = $("#coursePerson").val();
+      var coursePerson = $("#coursePerson").val();
       var courseSkill = $("#courseSkill").val();
       var courseLevel = $("#courseLevel").val();
       var courseName = $("#courseName").val();
@@ -191,7 +199,7 @@ function merge(courseID) {
       var courseStatus = $("#courseStatus").val();
       var coursePhoto = $("#coursePhoto")[0].files[0];
       var courseIntroduce = $("#courseIntroduce").val();
-	
+
       var formData = new FormData();
 
       formData.append("courseSkill", courseSkill);
@@ -238,12 +246,11 @@ function deleteCourse(courseID) {
   $.ajax({
     url: "http://localhost:8080/ski/course_DL",
     type: "POST",
-    data: { CourseID: courseID },
+    data: { courseID: courseID },
     success: function (response) {
-    alert("刪除成功!");
-    //刷新結果
-    location.reload();
-      
+      alert("刪除成功!");
+      //刷新結果
+      location.reload();
     },
     error: function () {
       console.log("error");
@@ -288,7 +295,7 @@ function getCourseInfo(courseID) {
       const courseDate = moment(response.courseDate).format("YYYY-MM-DD");
       const startDate = moment(response.startDate).format("YYYY-MM-DD");
       const endDate = moment(response.endDate).format("YYYY-MM-DD");
-		$("#coursePerson").val(response.coursePerson);
+      $("#coursePerson").val(response.coursePerson);
       $("#courseSkill").val(response.skill);
       $("#courseLevel").val(response.level);
       $("#courseName").val(response.courseName);
@@ -374,22 +381,22 @@ function locSelctBuild() {
 }
 
 //取得教練ID
-function getCoachID(jsonData) {
-  $.ajax({
-    url: "/ski/member/coachInfo",
-    type: "POST",
-    processData: false,
-    contentType: false,
-    data: jsonData,
-    success: function (response) {
-      $("#courseCoach").val(response.coachID);
-      getCoachCourse(response.coachID);
-    },
-    error: function () {
-      alert("新增失敗");
-    },
-  });
-}
+// function getCoachID(jsonData) {
+//   $.ajax({
+//     url: "/ski/member/coachInfo",
+//     type: "POST",
+//     processData: false,
+//     contentType: false,
+//     data: jsonData,
+//     success: function (response) {
+//       $("#courseCoach").val(response.coachID);
+//       getCoachCourse(response.coachID);
+//     },
+//     error: function () {
+//       alert("新增失敗");
+//     },
+//   });
+// }
 
 //帶出用戶開設的相關課程
 function getCoachCourse(coachID) {

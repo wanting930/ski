@@ -20,8 +20,26 @@
     href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css"
     rel="stylesheet"
   />
+  <!-- 引入bootstrap套件CSS -->
+  <link rel="stylesheet" href="/ski/css/bootstrap.css" />
+  <link rel="stylesheet" href="/ski/css/root.css" />
+  <link rel="stylesheet" href="/ski/css/backend_public.css" />
   </head>
   <body>
+    <div class="main_section row mb-0">
+      <!-- 左側導航列 -->
+      <div class="backend_side aside_section col-2 p-0 vh-100"></div>
+      <!-- 右側內容欄 -->
+      <div class="col-10 p-0">
+        <!-- 麵包屑 (路徑位置文字) -->
+        <nav>
+          <ol class="breadcrumb mt-1 px-2">
+            <li class="breadcrumb-item">後臺管理系統 | Let's go skiing</li>
+          </ol>
+        </nav>
+        <!-- 主內容欄 -->
+        <div class="content_section mx-3 my-1">
+
     <div class="container">
       <div class="card card-info">
         <div class="card-header">
@@ -36,7 +54,7 @@
                     class="form-control"
                     id="title"
                     placeholder="Title"
-                />
+                />關於我們
                 </div>
             </div>
             <div class="row ">
@@ -44,38 +62,44 @@
                     <label for="type" class="col-sm-3 col-form-label ms-1 me-1" placeholder="Type"
                     >類別</label>
                     <div class="col-sm-8">
-                        <select class="form-select" id="type" >
-                            <option value="01">One</option>
-                            <option value="02">Two</option>
-                            <option value="03">Three</option>
+                        <select id="qaType" class="form-select" >
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
                           </select>
                     </div>
                 </div>
                 <div class="row col-md-6">
-                <label for="time" class="col-sm-2 col-form-label ms-5">時間</label>
+                <!-- <label for="time" class="col-sm-2 col-form-label ms-5">時間</label>
                 <div class="input-group col-sm-8">
                     <div class="input-group-text">
                       <i class="fa-regular fa-calendar" ></i>
                     </div>
                     <input type="text" class="form-control" id="time" data-inputmask="'alias': 'date', 'inputFormat': 'dd/mm/yyyy'">
-                </div>
+                </div> -->
                 </div>
             </div>
             <div class="row form-group mt-3">
                 <label for="ans" class="col-sm-2 col-form-label ms-1">回復</label>
                 <div class="col-sm-11">
-                  <textarea class="form-control ms-1" id="ans" cols="300" rows="10"></textarea>
+                  <textarea class="form-control ms-1" id="ans" cols="300" rows="10">
+                    我們是一群熱愛滑雪的人，但由於台灣對於滑雪相關資訊相對匱乏，我們希望能做出一個整合各方面資訊的網站，包含，裝備、雪點、教練、雪友等相關資訊這裡都找的到喔。
+                  </textarea>
                 </div>
             </div>
         </div>
         <div class="card-footer clearfix">
             <button
               type="button"
-              class="btn btn-info float-right"
+              class="btn float-right"
               id="submit"
+              style="background-color: #17a2b8; color: white;"
             >
               <i class="fa-solid fa-plus fa-sm me-1"></i> 編輯送出
             </button>
+          </div>
+          </div>
+          </div>
           </div>
     
         
@@ -97,6 +121,7 @@
 
     <!-- jquery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
     <!-- bootstrap -->
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
@@ -110,8 +135,14 @@
     crossorigin="anonymous"
   ></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.1.63/inputmask/jquery.inputmask.date.extensions.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.1.63/inputmask/jquery.inputmask.date.extensions.js"></script>
+
+
+<!-- axios 匯入 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="/ski/js/embed.js"></script>
+
 
 <script src="../js/qa_edit.js"></script>
   </body>

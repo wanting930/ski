@@ -1,5 +1,6 @@
 package ad.course.dao.impl;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.hibernate.query.Query;
@@ -89,10 +90,25 @@ public class CourseAdDaoImpl implements CourseAdDao {
 
 	public Course getInfoByID(Integer courseID) {
 		String hql = "SELECT courseID, courseName, startDate, endDate\r\n" + "FROM Course\r\n"
-				+ "WHERE coachID = :courseID";
+				+ "WHERE coachIDz = :courseID";
 		Query<Course> query = getSession().createQuery(hql, Course.class);
 		query.setParameter("courseID", courseID);
 		return query.getSingleResult();
+	}
+
+	
+	//廣告中商品
+	public List<byte[]> random() {
+		String hql = "SELECT c.coursePhoto FROM Course c WHERE c.courseID IN (SELECT ad.courseID FROM Course ad)";
+		List<byte[]> blobList = getSession().createQuery(hql, byte[].class).list();
+		
+
+	    Collections.shuffle(blobList);
+	    List<byte[]> randomProducts = blobList.subList(0, Math.min(blobList.size(), 3));
+//	    System.out.println(randomProducts);
+	    return randomProducts;
+
+		
 	}
 
 

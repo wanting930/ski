@@ -21,4 +21,5 @@ public interface CourseAdService {
 	List<CourseDTO> courseAdlist();
 	
 	CourseAd selectAd(Integer id);
+	List<String> slider();
 }

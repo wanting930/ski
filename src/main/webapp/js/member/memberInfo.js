@@ -17,6 +17,7 @@ $(document).ready(function() {
     const avatar = resp.photo;
     const uint8Array = new Uint8Array(avatar);
     const blob = new Blob([uint8Array]);
+    
     preview.attr('src', URL.createObjectURL(blob));
 
     $("#userID").text(resp.userID);
