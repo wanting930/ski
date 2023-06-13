@@ -54,8 +54,8 @@ public class SendEmailServlet extends HttpServlet {
         //     ●5-1) 下拉式選單【選取應用程式】--> 選取【郵件】
         //     ●5-2) 下拉式選單【選取裝置】--> 選取【Windows 電腦】
         //     ●5-3) 最後按【產生】密碼
- 	     final String myGmail = "helpMeStartALiveStreamingRrr@gmail.com";
- 	     final String myGmail_password = "jwjzpochmugvdtny";
+ 	     final String myGmail = "LetsGoSkiing69@gmail.com";
+ 	     final String myGmail_password = "uwbcbqxbtckosnww";
  		   Session session = Session.getInstance(props, new Authenticator() {
  			   protected PasswordAuthentication getPasswordAuthentication() {
  				   return new PasswordAuthentication(myGmail, myGmail_password);

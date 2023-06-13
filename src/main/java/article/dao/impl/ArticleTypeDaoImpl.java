@@ -74,12 +74,14 @@ public class ArticleTypeDaoImpl implements ArticleTypeDao {
 	
 	@Override
 	public List<ArticleType> deleteAllAndInsertAll() throws ClassNotFoundException {
-		String articleTypeProvisional = "ArticleType_provisional";
-		getSession().createNativeQuery("CREATE TABLE "+ articleTypeProvisional+ " LIKE ArticleType").executeUpdate();
-		getSession().createNativeQuery("INSERT INTO " + articleTypeProvisional + "(articleTypeContent) SELECT articleTypeContent FROM ArticleType").executeUpdate();
-		getSession().createNativeQuery("TRUNCATE TABLE ArticleType").executeUpdate();
-		getSession().createNativeQuery("INSERT INTO ArticleType(articleTypeContent) SELECT articleTypeContent FROM "+articleTypeProvisional).executeUpdate();
-		getSession().createNativeQuery("DROP TABLE "+articleTypeProvisional).executeUpdate();
+//		String articleTypeProvisional = "ArticleType_provisional";
+//		getSession().createNativeQuery("CREATE TABLE "+ articleTypeProvisional+ " LIKE ArticleType").executeUpdate();
+//		getSession().createNativeQuery("INSERT INTO " + articleTypeProvisional + "(articleTypeContent) SELECT articleTypeContent FROM ArticleType").executeUpdate();
+//		getSession().createNativeQuery("TRUNCATE TABLE ArticleType").executeUpdate();
+//		getSession().createNativeQuery("INSERT INTO ArticleType(articleTypeContent) SELECT articleTypeContent FROM "+articleTypeProvisional).executeUpdate();
+//		getSession().createNativeQuery("DROP TABLE "+articleTypeProvisional).executeUpdate();
+//		return getSession().createQuery("FROM ArticleType", ArticleType.class).list();
+		
 		return getSession().createQuery("FROM ArticleType", ArticleType.class).list();
 	}
 	

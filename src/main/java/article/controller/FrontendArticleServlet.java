@@ -55,11 +55,20 @@ public class FrontendArticleServlet extends HttpServlet {
         	case "getMemberUserName":
         		fowardPath=getMemberUserName(req,res);
         		break;
+        	case "getAllMemberUserID":
+        		fowardPath=getAllMemberUserID(req,res);
+        		break;
+        	case "selectByArticleIDuserID":
+        		fowardPath=selectByArticleIDuserID(req,res);
+        		break;
         	case "searchID":
         		fowardPath=searchID(req,res);
         		break;
         	case "searchArticleLikeID":
         		fowardPath=searchArticleLikeID(req,res);
+        		break;
+        	case "addArticleLikeID":
+        		fowardPath=addArticleLikeID(req,res);
         		break;
         	case "updateStatus":
         		fowardPath=updateStatus(req,res);
@@ -154,6 +163,25 @@ public class FrontendArticleServlet extends HttpServlet {
         return jsonStr;
     }
     
+  //抓會員的全部使用者ID
+    private String getAllMemberUserID(HttpServletRequest req,HttpServletResponse res) throws IOException {
+    	res.setContentType("text/html; charset=utf-8");
+        MemberDao mDao = new MemberDaoImpl();
+        List<Member> list1 = new ArrayList<Member>();
+//        Member member = null; // 新增物件
+        try {
+//            Integer userID = Integer.parseInt(req.getParameter("userID"));
+        	list1 = mDao.selectAll(); // 將結果存到物件
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Gson gson = new Gson();
+        String jsonStr = gson.toJson(list1); // 將儲存到的物件轉成json
+        res.getWriter().write(jsonStr);
+//        System.out.println("success");
+        return jsonStr;
+    }
+    
     //抓文章分類的名稱
 	private String searchID(HttpServletRequest req,HttpServletResponse res) throws IOException {
 		res.setContentType("text/html; charset=utf-8");
@@ -202,7 +230,8 @@ public class FrontendArticleServlet extends HttpServlet {
 //        List<ArticleLike> list = new ArrayList<ArticleLike>();
         try {
             Integer articleID = Integer.parseInt(req.getParameter("articleID"));
-            articlelike = dao.selectByArticleID(articleID); // 將結果存到物件
+            Integer userID = Integer.parseInt(req.getParameter("userID"));
+            articlelike = dao.selectByArticleID(articleID,userID); // 將結果存到物件
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -211,6 +240,46 @@ public class FrontendArticleServlet extends HttpServlet {
          res.getWriter().write(jsonStr);
 //         System.out.println("success");
          return jsonStr;
+    }
+    
+  //用文章ID找like的ID
+    private String selectByArticleIDuserID(HttpServletRequest req,HttpServletResponse res) throws IOException {
+    	res.setContentType("text/html; charset=utf-8");
+        ArticleLikeDao dao = new ArticleLikeDaoImpl();
+        ArticleLike articlelike = null; // 新增物件
+//        List<ArticleLike> list = new ArrayList<ArticleLike>();
+        try {
+            Integer articleID = Integer.parseInt(req.getParameter("articleID"));
+            Integer userID = Integer.parseInt(req.getParameter("userID"));
+            articlelike = dao.selectByArticleIDuserID(articleID,userID); // 將結果存到物件
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    	 Gson gson = new Gson();
+         String jsonStr = gson.toJson(articlelike); // 將儲存到的物件轉成json
+         res.getWriter().write(jsonStr);
+//         System.out.println("success");
+         return jsonStr;
+    }
+    
+    // 修改按讚數
+    private String updateLike(HttpServletRequest req,HttpServletResponse res) throws IOException {
+        res.setContentType("text/html; charset=utf-8");
+        ArticleDao dao = new ArticleDaoImpl();
+//        List<ArticleLike> list1 = new ArrayList<ArticleLike>();
+        try {
+
+        	Article article2 = new Article(Integer.parseInt(req.getParameter("articleID")),Integer.parseInt(req.getParameter("userID")), Integer.parseInt(req.getParameter("articleTypeID")),req.getParameter("articleTitle"),req.getParameter("articleContent"), req.getParameter("articleDateTime"),req.getParameter("articleModified"),Integer.parseInt(req.getParameter("articleLike")),"0");
+            dao.updateByArticleID(article2);
+//            list1 = lDao.selectAll();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Gson gson = new Gson();
+        String jsonStr = gson.toJson(dao);
+        res.getWriter().write(jsonStr);
+//        System.out.println("success");
+        return jsonStr;
     }
     
     // 修改狀態
@@ -233,21 +302,21 @@ public class FrontendArticleServlet extends HttpServlet {
         return jsonStr;
     }
     
-    // 修改讚數
-    private String updateLike(HttpServletRequest req,HttpServletResponse res) throws IOException {
-        res.setContentType("text/html; charset=utf-8");
-        ArticleDao dao = new ArticleDaoImpl();
+    //新增讚ID
+    private String addArticleLikeID(HttpServletRequest req,HttpServletResponse res) throws IOException {
+    	res.setContentType("text/html; charset=utf-8");
+        ArticleLikeDao lDao = new ArticleLikeDaoImpl();
 //        List<ArticleLike> list1 = new ArrayList<ArticleLike>();
         try {
 
-        	Article article2 = new Article(Integer.parseInt(req.getParameter("articleID")),Integer.parseInt(req.getParameter("userID")), Integer.parseInt(req.getParameter("articleTypeID")),req.getParameter("articleTitle"),req.getParameter("articleContent"), req.getParameter("articleDateTime"),req.getParameter("articleModified"),Integer.parseInt(req.getParameter("articleLike")),"0");
-            dao.updateByArticleID(article2);
+        	ArticleLike articleLike2 = new ArticleLike(null,Integer.parseInt(req.getParameter("articleID")), Integer.parseInt(req.getParameter("userID")),"1");
+            lDao.insert(articleLike2);
 //            list1 = lDao.selectAll();
         } catch (Exception e) {
             e.printStackTrace();
         }
         Gson gson = new Gson();
-        String jsonStr = gson.toJson(dao);
+        String jsonStr = gson.toJson(lDao);
         res.getWriter().write(jsonStr);
 //        System.out.println("success");
         return jsonStr;
@@ -310,15 +379,17 @@ public class FrontendArticleServlet extends HttpServlet {
 		private String addArticle(HttpServletRequest req,HttpServletResponse res) throws IOException {
 			res.setContentType("text/html; charset=utf-8");
 			ArticleDao dao = new ArticleDaoImpl();
+			List<Article> list1 = new ArrayList<Article>();
 			int article6 = 0; // 新增物件
 			try {
 				Article article1 = new Article(null,Integer.parseInt(req.getParameter("userID")), Integer.parseInt(req.getParameter("articleTypeID")),req.getParameter("articleTitle"),req.getParameter("articleContent"), req.getParameter("articleDateTime"),req.getParameter("articleModified"),Integer.parseInt(req.getParameter("articleLike")),"0");
 				article6 = dao.insert(article1);
+				list1 = dao.selectAll();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			Gson gson = new Gson();
-			String jsonStr = gson.toJson(article6);
+			String jsonStr = gson.toJson(list1);
 			res.getWriter().write(jsonStr);
 //			System.out.println("success");
 			return jsonStr;

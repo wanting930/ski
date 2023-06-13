@@ -9,16 +9,18 @@ var articleLike1 = 1;
 var articleStatus1 = "";
 var saveUserName = "";
 var saveArticleTypeContent = "";
-var savearticleID = sessionStorage.getItem("articleID");
+const savearticleID = sessionStorage.getItem("articleID");
 var savearticleTitle = sessionStorage.getItem("articleTitle");
 const saveUserID = sessionStorage.getItem("userID");
 var savearticleLike = 0;
 var savecomment = 0;
 var commentShow = "hidden";
+var open1 = 0;
 
 //顯示全部
 $(document).ready(async function init() {
     // console.log(savearticleTitle);
+    
     console.log("js載入成功");
     $.ajax({
         url: "http://localhost:8080/ski/FrontendArticle",
@@ -46,12 +48,13 @@ $(document).ready(async function init() {
                 url: "http://localhost:8080/ski/FrontendArticle",
                 type: "Post",
                 data: {
-                    "userID": saveUserID,
+                    "userID": userID,
                     "action": "getMemberUserName"
                 },
                 dataType: "json",
                 success: function (data) {
-                    saveUserName = data.userName;
+                    saveUserName=data.userName
+
                     $.ajax({
                         url: "http://localhost:8080/ski/FrontendArticle",
                         type: "Post",
@@ -67,15 +70,20 @@ $(document).ready(async function init() {
                                 type: "Post",
                                 data: {
                                     "articleID": savearticleID,
-                                    "action": "searchArticleLikeID"
+                                    "userID": userID,
+                                    "action": "selectByArticleIDuserID"
                                 },
                                 dataType: "json",
                                 success: function (data) {
-                                    // console.log(data);
+                                    console.log(data);
                                     let articleLikeID = data.articleLikeID;
                                     let articleID = data.articleID;
                                     let userID = data.userID;
+                                    // console.log(data.articleLikeStatus);
                                     let articleLikeStatus = data.articleLikeStatus;
+                                    if(saveUserID == null){
+                                        articleLikeStatus = "1";
+                                    }
                                     $.ajax({
                                         url: "http://localhost:8080/ski/FrontendArticle",
                                         type: "Post",
@@ -150,8 +158,9 @@ $(document).ready(async function init() {
 
 //比讚的按鈕
 function myFunction(x) {
-    x.classList.toggle('active');
-    // x.classList.toggle("fa-thumbs-down");// 動態可以正讚跟倒讚互換
+    if(saveUserID!=null){
+        x.classList.toggle('active');
+        // x.classList.toggle("fa-thumbs-down");// 動態可以正讚跟倒讚互換
     // let articleLike = $(this).closest("i").find("i.fa fa-thumbs-up").text();
     // console.log(savearticleID);
     $.ajax({
@@ -159,11 +168,12 @@ function myFunction(x) {
         type: "Post",
         data: {
             "articleID": savearticleID,
+            "userID": saveUserID,
             "action": "searchArticleLikeID"
         },
         dataType: "json",
         success: function (data) {
-            // console.log(data);
+            console.log(data);
             let articleLikeID = data.articleLikeID;
             let articleID = data.articleID;
             let userID = data.userID;
@@ -247,107 +257,337 @@ function myFunction(x) {
             }
         }
     });
+    }else{
+        alert("請登入會員才能點讚");
+    }
+    
+    
 }
 
 //留言按鈕(顯示此文章的留言)
 async function showComment() {
-    console.log("觸發到留言按鈕");
     let list_input = "";
-    list_input = `<tr>
+    if (saveUserID != null) {
+        list_input = `<tr>
         <td>
             <textarea id="content" name="content" rows="5" cols=20" class="content"></textarea><button class="btn_addcomment">送出</button>
         </td>
     </tr>`;
+    }else{
+        list_input = `<a href="/ski/member/login.html">請登入會員才能留言</ㄇ>`;
+    }
+
     $("thead.thead").append(list_input);
+    // 清空留言
+    // $("tbody.tbody").empty();
+
     if (commentShow == "hidden") {
         commentShow = "show";
-        $.ajax({
+
+        // 發送獲取留言的異步請求
+        const commentData = await $.ajax({
             url: "http://localhost:8080/ski/FrontendArticle",
             type: "Post",
             data: {
                 "articleID": savearticleID,
                 "action": "showComment"
             },
-            dataType: "json",
-            success: function (data) {
-                // console.log(data);
-                if (data.length <= 10) {
-                    for (let i = 0; i < data.length; i++) {
-                        let commentID = data[i].commentID;
-                        let articleID = data[i].articleID;
-                        let userID = data[i].userID;
-                        let commentContent = data[i].commentContent;
-                        let commentDateTime = data[i].commentDateTime;
-                        let commentModified = data[i].commentModified;
-                        let commentLike = data[i].commentLike;
-                        // console.log(data[0].userID);
-                        $.ajax({
-                            url: "http://localhost:8080/ski/FrontendArticle",
-                            type: "Post",
-                            data: {
-                                "userID": data[i].userID,
-                                "action": "getMemberUserName"
-                            },
-                            dataType: "json",
-                            success: function (data) {
-                                // console.log(data);
-                                let saveUserName1 = data.userName;
-                                let list_comment = "";
-                                list_comment = `<tr>
-                        <td>
-                            <p class="text-left">${saveUserName1}</p>
-                            <br>
-                            <p class="text-left">${commentContent}</p><p class="time right-align">${commentDateTime}</p>
-                        </td>
-                        </tr>`;
-                                $("tbody.tbody").append(list_comment);
-                            }
-                        });
-                    }
-                } else if (data.length > 10) {
-                    for (let i = 0; i < 10; i++) {
-                        let commentID = data[i].commentID;
-                        let articleID = data[i].articleID;
-                        let userID = data[i].userID;
-                        let commentContent = data[i].commentContent;
-                        let commentDateTime = data[i].commentDateTime;
-                        let commentModified = data[i].commentModified;
-                        let commentLike = data[i].commentLike;
-                        $.ajax({
-                            url: "http://localhost:8080/ski/FrontendArticle",
-                            type: "Post",
-                            data: {
-                                "userID": data.userID,
-                                "action": "getMemberUserName"
-                            },
-                            dataType: "json",
-                            success: function (data) {
-                                let saveUserName1 = data.userName;
-                                let list_comment = "";
-                                list_comment = `<tr>
-                        <td>
-                            <p class="text-left">${saveUserName1}</p>
-                            <br>
-                            <p class="text-left">${commentContent}</p><p class="time right-align">${commentDateTime}</p>
-                        </td>
-                        </tr>`;
-                                $("tbody.tbody").append(list_comment);
-                            }
-                        });
-                    }
-                }
-            }
+            dataType: "json"
         });
+
+        // 按順序添加留言
+        for (let i = 0; i < commentData.length; i++) {
+            const comment = commentData[i];
+            const commentID = comment.commentID;
+            const userID = comment.userID;
+            const commentContent = comment.commentContent;
+            const commentDateTime = comment.commentDateTime;
+
+            // 發送獲取使用者資訊的異步請求
+            const userData = await $.ajax({
+                url: "http://localhost:8080/ski/FrontendArticle",
+                type: "Post",
+                data: {
+                    "userID": userID,
+                    "action": "getMemberUserName"
+                },
+                dataType: "json"
+            });
+
+            const userName = userData.userName;
+
+            const list_comment = `
+                <tr>
+                    <td>
+                        <div class="dontBR">
+                            <img id="preview${i}" src="#" alt="預覽圖片" class="fixed-image" />
+                            <p class="text-left">${userName}</p>
+                        </div>
+                        <br>
+                        <p class="text-left">${commentContent}</p>
+                        <p class="time right-align">${commentDateTime}</p>
+                    </td>
+                </tr>
+            `;
+
+            $("tbody.tbody").append(list_comment);
+
+            const preview = $(`#preview${i}`);
+
+            // 發送獲取大頭貼圖片的異步請求
+            const avatarData = await $.ajax({
+                url: "/ski/member/memberInfo",
+                type: "POST",
+                dataType: "json",
+                data: JSON.stringify({ userID: userID })
+            });
+
+            const avatar = avatarData.photo;
+            const uint8Array = new Uint8Array(avatar);
+            const blob = new Blob([uint8Array]);
+            preview.attr('src', URL.createObjectURL(blob));
+        }
+    }else if(commentShow == "show" && open1 == 1){
+        // 發送獲取留言的異步請求
+         // 清空留言
+         $("tbody.tbody").empty();
+         // 清空新增留言
+         $("thead.thead").empty();
+         list_input = `<tr>
+        <td>
+            <textarea id="content" name="content" rows="5" cols=20" class="content"></textarea><button class="btn_addcomment">送出</button>
+        </td>
+    </tr>`;
+    $("thead.thead").append(list_input);
+        const commentData = await $.ajax({
+            url: "http://localhost:8080/ski/FrontendArticle",
+            type: "Post",
+            data: {
+                "articleID": savearticleID,
+                "action": "showComment"
+            },
+            dataType: "json"
+        });
+
+        // 按順序添加留言
+        for (let i = 0; i < commentData.length; i++) {
+            const comment = commentData[i];
+            const commentID = comment.commentID;
+            const userID = comment.userID;
+            const commentContent = comment.commentContent;
+            const commentDateTime = comment.commentDateTime;
+
+            // 發送獲取使用者資訊的異步請求
+            const userData = await $.ajax({
+                url: "http://localhost:8080/ski/FrontendArticle",
+                type: "Post",
+                data: {
+                    "userID": userID,
+                    "action": "getMemberUserName"
+                },
+                dataType: "json"
+            });
+
+            const userName = userData.userName;
+
+            const list_comment = `
+                <tr>
+                    <td>
+                        <div class="dontBR">
+                            <img id="preview${i}" src="#" alt="預覽圖片" class="fixed-image" />
+                            <p class="text-left">${userName}</p>
+                        </div>
+                        <br>
+                        <p class="text-left">${commentContent}</p>
+                        <p class="time right-align">${commentDateTime}</p>
+                    </td>
+                </tr>
+            `;
+
+            $("tbody.tbody").append(list_comment);
+
+            const preview = $(`#preview${i}`);
+
+            // 發送獲取大頭貼圖片的異步請求
+            const avatarData = await $.ajax({
+                url: "/ski/member/memberInfo",
+                type: "POST",
+                dataType: "json",
+                data: JSON.stringify({ userID: userID })
+            });
+
+            const avatar = avatarData.photo;
+            const uint8Array = new Uint8Array(avatar);
+            const blob = new Blob([uint8Array]);
+            preview.attr('src', URL.createObjectURL(blob));
+            open1 = 0;
+        }
     } else if (commentShow == "show") {
         commentShow = "hidden";
-        $("tbody.tbody").empty(); //清空留言
-        $("thead.thead").empty(); //清空新增留言
+        // 清空留言
+        $("tbody.tbody").empty();
+        // 清空新增留言
+        $("thead.thead").empty();
     }
 }
 
+//留言按鈕(顯示此文章的留言)(舊寫法)
+// async function showComment() {
+//     console.log("觸發到留言按鈕");
+//     // var data = { //大頭貼
+//     //     userID: sessionStorage.getItem("userID")
+//     // };
+//     // var jsonData = JSON.stringify(data);
+//     // $.ajax({
+//     //     url: "/ski/member/memberInfo",
+//     //     type: "POST",
+//     //     dataType: "json", //指定回傳的資料格式
+//     //     data: jsonData,
+//     //     success: function (resp) {
+//     //         console.log(resp)
+//     //         const avatar = resp.photo;
+//     //         const uint8Array = new Uint8Array(avatar);
+//     //         const blob = new Blob([uint8Array]);
+//     //         preview.attr('src', URL.createObjectURL(blob));
+//     //     }
+//     // });
+//     let list_input = "";
+//     if (saveUserID != null) {
+//         list_input = `<tr>
+//         <td>
+//             <textarea id="content" name="content" rows="5" cols=20" class="content"></textarea><button class="btn_addcomment">送出</button>
+//         </td>
+//     </tr>`;
+//     }else{
+//         list_input = `<a href="/ski/member/login.html">請登入會員才能留言</ㄇ>`;
+//     }
+
+//     $("thead.thead").append(list_input);
+//     if (commentShow == "hidden") {
+//         commentShow = "show";
+//         $.ajax({
+//             url: "http://localhost:8080/ski/FrontendArticle",
+//             type: "Post",
+//             data: {
+//                 "articleID": savearticleID,
+//                 "action": "showComment"
+//             },
+//             dataType: "json",
+//             success: function (data) {
+//                 // console.log(data);
+//                 if (data.length <= 10) {
+//                     for (let i = 0; i < data.length; i++) {
+//                         let commentID = data[i].commentID;
+//                         let articleID = data[i].articleID;
+//                         let userID = data[i].userID;
+//                         let commentContent = data[i].commentContent;
+//                         let commentDateTime = data[i].commentDateTime;
+//                         let commentModified = data[i].commentModified;
+//                         let commentLike = data[i].commentLike;
+//                         // console.log(data[0].userID);
+//                         $.ajax({
+//                             url: "http://localhost:8080/ski/FrontendArticle",
+//                             type: "Post",
+//                             data: {
+//                                 "userID": data[i].userID,
+//                                 "action": "getMemberUserName"
+//                             },
+//                             dataType: "json",
+//                             success: function (data) {
+//                                 // console.log(data);
+//                                 let saveUserName1 = data.userName;
+//                                 let list_comment = "";
+//                                 list_comment = `<tr>
+//                         <td>
+//                         <div class="dontBR"><img id="preview${i}" src="#" alt="預覽圖片" class="fixed-image"/><p class="text-left">${saveUserName1}</p></div>
+//                             <br>
+//                             <p class="text-left">${commentContent}</p><p class="time right-align">${commentDateTime}</p>
+//                         </td>
+//                         </tr>`;
+//                                 $("tbody.tbody").append(list_comment);
+//                                 const preview = $(`#preview${i}`);
+//                                 var data = {
+//                                     userID: data.userID
+//                                 };
+//                                 let jsonData = JSON.stringify(data);
+//                                 $.ajax({
+//                                     url: "/ski/member/memberInfo",
+//                                     type: "POST",
+//                                     dataType: "json", //指定回傳的資料格式
+//                                     data: jsonData,
+//                                     success: function (resp) {
+//                                         // console.log(resp)
+//                                         let avatar = resp.photo;
+//                                         let uint8Array = new Uint8Array(avatar);
+//                                         let blob = new Blob([uint8Array]);
+//                                         preview.attr('src', URL.createObjectURL(blob));
+//                                     }
+//                                 });
+//                             }
+//                         });
+//                     }
+//                 } else if (data.length > 10) {
+//                     for (let i = 0; i < 10; i++) {
+//                         let commentID = data[i].commentID;
+//                         let articleID = data[i].articleID;
+//                         let userID = data[i].userID;
+//                         let commentContent = data[i].commentContent;
+//                         let commentDateTime = data[i].commentDateTime;
+//                         let commentModified = data[i].commentModified;
+//                         let commentLike = data[i].commentLike;
+//                         $.ajax({
+//                             url: "http://localhost:8080/ski/FrontendArticle",
+//                             type: "Post",
+//                             data: {
+//                                 "userID": data.userID,
+//                                 "action": "getMemberUserName"
+//                             },
+//                             dataType: "json",
+//                             success: function (data) {
+//                                 let saveUserName1 = data.userName;
+//                                 let list_comment = "";
+//                                 list_comment = `<tr>
+//                         <td>
+//                         <div class="dontBR"><img id="preview${i}" src="#" alt="預覽圖片" class="fixed-image"/><p class="text-left">${saveUserName1}</p></div>
+//                             <br>
+//                             <p class="text-left">${commentContent}</p><p class="time right-align">${commentDateTime}</p>
+//                         </td>
+//                         </tr>`;
+//                                 $("tbody.tbody").append(list_comment);
+//                                 const preview = $(`#preview${i}`);
+//                                 var data = {
+//                                     userID: data.userID
+//                                 };
+//                                 let jsonData = JSON.stringify(data);
+//                                 $.ajax({
+//                                     url: "/ski/member/memberInfo",
+//                                     type: "POST",
+//                                     dataType: "json", //指定回傳的資料格式
+//                                     data: jsonData,
+//                                     success: function (resp) {
+//                                         // console.log(resp)
+//                                         let avatar = resp.photo;
+//                                         let uint8Array = new Uint8Array(avatar);
+//                                         let blob = new Blob([uint8Array]);
+//                                         preview.attr('src', URL.createObjectURL(blob));
+//                                     }
+//                                 });
+//                             }
+//                         });
+//                     }
+//                 }
+//             }
+//         });
+//     } else if (commentShow == "show") {
+//         commentShow = "hidden";
+//         $("tbody.tbody").empty(); //清空留言
+//         $("thead.thead").empty(); //清空新增留言
+//     }
+// }
+
 
 //送出新增留言
-$("thead.thead").on("click", "button.btn_addcomment", function () {
+$("thead.thead").on("click", "button.btn_addcomment",async function () {
     console.log("送出留言成功");
     let addCommentContent = $("textarea.content").val();
     // 建立一個新的 Date 物件
@@ -367,7 +607,7 @@ $("thead.thead").on("click", "button.btn_addcomment", function () {
         type: "Post",
         data: {
             "articleID": savearticleID,
-            "userID": 1,
+            "userID": saveUserID,
             "commentContent": addCommentContent,
             "commentDateTime": formattedTime,
             "commentModified": undefined,
@@ -383,83 +623,122 @@ $("thead.thead").on("click", "button.btn_addcomment", function () {
             commentCountElement.textContent = savecomment;
             $("tbody.tbody").empty(); //清空留言
             $("textarea.content").val(""); // 輸入框清空
-            $.ajax({
-                url: "http://localhost:8080/ski/FrontendArticle",
-                type: "Post",
-                data: {
-                    "articleID": savearticleID,
-                    "action": "showComment"
-                },
-                dataType: "json",
-                success: function (data) {
-                    // console.log(data);
-    
-                    if (data.length <= 10) {
-                        for (let i = 0; i < data.length; i++) {
-                            let commentID = data[i].commentID;
-                            let articleID = data[i].articleID;
-                            let userID = data[i].userID;
-                            let commentContent = data[i].commentContent;
-                            let commentDateTime = data[i].commentDateTime;
-                            let commentModified = data[i].commentModified;
-                            let commentLike = data[i].commentLike;
-                            $.ajax({
-                                url: "http://localhost:8080/ski/FrontendArticle",
-                                type: "Post",
-                                data: {
-                                    "userID": data[i].userID,
-                                    "action": "getMemberUserName"
-                                },
-                                dataType: "json",
-                                success: function (data) {
-                                    let saveUserName1 = data.userName;
-                                    let list_comment = "";
-                                    list_comment = `<tr>
-                            <td>
-                                <p class="text-left">${saveUserName1}</p>
-                                <br>
-                                <p class="text-left">${commentContent}</p><p class="time right-align">${commentDateTime}</p>
-                            </td>
-                            </tr>`;
-                                    $("tbody.tbody").append(list_comment);
-                                }
-                            });
-                        }
-                    } else if (data.length > 10) {
-                        for (let i = 0; i < 10; i++) {
-                            let commentID = data[i].commentID;
-                            let articleID = data[i].articleID;
-                            let userID = data[i].userID;
-                            let commentContent = data[i].commentContent;
-                            let commentDateTime = data[i].commentDateTime;
-                            let commentModified = data[i].commentModified;
-                            let commentLike = data[i].commentLike;
-                            $.ajax({
-                                url: "http://localhost:8080/ski/FrontendArticle",
-                                type: "Post",
-                                data: {
-                                    "userID": data.userID,
-                                    "action": "getMemberUserName"
-                                },
-                                dataType: "json",
-                                success: function (data) {
-                                    let saveUserName1 = data.userName;
-                                    let list_comment = "";
-                                    list_comment = `<tr>
-                            <td>
-                                <p class="text-left">${saveUserName1}</p>
-                                <br>
-                                <p class="text-left">${commentContent}</p><p class="time right-align">${commentDateTime}</p>
-                            </td>
-                            </tr>`;
-                                    $("tbody.tbody").append(list_comment);
-                                }
-                            });
-                        }
-                    }
-                }
-            });
-            
+            open1 = 1;
+            console.log(commentShow);
+            showComment();
+            // $.ajax({
+            //     url: "http://localhost:8080/ski/FrontendArticle",
+            //     type: "Post",
+            //     data: {
+            //         "articleID": savearticleID,
+            //         "action": "showComment"
+            //     },
+            //     dataType: "json",
+            //     success: function (data) {
+            //         // console.log(data);
+
+            //         if (data.length <= 10) {
+            //             for (let i = 0; i < data.length; i++) {
+            //                 let commentID = data[i].commentID;
+            //                 let articleID = data[i].articleID;
+            //                 let userID = data[i].userID;
+            //                 let commentContent = data[i].commentContent;
+            //                 let commentDateTime = data[i].commentDateTime;
+            //                 let commentModified = data[i].commentModified;
+            //                 let commentLike = data[i].commentLike;
+            //                 $.ajax({
+            //                     url: "http://localhost:8080/ski/FrontendArticle",
+            //                     type: "Post",
+            //                     data: {
+            //                         "userID": data[i].userID,
+            //                         "action": "getMemberUserName"
+            //                     },
+            //                     dataType: "json",
+            //                     success: function (data) {
+            //                         let saveUserName1 = data.userName;
+            //                         let list_comment = "";
+            //                         list_comment = `<tr>
+            //                 <td>
+            //                 <div class="dontBR"><img id="preview${i}" src="#" alt="預覽圖片" class="fixed-image"/><p class="text-left">${saveUserName1}</p></div>
+            //                     <br>
+            //                     <p class="text-left">${commentContent}</p><p class="time right-align">${commentDateTime}</p>
+            //                 </td>
+            //                 </tr>`;
+            //                         $("tbody.tbody").append(list_comment);
+            //                         const preview = $(`#preview${i}`);
+            //                         var data = {
+            //                             userID: data.userID
+            //                         };
+            //                         let jsonData = JSON.stringify(data);
+            //                         $.ajax({
+            //                             url: "/ski/member/memberInfo",
+            //                             type: "POST",
+            //                             dataType: "json", //指定回傳的資料格式
+            //                             data: jsonData,
+            //                             success: function (resp) {
+            //                                 // console.log(resp)
+            //                                 let avatar = resp.photo;
+            //                                 let uint8Array = new Uint8Array(avatar);
+            //                                 let blob = new Blob([uint8Array]);
+            //                                 preview.attr('src', URL.createObjectURL(blob));
+            //                             }
+            //                         });
+            //                     }
+            //                 });
+            //             }
+            //         } else if (data.length > 10) {
+            //             for (let i = 0; i < 10; i++) {
+            //                 let commentID = data[i].commentID;
+            //                 let articleID = data[i].articleID;
+            //                 let userID = data[i].userID;
+            //                 let commentContent = data[i].commentContent;
+            //                 let commentDateTime = data[i].commentDateTime;
+            //                 let commentModified = data[i].commentModified;
+            //                 let commentLike = data[i].commentLike;
+            //                 $.ajax({
+            //                     url: "http://localhost:8080/ski/FrontendArticle",
+            //                     type: "Post",
+            //                     data: {
+            //                         "userID": data.userID,
+            //                         "action": "getMemberUserName"
+            //                     },
+            //                     dataType: "json",
+            //                     success: function (data) {
+            //                         let saveUserName1 = data.userName;
+            //                         let list_comment = "";
+            //                         list_comment = `<tr>
+            //                 <td>
+            //                 <div class="dontBR"><img id="preview${i}" src="#" alt="預覽圖片" class="fixed-image"/><p class="text-left">${saveUserName1}</p></div>
+            //                     <br>
+            //                     <p class="text-left">${commentContent}</p><p class="time right-align">${commentDateTime}</p>
+            //                 </td>
+            //                 </tr>`;
+            //                         $("tbody.tbody").append(list_comment);
+            //                         const preview = $(`#preview${i}`);
+            //                         var data = {
+            //                             userID: data.userID
+            //                         };
+            //                         let jsonData = JSON.stringify(data);
+            //                         $.ajax({
+            //                             url: "/ski/member/memberInfo",
+            //                             type: "POST",
+            //                             dataType: "json", //指定回傳的資料格式
+            //                             data: jsonData,
+            //                             success: function (resp) {
+            //                                 // console.log(resp)
+            //                                 let avatar = resp.photo;
+            //                                 let uint8Array = new Uint8Array(avatar);
+            //                                 let blob = new Blob([uint8Array]);
+            //                                 preview.attr('src', URL.createObjectURL(blob));
+            //                             }
+            //                         });
+            //                     }
+            //                 });
+            //             }
+            //         }
+            //     }
+            // });
+
         }
     });
 });
@@ -469,7 +748,8 @@ $("thead.thead").on("click", "button.btn_addcomment", function () {
 
 //檢舉按鈕(按下按鈕呼叫此fumction)
 function openReportForm() {
-    // 這裡可以寫彈出填寫表單的程式碼，例如使用 JavaScript 的 prompt() 函式或彈出自訂的模態視窗等
+    if (saveUserID != null) {
+// 這裡可以寫彈出填寫表單的程式碼，例如使用 JavaScript 的 prompt() 函式或彈出自訂的模態視窗等
     // 在這個範例中，我們使用 prompt() 函式彈出一個簡單的填寫表單
     const reportReason = prompt("請填寫檢舉原因：");
     if (reportReason) {
@@ -489,4 +769,8 @@ function openReportForm() {
             }
         });
     }
+    }else{
+        alert("請登入會員才能檢舉");
+    }
+    
 }

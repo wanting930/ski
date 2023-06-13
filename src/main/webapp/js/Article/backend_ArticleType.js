@@ -346,63 +346,8 @@ $("button.task_add").on("click", function () {
                             loadDeleteContentAndShowAll();
                             $("#articleTypeTableBody").empty();
                             $("#pagination").empty();
-                            $.ajax({
-                                url: "http://localhost:8080/ski/BackendArticleType",
-                                type: "Post",
-                                data: {
-                                    "articleTypeID": articleTypeID,
-                                    "articleTypeContent": articleTypeContent,
-                                    "action": "showAll"
-                                },
-                                dataType: "json",
-                                success: function (data) {
-
-                                    // console.log(data.length);
-                                    console.log("後端文章分類載入成功");
-                                    // for (let i = 0; i < data.length; i++) {
-                                    for (let i = 0; i < 10; i++) {
-                                        let list_html = "";
-                                        let articleTypeID = data[i].articleTypeID;
-                                        let articleTypeContent = data[i].articleTypeContent;
-
-                                        list_html += `<tr class="tr">`;
-                                        list_html += `<td><p class="id">${articleTypeID}</p></td>`;
-                                        list_html += `<td> <p class="para">${articleTypeContent}</p> <input type="text" class="task_name_update -none" value="${articleTypeContent}"></td>`;
-                                        list_html += `<td> <button class="btn_update">修改</button>
-                                                            <button class="btn_delete -none">刪除</button>
-                                                            <button class="btn_cancel -none">取消</button>
-                                                        </td>`;
-                                        list_html += "</tr>"
-
-                                        $("#type > table > tbody").append(list_html); // 加入網頁表格中
-                                        number = articleTypeID; // 紀錄目前分類編號最後一碼
-                                    }
-                                    if (data.length > 10) {
-                                        var pagination = $("#pagination");
-                                        buttonPage = (data.length / 10) + 1;
-                                        for (let i = 1; i < buttonPage; i++) {
-                                            let list_html = "";
-                                            if (i == 1) {
-                                                list_html += `
-                                                <button class="btn_limit -disabled">${i}</button>
-                                                `;
-                                            } else {
-                                                list_html += `
-                                                <button class="btn_limit">${i}</button>
-                                                `;
-                                            }
-                                            // 當點擊其中一個btn_limit，就將他加上-disabled，其餘的btn_limit
-                                            // 就刪掉-disabled
-                                            pagination.append(list_html);
-                                        }
-                                    }
-
-                                },
-                                error: function (err) {
-                                    console.log("失敗")
-                                }
-
-                            })
+                            
+                            
                             // let list_html = "";
                             // // console.log(articleTypeID);
                             // list_html += `<tr class="tr">
@@ -419,7 +364,64 @@ $("button.task_add").on("click", function () {
                         complete: function () { // 執行結束後刪除送出按鈕的"-disabled"，恢復功能
                             $("button.task_add").removeClass("-disabled");
                         }
-                    })
+                    });
+                    $.ajax({
+                        url: "http://localhost:8080/ski/BackendArticleType",
+                        type: "Post",
+                        data: {
+                            "articleTypeID": articleTypeID,
+                            "articleTypeContent": articleTypeContent,
+                            "action": "showAll"
+                        },
+                        dataType: "json",
+                        success: function (data) {
+
+                            // console.log(data.length);
+                            console.log("後端文章分類載入成功");
+                            // for (let i = 0; i < data.length; i++) {
+                            for (let i = 0; i < 10; i++) {
+                                let list_html = "";
+                                let articleTypeID = data[i].articleTypeID;
+                                let articleTypeContent = data[i].articleTypeContent;
+
+                                list_html += `<tr class="tr">`;
+                                list_html += `<td><p class="id">${articleTypeID}</p></td>`;
+                                list_html += `<td> <p class="para">${articleTypeContent}</p> <input type="text" class="task_name_update -none" value="${articleTypeContent}"></td>`;
+                                list_html += `<td> <button class="btn_update">修改</button>
+                                                    <button class="btn_delete -none">刪除</button>
+                                                    <button class="btn_cancel -none">取消</button>
+                                                </td>`;
+                                list_html += "</tr>"
+                                $("#articleTypeTableBody").empty();
+                                $("#type > table > tbody").append(list_html); // 加入網頁表格中
+                                number = articleTypeID; // 紀錄目前分類編號最後一碼
+                            }
+                            if (data.length > 10) {
+                                var pagination = $("#pagination");
+                                buttonPage = (data.length / 10) + 1;
+                                for (let i = 1; i < buttonPage; i++) {
+                                    let list_html = "";
+                                    if (i == 1) {
+                                        list_html += `
+                                        <button class="btn_limit -disabled">${i}</button>
+                                        `;
+                                    } else {
+                                        list_html += `
+                                        <button class="btn_limit">${i}</button>
+                                        `;
+                                    }
+                                    // 當點擊其中一個btn_limit，就將他加上-disabled，其餘的btn_limit
+                                    // 就刪掉-disabled
+                                    pagination.append(list_html);
+                                }
+                            }
+
+                        },
+                        error: function (err) {
+                            console.log("失敗")
+                        }
+
+                    });
                 }
             } else {
                 alert("標題不可為空白或重複");
@@ -470,11 +472,11 @@ $("#type > table > tbody").on("click", "button.btn_update", function () {
                 },
                 success: function (data) {      // request 成功取得回應後執行
                     // console.log(data);
-
+                    
                     $(closest_tr).find("p.para").html(update_task_name).toggleClass("-none"); // 分類文章內容顯示
                     $(closest_tr).find("input.task_name_update").val(update_task_name).toggleClass("-none"); // 分類文章內容修改框隱藏
                     $(that).removeAttr("data-updating").removeAttr("data-edit").html("修改");  // 將確認改成修改
-                    alert("更新成功"); // 跳出成功訊息
+                    
                     $(closest_tr).find("button.btn_delete").toggleClass("-none"); // 隱藏刪除按鈕
                     $(closest_tr).find("button.btn_cancel").toggleClass("-none"); // 隱藏取消按鈕
 
@@ -487,16 +489,17 @@ $("#type > table > tbody").on("click", "button.btn_update", function () {
                 complete: function (xhr) {
                 }
             });
-
+            alert("更新成功"); // 跳出成功訊息
         }
     }
+    
 });
 
 // 刪除分類
 $("#type > table > tbody").on("click", "button.btn_delete", function () {
     let delete_articleID = $(this).closest("tr").find("p.id").text(); // 儲存要刪除的分類內容的編號，不存這個會一直刪到編號"1"的分類內容
     let item_id = $(this).closest("tr").attr("data-id");
-    let r = confirm("Are you sure?") // 跳出確認視窗
+    let r = confirm("你確定要刪除嗎?") // 跳出確認視窗
     // console.log(r);
     let that = this;
     if (r) { // 跳出視窗如果按確定(true)執行
@@ -566,6 +569,7 @@ $("#type > table > tbody").on("click", "button.btn_delete", function () {
                                 pagination.append(list_html);
                             }
                         }
+                        alert("刪除成功"); // 跳出成功訊息
                     },
                     error: function (err) {
                         console.log("失敗")

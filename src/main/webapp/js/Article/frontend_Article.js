@@ -15,7 +15,7 @@ const saveUserID = sessionStorage.getItem("userID");
 //顯示全部(同步)
 //根據你提供的程式碼，我們可以看到你在迴圈中執行了多個 Ajax 請求，這可能導致請求完成的順序不確定，因為 Ajax 請求是非同步的。如果你想確保請求完成的順序與迴圈的順序相符，你可以使用 Promise 或 async/await 進行同步處理。
 $(document).ready(async function init() {
-    console.log("js載入成功");
+    console.log("js載入成功的啦");
     if(saveUserID==null){
         var button = document.querySelector('button.btn_addArticle');
         button.setAttribute('disabled','disabled');
@@ -311,12 +311,23 @@ $("#type").on("click", "button.search", function (e) {
                                             "type": "Number"
                                         },
                                         dataType: "json",
-                                        success: function (data) {
+                                        success: async function (data) {
+                                            const commentResponse = await $.ajax({
+                                                url: "http://localhost:8080/ski/FrontendArticle",
+                                                type: "Post",
+                                                data: {
+                                                    "articleID": articleID,
+                                                    "action": "showComment"
+                                                },
+                                                dataType: "json",
+                                            });
                                             saveArticleTypeContent = data.articleTypeContent;
+                                            var saveCommentCount = commentResponse.length;
+                                            console.log(saveCommentCount);
                                             if (articleStatus == "0") {
                                                 list_html += `<tr class="tr">
                                                 <td>
-                                                    <a><p class="ID -none">${articleID}</p><p class="article text-start">讚數:${articleLike} &ensp;&ensp;留言:0 &ensp;&ensp;#${saveArticleTypeContent}</p><p class="article text-center">${articleTitle}</p><p class="article text-end">${articleDateTime} by${saveUserName1}</p></a>
+                                                    <a><p class="ID -none">${articleID}</p><p class="article text-start">讚數:${articleLike} &ensp;&ensp;留言:${saveCommentCount} &ensp;&ensp;#${saveArticleTypeContent}</p><p class="article text-center">${articleTitle}</p><p class="article text-end">${articleDateTime} by${saveUserName1}</p></a>
                                                 </td>
                                                 </tr>`;
                                                 $("#type > table > tbody").append(list_html); // 加入網頁表格中
@@ -358,12 +369,23 @@ $("#type").on("click", "button.search", function (e) {
                                             "type": "Number"
                                         },
                                         dataType: "json",
-                                        success: function (data) {
+                                        success: async function (data) {
                                             saveArticleTypeContent = data.articleTypeContent;
+                                            const commentResponse = await $.ajax({
+                                                url: "http://localhost:8080/ski/FrontendArticle",
+                                                type: "Post",
+                                                data: {
+                                                    "articleID": articleID,
+                                                    "action": "showComment"
+                                                },
+                                                dataType: "json",
+                                            });
+                                            
+                                            var saveCommentCount = commentResponse.length;
                                             if (articleStatus == "0") {
                                                 list_html += `<tr class="tr">
                                                 <td>
-                                                    <a><p class="ID -none">${articleID}</p><p class="article text-start">讚數:${articleLike} &ensp;&ensp;留言:0 &ensp;&ensp;#${saveArticleTypeContent}</p><p class="article text-center">${articleTitle}</p><p class="article text-end">${articleDateTime} by${saveUserName1}</p></a>
+                                                    <a><p class="ID -none">${articleID}</p><p class="article text-start">讚數:${articleLike} &ensp;&ensp;留言:${saveCommentCount} &ensp;&ensp;#${saveArticleTypeContent}</p><p class="article text-center">${articleTitle}</p><p class="article text-end">${articleDateTime} by${saveUserName1}</p></a>
                                                 </td>
                                                 </tr>`;
                                                 $("#type > table > tbody").append(list_html); // 加入網頁表格中
@@ -407,7 +429,7 @@ $("div.btn").on("click", "button.searchArticleType", function () {
                     "action": "useTypeIDsearchArticle"
                 },
                 dataType: "json",
-                success: function (data) {
+                success: async function (data) {
                     // console.log(data);
                     $("#type > table > tbody").find("tr").remove(); // 刪除原網頁表格
                     if (data.length <= 10) {
@@ -420,7 +442,16 @@ $("div.btn").on("click", "button.searchArticleType", function () {
                             let articleDateTime = data[i].articleDateTime;
                             let articleLike = data[i].articleLike;
                             let articleStatus = data[i].articleStatus;
-
+                            const commentResponse = await $.ajax({
+                                url: "http://localhost:8080/ski/FrontendArticle",
+                                type: "Post",
+                                data: {
+                                    "articleID": articleID,
+                                    "action": "showComment"
+                                },
+                                dataType: "json",
+                            });
+                            var saveCommentCount = commentResponse.length;
                             $.ajax({
                                 url: "http://localhost:8080/ski/FrontendArticle",
                                 type: "Post",
@@ -446,7 +477,7 @@ $("div.btn").on("click", "button.searchArticleType", function () {
                                             if (articleStatus == "0") {
                                                 list_html += `<tr class="tr">
                                                 <td>
-                                                    <a><p class="ID -none">${articleID}</p><p class="article text-start">讚數:${articleLike} &ensp;&ensp;留言:0 &ensp;&ensp;#${saveArticleTypeContent}</p><p class="article text-center">${articleTitle}</p><p class="article text-end">${articleDateTime} by${saveUserName1}</p></a>
+                                                    <a><p class="ID -none">${articleID}</p><p class="article text-start">讚數:${articleLike} &ensp;&ensp;留言:${saveCommentCount}  &ensp;&ensp;#${saveArticleTypeContent}</p><p class="article text-center">${articleTitle}</p><p class="article text-end">${articleDateTime} by${saveUserName1}</p></a>
                                                 </td>
                                                 </tr>`;
                                                 $("#type > table > tbody").append(list_html); // 加入網頁表格中

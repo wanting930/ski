@@ -31,14 +31,14 @@ $(document).ready(function init() {
     });
 });
 
-const textarea = document.getElementById('text');
-const imageWrapper = document.querySelector('.image-wrapper');
+// const textarea = document.getElementById('text');
+// const imageWrapper = document.querySelector('.image-wrapper');
 
-textarea.addEventListener('input', function() {
-    const textareaRect = textarea.getBoundingClientRect();
-    imageWrapper.style.top = `${textareaRect.top}px`;
-    imageWrapper.style.right = `${window.innerWidth - textareaRect.right}px`;
-});
+// textarea.addEventListener('input', function() {
+//     const textareaRect = textarea.getBoundingClientRect();
+//     imageWrapper.style.top = `${textareaRect.top}px`;
+//     imageWrapper.style.right = `${window.innerWidth - textareaRect.right}px`;
+// });
 
 //上傳圖片
 // $("#uploadForm").submit(function (event) {
@@ -71,7 +71,7 @@ textarea.addEventListener('input', function() {
 
 
 //新增文章
-$("button.add").on("click", function () {
+$("button.add").on("click",async function () {
     var selectElement = document.querySelector('.articleType');
     var selectedValue = selectElement.value;
     let articleTitle = $("input.title").val();
@@ -108,8 +108,37 @@ $("button.add").on("click", function () {
         dataType: "json",
         success: function (data) {
             console.log("新增文章成功!")
-            window.location.href = "http://localhost:8080/ski/article/frontend_Article.html";
+            var newArticleID = data.length; 
+            $.ajax({
+                url: "http://localhost:8080/ski/FrontendArticle",
+                type: "Post",
+                data: {
+                    "action": "getAllMemberUserID"
+                },
+                dataType: "json",
+                success: function (data) {
+                    // console.log(data);
+                    for(let i = 0; i < data.length; i++){
+                        $.ajax({
+                            url: "http://localhost:8080/ski/FrontendArticle",
+                            type: "Post",
+                            data: {
+                                "articleID": newArticleID,
+                                "userID": data[i].userID,
+                                "action": "addArticleLikeID"
+                            },
+                            dataType: "json",
+                            success: function (data) {
+                                console.log("新增按讚ID")
+                            }
+                        });
+                    }
+                }
+            });
         }
     });
-
+    setTimeout(function(){
+        window.location.href = "http://localhost:8080/ski/article/frontend_Article.html";
+    },1000);
+    
 });

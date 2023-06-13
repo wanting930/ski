@@ -114,12 +114,28 @@ public class ArticleLikeDaoImpl implements ArticleLikeDao{
 	}
 	
 	@Override
-	public ArticleLike selectByArticleID(Integer articleID) {
+	public ArticleLike selectByArticleID(Integer articleID,Integer userID) {
 		//Hibernate
 //		System.out.println(articleID);
-		String hqlQuery = "FROM ArticleLike WHERE articleID = :articleID";
+		String hqlQuery = "FROM ArticleLike WHERE articleID = :articleID and userID = :userID";
 	    Query<ArticleLike> query = getSession().createQuery(hqlQuery, ArticleLike.class);
 	    query.setParameter("articleID", articleID);
+	    query.setParameter("userID", userID);
+//	    System.out.println("执行的HQL查询语句: " + hqlQuery);
+//	    System.out.println("查询参数 articleID: " + articleID);
+	    return query.getSingleResult();
+//	    ArticleLike articleLike = query.getSingleResult();
+//	    return articleLike;
+	}
+	
+	@Override
+	public ArticleLike selectByArticleIDuserID(Integer articleID, Integer userID) {
+		//Hibernate
+//		System.out.println(articleID);
+		String hqlQuery = "FROM ArticleLike WHERE articleID = :articleID and userID = :userID";
+	    Query<ArticleLike> query = getSession().createQuery(hqlQuery, ArticleLike.class);
+	    query.setParameter("articleID", articleID);
+	    query.setParameter("userID", userID);
 //	    System.out.println("执行的HQL查询语句: " + hqlQuery);
 //	    System.out.println("查询参数 articleID: " + articleID);
 	    return query.getSingleResult();
