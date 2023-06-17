@@ -66,7 +66,7 @@ public class ProductService {
 	
 	//刪除
 	public boolean deleteProduct(Integer productID) {
-        // 调用 ProductDao 的 deleteByProductID 方法删除产品
+        // 調用 ProductDao 的 deleteByProductID 方法刪除商品
         int rowsDeleted = productDao.deleteByProductID(productID);
         return rowsDeleted > 0;
     }

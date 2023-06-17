@@ -70,7 +70,6 @@ $(document).ready(function() {
 		const productImage = $("#productImage");
 		const productDetail = $("#productDetail");
 
-		// validate inputs before submit
 		const isValidProductClass = validateSelect(productClass, productClass.parent().parent().next());
 		const isValidProductName = validateInput(productName, productName.parent().parent().next());
 		const isValidProductPrice = validateInput(productPrice, productPrice.parent().parent().next());
@@ -79,7 +78,6 @@ $(document).ready(function() {
 		const isValidProductDetail = validateInput(productDetail, productDetail.parent().parent().next());
 
 		if (isValidProductClass && isValidProductName && isValidProductPrice && isValidProductQuantity && isValidProductImage && isValidProductDetail) {
-			// create a FormData object
 			const formData = new FormData();
 			formData.append('productClass', productClass.val());
 			formData.append('productName', productName.val());
@@ -90,7 +88,6 @@ $(document).ready(function() {
 			formData.append('productDetail', productDetail.val());
 
 
-			// Use Fetch API to send a POST request
 			fetch('/ski/productAdd', {
 				method: 'POST',
 				body: formData

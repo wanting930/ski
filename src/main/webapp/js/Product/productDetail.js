@@ -15,7 +15,6 @@ const productID = urlParams.get('productID');
 
 document.getElementById('productID').value = productID;
 
-// Your previous code
 
 fetch(`/ski/productSelectByID?productID=${productID}`, {
     method: 'GET',
@@ -42,7 +41,6 @@ fetch(`/ski/productSelectByID?productID=${productID}`, {
     })
     .catch((error) => console.error('錯誤:', error));
 
-// Your following code
 
 $("#commit").on("click",function(){
 	let id=$(this).attr("productID");

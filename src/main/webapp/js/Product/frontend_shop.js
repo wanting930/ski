@@ -2,7 +2,7 @@ var userID=sessionStorage.getItem("userID");
 function createAndAttachModal(productDiv, uniqueModalId) {
     const uniqueModalLabel = 'staticBackdropLabel' + uniqueModalId.replace('staticBackdrop', '');
 
-    // Create modal HTML
+  
     const modalHtml = `
     <div class="modal fade" id="${uniqueModalId}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="${uniqueModalLabel}" aria-hidden="true">
         <div class="modal-dialog">
@@ -22,11 +22,11 @@ function createAndAttachModal(productDiv, uniqueModalId) {
     </div>  
     `;
 
-    // Attach modal to product div
+
     productDiv.innerHTML += modalHtml;
 }
 
-// Helper function to create product element
+
 function createProductElement(product) {
     return fetch(`/ski/loadImage?productID=${product.productID}`)
         .then(response => response.json())
@@ -61,7 +61,6 @@ function createProductElement(product) {
 
             productDiv.innerHTML = productHtml;
 
-            // createAndAttachModal(productDiv, uniqueModalId);
 
             return productDiv;
         });

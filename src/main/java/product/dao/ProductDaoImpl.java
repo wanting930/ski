@@ -54,7 +54,7 @@ public class ProductDaoImpl implements ProductDao {
                 .setParameter("productID", productID)
                 .uniqueResult();
         } catch (Exception e) {
-            e.printStackTrace(); // 或者使用更合适的方式记录错误，比如日志记录器。
+            e.printStackTrace(); 
         }
         
         if (imageData == null || imageData.length == 0) {
@@ -80,7 +80,7 @@ public class ProductDaoImpl implements ProductDao {
 	        List<Product> productList = query.getResultList();
 	        return productList;
 	    } catch (Exception e) {
-	        System.out.println("selectByProductID方法发生错误：" + e.getMessage());
+	        System.out.println("selectByProductID方法發生錯誤：" + e.getMessage());
 	        e.printStackTrace();
 	    }
 	    return null;

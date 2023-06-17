@@ -72,8 +72,8 @@ function updateProduct(event) {
 
     // 向後端 API 發送更新請求
     fetch(`/ski/productUpdate`, {
-        method: 'POST', // 或是其他適合的 HTTP 方法，如 PUT
-        body: updatedProduct // 使用 FormData 物件，不需指定 headers
+        method: 'POST', 
+        body: updatedProduct 
     })
     .then(response => {
         console.log(response);
